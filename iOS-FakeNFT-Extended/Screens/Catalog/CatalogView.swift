@@ -11,25 +11,38 @@ struct CatalogView: View {
     @State private var viewModel = CatalogViewModel()
     
     var body: some View {
-        List(viewModel.collections) { collection in
-            CatalogCollectionCell(
-                title: collection.name,
-                count: collection.nfts.count,
-                image: Image(collection.cover ?? "collectionCover1")
-            )
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            .listRowInsets(EdgeInsets(.zero))
-        }
-        .listStyle(.plain)
-        .scrollIndicators(.hidden)
-        .scrollContentBackground(.hidden)
-        .listRowSpacing(8)
-        .padding(.top, 20)
-        .padding(.horizontal, 16)
-        .background {
-            Color.ypWhite
-                .ignoresSafeArea()
+        NavigationStack {
+            List(viewModel.collections) { collection in
+                CatalogCollectionCell(
+                    title: collection.name,
+                    count: collection.nfts.count,
+                    image: Image(collection.cover ?? "collectionCover1")
+                )
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(.zero))
+            }
+            .listStyle(.plain)
+            .scrollIndicators(.hidden)
+            .scrollContentBackground(.hidden)
+            .listRowSpacing(8)
+            .padding(.top, 20)
+            .padding(.horizontal, 16)
+            .background {
+                Color.ypWhite
+                    .ignoresSafeArea()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        
+                    } label: {
+                        Image(.sort42)
+                            .renderingMode(.template)
+                            .foregroundStyle(.ypBlack)
+                    }
+                }
+            }
         }
     }
 }
