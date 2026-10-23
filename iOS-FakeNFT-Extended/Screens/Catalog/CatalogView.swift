@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CatalogView: View {
     @State private var viewModel = CatalogViewModel()
+    @State private var isSortDialogPresented = false
     
     var body: some View {
         NavigationStack {
@@ -35,7 +36,7 @@ struct CatalogView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        
+                        isSortDialogPresented = true
                     } label: {
                         Image(.sort42)
                             .renderingMode(.template)
@@ -43,6 +44,30 @@ struct CatalogView: View {
                     }
                 }
             }
+            .confirmationDialog(
+                "Catalog.sort.title",
+                isPresented: $isSortDialogPresented,
+                titleVisibility: .visible,
+                actions: {
+                    Button {
+
+                    } label: {
+                        Text("Catalog.sort.byName")
+                    }
+                    
+                    Button {
+
+                    } label: {
+                        Text("Catalog.sort.byNftCount")
+                    }
+                    
+                    Button(role: .cancel) {
+
+                    } label: {
+                        Text("Catalog.sort.close")
+                    }
+                }
+            )
         }
     }
 }
