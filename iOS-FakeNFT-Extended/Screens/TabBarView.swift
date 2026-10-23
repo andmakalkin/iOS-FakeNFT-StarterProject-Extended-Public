@@ -3,11 +3,11 @@ import SwiftUI
 struct TabBarView: View {
     var body: some View {
         TabView {
-            TestCatalogView()
+            CatalogView()
                 .tabItem {
                     Label(
-                        NSLocalizedString("Tab.catalog", comment: ""),
-                        systemImage: "square.stack.3d.up.fill"
+                        "Tab.catalog",
+                        image: "tabBarCatalog30"
                     )
                 }
                 .backgroundStyle(.background)

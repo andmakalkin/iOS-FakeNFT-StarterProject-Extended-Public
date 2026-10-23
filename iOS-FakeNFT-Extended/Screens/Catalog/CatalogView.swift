@@ -73,5 +73,5 @@ struct CatalogView: View {
 }
 
 #Preview {
-    CatalogView()
+    TabBarView()
 }
