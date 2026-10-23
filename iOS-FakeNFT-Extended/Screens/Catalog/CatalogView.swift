@@ -58,13 +58,17 @@ struct CatalogView: View {
                 titleVisibility: .visible,
                 actions: {
                     Button {
-
+                        withAnimation {
+                            viewModel.handleSortByName()
+                        }
                     } label: {
                         Text("Catalog.sort.byName")
                     }
                     
                     Button {
-
+                        withAnimation {
+                            viewModel.handleSortByNftCount()
+                        }
                     } label: {
                         Text("Catalog.sort.byNftCount")
                     }
