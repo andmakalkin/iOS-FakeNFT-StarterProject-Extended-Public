@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct CatalogView: View {
-    @State private var viewModel = CatalogViewModel()
+    @State private var viewModel: CatalogViewModel
     @State private var isSortDialogPresented = false
+    
+    init(userDefaultsService: UserDefaultsServiceProtocol) {
+        _viewModel = State(
+            initialValue: CatalogViewModel(
+                userDefaultsService: userDefaultsService
+            )
+        )
+    }
     
     var body: some View {
         NavigationStack {
@@ -73,5 +81,7 @@ struct CatalogView: View {
 }
 
 #Preview {
-    TabBarView()
+    CatalogView(
+        userDefaultsService: UserDefaultsService()
+    )
 }

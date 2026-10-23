@@ -11,4 +11,10 @@ import Foundation
 @Observable
 final class CatalogViewModel {
     var collections: [NftCollection] = NftCollection.mockCollections
+    
+    private let userDefaultsService: UserDefaultsServiceProtocol
+    
+    init(userDefaultsService: UserDefaultsServiceProtocol) {
+        self.userDefaultsService = userDefaultsService
+    }
 }
