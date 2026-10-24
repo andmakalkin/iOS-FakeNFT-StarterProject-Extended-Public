@@ -24,27 +24,19 @@ final class CatalogViewModel {
     
     private var nextPage = 1
     private var hasMorePages = true
+    private var requestID = UUID()
     
     private let collectionService: CollectionServiceProtocol
     private let userDefaultsService: UserDefaultsServiceProtocol
     
-    private var sortOption: CatalogSortOption {
-        didSet {
-            guard sortOption != oldValue else {
-                return
-            }
-            
-            userDefaultsService.saveCatalogSortOption(sortOption)
-            sortCollections()
-        }
-    }
+    private var sortOption: CatalogSortOption
     
     private var networkSortOption: CollectionsSortOption {
         switch sortOption {
         case .name:
-            .nameAscending
+                .nameAscending
         case .nftCount:
-            .nftCountDescending
+                .nftCountDescending
         }
     }
     
@@ -57,36 +49,47 @@ final class CatalogViewModel {
         self.sortOption = userDefaultsService.fetchCatalogSortOption() ?? .nftCount
     }
     
-    func handleSortByName() {
-        sortOption = .name
+    func handleSortByName() async {
+        await changeSortOption(to: .name)
     }
     
-    func handleSortByNftCount() {
-        sortOption = .nftCount
+    func handleSortByNftCount() async {
+        await changeSortOption(to: .nftCount)
     }
-
+    
     func loadFirstPage() async {
         state = .loadingFirstPage
         nextPage = 1
         hasMorePages = true
-
+        
+        let requestedID = requestID
+        
         do {
             let firstPage = try await collectionService.loadCollections(
                 page: 0,
                 sortBy: networkSortOption
             )
-
+            
+            guard requestedID == requestID else {
+                return
+            }
+            
             collections = firstPage
-
+            
             guard !firstPage.isEmpty else {
                 hasMorePages = false
                 state = .loaded
                 return
             }
-
-            sortCollections()
+            
             state = .loaded
+        } catch is CancellationError {
+            return
         } catch {
+            guard requestedID == requestID else {
+                return
+            }
+            
             state = .failedFirstPage(error)
         }
     }
@@ -95,7 +98,7 @@ final class CatalogViewModel {
         guard case .loaded = state else {
             return
         }
-
+        
         await performNextPageLoading()
     }
     
@@ -125,46 +128,52 @@ final class CatalogViewModel {
         guard hasMorePages else {
             return
         }
-
+        
         state = .loadingNextPage
-
+        
+        let requestedID = requestID
+        
         do {
             let page = try await collectionService.loadCollections(
                 page: nextPage,
                 sortBy: networkSortOption
             )
-
+            
+            guard requestedID == requestID else {
+                return
+            }
+            
             guard !page.isEmpty else {
                 hasMorePages = false
                 state = .loaded
                 return
             }
-
+            
             collections += page
             nextPage += 1
-            sortCollections()
             state = .loaded
+        } catch is CancellationError {
+            return
         } catch {
+            guard requestedID == requestID else {
+                return
+            }
+            
             state = .failedNextPage(error)
         }
     }
     
-    private func sortCollections() {
-        switch sortOption {
-        case .name:
-            collections.sort(
-                by:
-                    { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
-            )
-            
-        case .nftCount:
-            collections.sort {
-                if $0.nfts.count == $1.nfts.count {
-                    return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-                }
-                
-                return $0.nfts.count > $1.nfts.count
-            }
+    private func changeSortOption(to option: CatalogSortOption) async {
+        guard option != sortOption else {
+            return
         }
+        
+        sortOption = option
+        userDefaultsService.saveCatalogSortOption(sortOption)
+        
+        requestID = UUID()
+        collections = []
+        
+        await loadFirstPage()
     }
 }

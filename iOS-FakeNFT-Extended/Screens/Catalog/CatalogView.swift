@@ -86,16 +86,16 @@ struct CatalogView: View {
                 titleVisibility: .visible,
                 actions: {
                     Button {
-                        withAnimation {
-                            viewModel.handleSortByName()
+                        Task {
+                            await viewModel.handleSortByName()
                         }
                     } label: {
                         Text("Catalog.sort.byName")
                     }
                     
                     Button {
-                        withAnimation {
-                            viewModel.handleSortByNftCount()
+                        Task {
+                            await viewModel.handleSortByNftCount()
                         }
                     } label: {
                         Text("Catalog.sort.byNftCount")
@@ -115,7 +115,7 @@ struct CatalogView: View {
                 Button("Отмена", role: .cancel) {
                     viewModel.dismissError()
                 }
-
+                
                 Button("Повторить") {
                     Task {
                         await viewModel.retryLoading()
