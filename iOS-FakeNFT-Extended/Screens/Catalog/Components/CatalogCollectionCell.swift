@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CatalogCollectionCell: View {
     let title: String
     let count: Int
-    let image: Image
+    let imageURL: URL?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            image
+            KFImage(imageURL)
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity)
@@ -36,10 +37,14 @@ struct CatalogCollectionCell: View {
 }
 
 #Preview {
-    CatalogCollectionCell(
+    let cache = ImageCache.default
+    cache.clearMemoryCache()
+    cache.clearDiskCache()
+    
+    return CatalogCollectionCell(
         title: "Peach",
         count: 11,
-        image: Image(.collectionCover2)
+        imageURL: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png")
     )
     .padding(.horizontal, 16)
 }

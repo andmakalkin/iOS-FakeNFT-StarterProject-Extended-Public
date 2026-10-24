@@ -44,7 +44,7 @@ struct CatalogView: View {
                         CatalogCollectionCell(
                             title: collection.name,
                             count: collection.nfts.count,
-                            image: Image(collection.cover ?? "collectionCover1")
+                            imageURL: collection.coverURL
                         )
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
