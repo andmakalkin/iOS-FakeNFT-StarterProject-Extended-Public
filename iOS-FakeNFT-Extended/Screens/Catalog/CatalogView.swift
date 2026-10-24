@@ -38,33 +38,35 @@ struct CatalogView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(viewModel.collections) { collection in
-                    CatalogCollectionCell(
-                        title: collection.name,
-                        count: collection.nfts.count,
-                        image: Image(collection.cover ?? "collectionCover1")
-                    )
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(.zero))
-                }
-                
-                Color.clear
-                    .frame(height: 1)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(.zero))
-                    .task {
-                        await viewModel.loadNextPage()
+            ZStack {
+                List {
+                    ForEach(viewModel.collections) { collection in
+                        CatalogCollectionCell(
+                            title: collection.name,
+                            count: collection.nfts.count,
+                            image: Image(collection.cover ?? "collectionCover1")
+                        )
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(.zero))
                     }
+                    
+                    paginationFooter
+                        .task {
+                            await viewModel.loadNextPage()
+                        }
+                }
+                .listStyle(.plain)
+                .scrollIndicators(.hidden)
+                .scrollContentBackground(.hidden)
+                .listRowSpacing(8)
+                .padding(.top, 20)
+                .padding(.horizontal, 16)
+                
+                if case .loadingFirstPage = viewModel.state {
+                    ProgressView()
+                }
             }
-            .listStyle(.plain)
-            .scrollIndicators(.hidden)
-            .scrollContentBackground(.hidden)
-            .listRowSpacing(8)
-            .padding(.top, 20)
-            .padding(.horizontal, 16)
             .background {
                 Color.ypWhite
                     .ignoresSafeArea()
@@ -126,6 +128,20 @@ struct CatalogView: View {
                 await viewModel.loadFirstPage()
             }
         }
+    }
+    
+    private var paginationFooter: some View {
+        ZStack {
+            Color.clear
+            
+            if case .loadingNextPage = viewModel.state {
+                ProgressView()
+            }
+        }
+        .frame(height: 44)
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(.zero))
     }
 }
 

@@ -21,6 +21,8 @@ actor MockNetworkClient: NetworkClient {
                 "Mock response not found for \(endpoint.path)"
             )
         }
+        
+        try await Task.sleep(for: .seconds(1))
 
         guard let fileURL = Bundle.main.url(
             forResource: "mockCollections",
