@@ -10,7 +10,20 @@ import Foundation
 @MainActor
 @Observable
 final class CatalogViewModel {
-    var collections: [NftCollection] = NftCollection.mockCollections
+    enum State {
+        case initial
+        case loadingFirstPage
+        case loadingNextPage
+        case loaded
+        case failedFirstPage(Error)
+        case failedNextPage(Error)
+    }
+    
+    private(set) var collections: [NftCollection] = []
+    private(set) var state: State = .initial
+    
+    private var nextPage = 1
+    private var hasMorePages = true
     
     private let collectionService: CollectionServiceProtocol
     private let userDefaultsService: UserDefaultsServiceProtocol
@@ -26,6 +39,15 @@ final class CatalogViewModel {
         }
     }
     
+    private var networkSortOption: CollectionsSortOption {
+        switch sortOption {
+        case .name:
+            .nameAscending
+        case .nftCount:
+            .nftCountDescending
+        }
+    }
+    
     init(
         collectionService: CollectionServiceProtocol,
         userDefaultsService: UserDefaultsServiceProtocol
@@ -33,8 +55,6 @@ final class CatalogViewModel {
         self.collectionService = collectionService
         self.userDefaultsService = userDefaultsService
         self.sortOption = userDefaultsService.fetchCatalogSortOption() ?? .nftCount
-        
-        sortCollections()
     }
     
     func handleSortByName() {
@@ -43,6 +63,90 @@ final class CatalogViewModel {
     
     func handleSortByNftCount() {
         sortOption = .nftCount
+    }
+
+    func loadFirstPage() async {
+        state = .loadingFirstPage
+        nextPage = 1
+        hasMorePages = true
+
+        do {
+            let firstPage = try await collectionService.loadCollections(
+                page: 0,
+                sortBy: networkSortOption
+            )
+
+            collections = firstPage
+
+            guard !firstPage.isEmpty else {
+                hasMorePages = false
+                state = .loaded
+                return
+            }
+
+            sortCollections()
+            state = .loaded
+        } catch {
+            state = .failedFirstPage(error)
+        }
+    }
+    
+    func loadNextPage() async {
+        guard case .loaded = state else {
+            return
+        }
+
+        await performNextPageLoading()
+    }
+    
+    func retryLoading() async {
+        switch state {
+        case .failedFirstPage:
+            await loadFirstPage()
+        case .failedNextPage:
+            await performNextPageLoading()
+        default:
+            return
+        }
+    }
+    
+    func dismissError() {
+        switch state {
+        case .failedFirstPage:
+            state = .initial
+        case .failedNextPage:
+            state = .loaded
+        default:
+            return
+        }
+    }
+    
+    private func performNextPageLoading() async {
+        guard hasMorePages else {
+            return
+        }
+
+        state = .loadingNextPage
+
+        do {
+            let page = try await collectionService.loadCollections(
+                page: nextPage,
+                sortBy: networkSortOption
+            )
+
+            guard !page.isEmpty else {
+                hasMorePages = false
+                state = .loaded
+                return
+            }
+
+            collections += page
+            nextPage += 1
+            sortCollections()
+            state = .loaded
+        } catch {
+            state = .failedNextPage(error)
+        }
     }
     
     private func sortCollections() {

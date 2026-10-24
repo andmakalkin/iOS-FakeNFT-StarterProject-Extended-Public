@@ -10,6 +10,19 @@ import SwiftUI
 struct CatalogView: View {
     @State private var viewModel: CatalogViewModel
     @State private var isSortDialogPresented = false
+    private var isErrorAlertPresented: Binding<Bool> {
+        Binding(
+            get: {
+                switch viewModel.state {
+                case .failedFirstPage, .failedNextPage:
+                    true
+                default:
+                    false
+                }
+            },
+            set: { _ in }
+        )
+    }
     
     init(
         collectionService: CollectionServiceProtocol,
@@ -25,15 +38,26 @@ struct CatalogView: View {
     
     var body: some View {
         NavigationStack {
-            List(viewModel.collections) { collection in
-                CatalogCollectionCell(
-                    title: collection.name,
-                    count: collection.nfts.count,
-                    image: Image(collection.cover ?? "collectionCover1")
-                )
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(.zero))
+            List {
+                ForEach(viewModel.collections) { collection in
+                    CatalogCollectionCell(
+                        title: collection.name,
+                        count: collection.nfts.count,
+                        image: Image(collection.cover ?? "collectionCover1")
+                    )
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(.zero))
+                }
+                
+                Color.clear
+                    .frame(height: 1)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(.zero))
+                    .task {
+                        await viewModel.loadNextPage()
+                    }
             }
             .listStyle(.plain)
             .scrollIndicators(.hidden)
@@ -78,12 +102,29 @@ struct CatalogView: View {
                     }
                     
                     Button(role: .cancel) {
-
+                        
                     } label: {
                         Text("Catalog.sort.close")
                     }
                 }
             )
+            .alert(
+                "Не удалось получить данные",
+                isPresented: isErrorAlertPresented
+            ) {
+                Button("Отмена", role: .cancel) {
+                    viewModel.dismissError()
+                }
+
+                Button("Повторить") {
+                    Task {
+                        await viewModel.retryLoading()
+                    }
+                }
+            }
+            .task {
+                await viewModel.loadFirstPage()
+            }
         }
     }
 }
