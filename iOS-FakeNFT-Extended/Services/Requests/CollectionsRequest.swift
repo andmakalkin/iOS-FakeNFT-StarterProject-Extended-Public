@@ -10,7 +10,7 @@ import Foundation
 struct CollectionsRequest: NetworkRequest {
     let page: Int
     let size: Int
-    let sortBy: String
+    let sortBy: CollectionsSortOption
 
     var endpoint: URL? {
         guard var components = URLComponents(
@@ -22,7 +22,7 @@ struct CollectionsRequest: NetworkRequest {
         components.queryItems = [
             URLQueryItem(name: "page", value: String(page)),
             URLQueryItem(name: "size", value: String(size)),
-            URLQueryItem(name: "sortBy", value: sortBy)
+            URLQueryItem(name: "sortBy", value: sortBy.queryValue)
         ]
 
         return components.url
