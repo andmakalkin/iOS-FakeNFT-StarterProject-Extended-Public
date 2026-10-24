@@ -12,6 +12,7 @@ import Foundation
 final class CatalogViewModel {
     var collections: [NftCollection] = NftCollection.mockCollections
     
+    private let collectionService: CollectionServiceProtocol
     private let userDefaultsService: UserDefaultsServiceProtocol
     
     private var sortOption: CatalogSortOption {
@@ -25,7 +26,11 @@ final class CatalogViewModel {
         }
     }
     
-    init(userDefaultsService: UserDefaultsServiceProtocol) {
+    init(
+        collectionService: CollectionServiceProtocol,
+        userDefaultsService: UserDefaultsServiceProtocol
+    ) {
+        self.collectionService = collectionService
         self.userDefaultsService = userDefaultsService
         self.sortOption = userDefaultsService.fetchCatalogSortOption() ?? .nftCount
         

@@ -11,9 +11,13 @@ struct CatalogView: View {
     @State private var viewModel: CatalogViewModel
     @State private var isSortDialogPresented = false
     
-    init(userDefaultsService: UserDefaultsServiceProtocol) {
+    init(
+        collectionService: CollectionServiceProtocol,
+        userDefaultsService: UserDefaultsServiceProtocol
+    ) {
         _viewModel = State(
             initialValue: CatalogViewModel(
+                collectionService: collectionService,
                 userDefaultsService: userDefaultsService
             )
         )
@@ -86,6 +90,7 @@ struct CatalogView: View {
 
 #Preview {
     CatalogView(
+        collectionService: CollectionService(networkClient: MockNetworkClient()),
         userDefaultsService: UserDefaultsService()
     )
 }

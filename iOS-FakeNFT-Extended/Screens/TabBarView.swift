@@ -5,7 +5,10 @@ struct TabBarView: View {
     
     var body: some View {
         TabView {
-            CatalogView(userDefaultsService: services.userDefaultsService)
+            CatalogView(
+                collectionService: services.collectionService,
+                userDefaultsService: services.userDefaultsService
+            )
                 .tabItem {
                     Label(
                         "Tab.catalog",
