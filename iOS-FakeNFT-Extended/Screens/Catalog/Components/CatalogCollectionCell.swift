@@ -16,6 +16,21 @@ struct CatalogCollectionCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             KFImage(imageURL)
+                .placeholder {
+                    ShimmerPlaceholderView()
+                }
+                .onFailureView {
+                    ZStack {
+                        Color.imagePlaceholderBackground
+                        Image(.imageStub)
+                            .resizable()
+                            .scaledToFit()
+                            .scaleEffect(0.8)
+                    }
+                    .frame(height: 140, alignment: .center)
+                }
+                .cancelOnDisappear(true)
+                .fade(duration: 0.3)
                 .resizable()
                 .scaledToFill()
                 .frame(maxWidth: .infinity)
@@ -37,14 +52,14 @@ struct CatalogCollectionCell: View {
 }
 
 #Preview {
-    let cache = ImageCache.default
-    cache.clearMemoryCache()
-    cache.clearDiskCache()
-    
-    return CatalogCollectionCell(
-        title: "Peach",
-        count: 11,
-        imageURL: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png")
-    )
-    .padding(.horizontal, 16)
+    ZStack {
+        Color.ypWhite.ignoresSafeArea()
+        
+        CatalogCollectionCell(
+            title: "Peach",
+            count: 11,
+            imageURL: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png")
+        )
+        .padding(.horizontal, 16)
+    }
 }
