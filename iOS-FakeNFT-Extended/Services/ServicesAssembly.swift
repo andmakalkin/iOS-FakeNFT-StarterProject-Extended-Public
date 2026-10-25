@@ -6,7 +6,7 @@ final class ServicesAssembly {
 
     let userDefaultsService: UserDefaultsServiceProtocol
     let collectionService: CollectionServiceProtocol
-    
+
     private let networkClient: NetworkClient
     private let nftStorage: NftStorage
 

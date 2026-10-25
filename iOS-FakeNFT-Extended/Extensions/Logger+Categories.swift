@@ -10,7 +10,7 @@ import OSLog
 
 extension Logger {
     private static let subsystem = Bundle.main.bundleIdentifier ?? "FakeNFT"
-    
+
     static let catalog = Logger(
         subsystem: subsystem,
         category: "Catalog"

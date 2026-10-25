@@ -12,7 +12,7 @@ struct CatalogCollectionCell: View {
     let title: String
     let count: Int
     let imageURL: URL?
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             KFImage(imageURL)
@@ -37,7 +37,7 @@ struct CatalogCollectionCell: View {
                 .frame(height: 140, alignment: .top)
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 12))
-            
+
             HStack(spacing: 4) {
                 Text(title)
                 Text("(\(count))")
@@ -54,7 +54,7 @@ struct CatalogCollectionCell: View {
 #Preview {
     ZStack {
         Color.ypWhite.ignoresSafeArea()
-        
+
         CatalogCollectionCell(
             title: "Peach",
             count: 11,

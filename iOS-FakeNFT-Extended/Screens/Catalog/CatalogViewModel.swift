@@ -11,6 +11,8 @@ import OSLog
 @MainActor
 @Observable
 final class CatalogViewModel {
+    // MARK: - State
+
     enum State {
         case initial
         case loadingFirstPage
@@ -19,28 +21,23 @@ final class CatalogViewModel {
         case failedFirstPage(Error)
         case failedNextPage(Error)
     }
-    
-    private(set) var collections: [NftCollection] = []
+
     private(set) var state: State = .initial
-    
+    private(set) var collections: [NftCollection] = []
+
+    private var sortOption: CatalogSortOption
+
     private var nextPage = 1
     private var hasMorePages = true
     private var requestID = UUID()
-    
+
+    // MARK: - Dependencies
+
     private let collectionService: CollectionServiceProtocol
     private let userDefaultsService: UserDefaultsServiceProtocol
-    
-    private var sortOption: CatalogSortOption
-    
-    private var networkSortOption: CollectionsSortOption {
-        switch sortOption {
-        case .name:
-                .nameAscending
-        case .nftCount:
-                .nftCountDescending
-        }
-    }
-    
+
+    // MARK: - Init
+
     init(
         collectionService: CollectionServiceProtocol,
         userDefaultsService: UserDefaultsServiceProtocol
@@ -49,40 +46,52 @@ final class CatalogViewModel {
         self.userDefaultsService = userDefaultsService
         self.sortOption = userDefaultsService.fetchCatalogSortOption() ?? .nftCount
     }
-    
+
+    // MARK: - Computed Properties
+    private var networkSortOption: CollectionsSortOption {
+        switch sortOption {
+        case .name:
+                .nameAscending
+        case .nftCount:
+                .nftCountDescending
+        }
+    }
+
+    // MARK: - Actions
+
     func handleSortByName() async {
         await changeSortOption(to: .name)
     }
-    
+
     func handleSortByNftCount() async {
         await changeSortOption(to: .nftCount)
     }
-    
+
     func loadFirstPage() async {
         state = .loadingFirstPage
         nextPage = 1
         hasMorePages = true
-        
+
         let requestedID = requestID
-        
+
         do {
             let firstPage = try await collectionService.loadCollections(
                 page: 0,
                 sortBy: networkSortOption
             )
-            
+
             guard requestedID == requestID else {
                 return
             }
-            
+
             collections = firstPage
-            
+
             guard !firstPage.isEmpty else {
                 hasMorePages = false
                 state = .loaded
                 return
             }
-            
+
             state = .loaded
         } catch is CancellationError {
             return
@@ -90,23 +99,23 @@ final class CatalogViewModel {
             guard requestedID == requestID else {
                 return
             }
-            
+
             Logger.catalog.error(
                 "Не удалось загрузить первую страницу каталога: \(String(describing: error), privacy: .public)"
             )
-            
+
             state = .failedFirstPage(error)
         }
     }
-    
+
     func loadNextPage() async {
         guard case .loaded = state else {
             return
         }
-        
+
         await performNextPageLoading()
     }
-    
+
     func retryLoading() async {
         switch state {
         case .failedFirstPage:
@@ -117,7 +126,7 @@ final class CatalogViewModel {
             return
         }
     }
-    
+
     func dismissError() {
         switch state {
         case .failedFirstPage:
@@ -128,32 +137,34 @@ final class CatalogViewModel {
             return
         }
     }
-    
+
+    // MARK: - Helpers
+
     private func performNextPageLoading() async {
         guard hasMorePages else {
             return
         }
-        
+
         state = .loadingNextPage
-        
+
         let requestedID = requestID
-        
+
         do {
             let page = try await collectionService.loadCollections(
                 page: nextPage,
                 sortBy: networkSortOption
             )
-            
+
             guard requestedID == requestID else {
                 return
             }
-            
+
             guard !page.isEmpty else {
                 hasMorePages = false
                 state = .loaded
                 return
             }
-            
+
             collections += page
             nextPage += 1
             state = .loaded
@@ -167,26 +178,26 @@ final class CatalogViewModel {
             guard requestedID == requestID else {
                 return
             }
-            
+
             Logger.catalog.error(
                 "Не удалось загрузить страницу каталога \(self.nextPage): \(String(describing: error), privacy: .public)"
             )
-            
+
             state = .failedNextPage(error)
         }
     }
-    
+
     private func changeSortOption(to option: CatalogSortOption) async {
         guard option != sortOption else {
             return
         }
-        
+
         sortOption = option
         userDefaultsService.saveCatalogSortOption(sortOption)
-        
+
         requestID = UUID()
         collections = []
-        
+
         await loadFirstPage()
     }
 }

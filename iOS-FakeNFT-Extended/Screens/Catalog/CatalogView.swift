@@ -10,6 +10,7 @@ import SwiftUI
 struct CatalogView: View {
     @State private var viewModel: CatalogViewModel
     @State private var isSortDialogPresented = false
+
     private var isErrorAlertPresented: Binding<Bool> {
         Binding(
             get: {
@@ -23,7 +24,7 @@ struct CatalogView: View {
             set: { _ in }
         )
     }
-    
+
     init(
         collectionService: CollectionServiceProtocol,
         userDefaultsService: UserDefaultsServiceProtocol
@@ -35,7 +36,7 @@ struct CatalogView: View {
             )
         )
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -50,7 +51,7 @@ struct CatalogView: View {
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets(.zero))
                     }
-                    
+
                     paginationFooter
                         .task {
                             await viewModel.loadNextPage()
@@ -62,7 +63,7 @@ struct CatalogView: View {
                 .listRowSpacing(8)
                 .padding(.top, 20)
                 .padding(.horizontal, 16)
-                
+
                 if case .loadingFirstPage = viewModel.state {
                     ProgressView()
                 }
@@ -87,27 +88,19 @@ struct CatalogView: View {
                 isPresented: $isSortDialogPresented,
                 titleVisibility: .visible,
                 actions: {
-                    Button {
+                    Button("Catalog.sort.byName") {
                         Task {
                             await viewModel.handleSortByName()
                         }
-                    } label: {
-                        Text("Catalog.sort.byName")
                     }
-                    
-                    Button {
+
+                    Button("Catalog.sort.byNftCount") {
                         Task {
                             await viewModel.handleSortByNftCount()
                         }
-                    } label: {
-                        Text("Catalog.sort.byNftCount")
                     }
-                    
-                    Button(role: .cancel) {
-                        
-                    } label: {
-                        Text("Catalog.sort.close")
-                    }
+
+                    Button("Catalog.sort.close", role: .cancel) {}
                 }
             )
             .alert(
@@ -117,7 +110,7 @@ struct CatalogView: View {
                 Button("Error.cancel", role: .cancel) {
                     viewModel.dismissError()
                 }
-                
+
                 Button("Error.repeat") {
                     Task {
                         await viewModel.retryLoading()
@@ -129,11 +122,11 @@ struct CatalogView: View {
             }
         }
     }
-    
+
     private var paginationFooter: some View {
         ZStack {
             Color.clear
-            
+
             if case .loadingNextPage = viewModel.state {
                 ProgressView()
             }

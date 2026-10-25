@@ -9,12 +9,12 @@ import SwiftUI
 
 struct ShimmerPlaceholderView: View {
     @State private var isAnimating = false
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color.imagePlaceholderBackground
-                
+
                 LinearGradient(
                     colors: [
                         .clear,
@@ -46,7 +46,7 @@ struct ShimmerPlaceholderView: View {
 #Preview {
     ZStack {
         Color.ypWhite.ignoresSafeArea()
-        
+
         ShimmerPlaceholderView()
             .frame(width: 300, height: 140)
     }

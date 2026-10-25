@@ -8,7 +8,7 @@
 enum CollectionsSortOption: Sendable {
     case nameAscending
     case nftCountDescending
-    
+
     var queryValue: String {
         switch self {
         case .nameAscending: "name,asc"

@@ -216,7 +216,6 @@
 			children = (
 				55A1EE45308CD360000BC2E5 /* CollectionsSortOption.swift */,
 				55DECB55308BE0FC0071FCA9 /* CatalogSortOption.swift */,
-				557D6D6A308AA36C0095BF3C /* NftCollection+Mock.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -225,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				55A8352B308E284700D44D75 /* Logger+Categories.swift */,
+				557D6D6A308AA36C0095BF3C /* NftCollection+Mock.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";

@@ -9,13 +9,13 @@ struct TabBarView: View {
                 collectionService: services.collectionService,
                 userDefaultsService: services.userDefaultsService
             )
-                .tabItem {
-                    Label(
-                        "Tab.catalog",
-                        image: "tabBarCatalog30"
-                    )
-                }
-                .backgroundStyle(.background)
+            .tabItem {
+                Label(
+                    "Tab.catalog",
+                    image: .tabBarCatalog30
+                )
+            }
+            .backgroundStyle(.background)
         }
     }
 }
