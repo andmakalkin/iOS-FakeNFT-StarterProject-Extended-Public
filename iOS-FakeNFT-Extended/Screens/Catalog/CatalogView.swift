@@ -111,14 +111,14 @@ struct CatalogView: View {
                 }
             )
             .alert(
-                "Не удалось получить данные",
+                "Error.loadingData",
                 isPresented: isErrorAlertPresented
             ) {
-                Button("Отмена", role: .cancel) {
+                Button("Error.cancel", role: .cancel) {
                     viewModel.dismissError()
                 }
                 
-                Button("Повторить") {
+                Button("Error.repeat") {
                     Task {
                         await viewModel.retryLoading()
                     }

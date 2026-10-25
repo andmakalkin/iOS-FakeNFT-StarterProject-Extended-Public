@@ -153,7 +153,11 @@ final class CatalogViewModel {
             nextPage += 1
             state = .loaded
         } catch is CancellationError {
-            return
+            guard requestedID == requestID else {
+                return
+            }
+
+            state = .loaded
         } catch {
             guard requestedID == requestID else {
                 return
