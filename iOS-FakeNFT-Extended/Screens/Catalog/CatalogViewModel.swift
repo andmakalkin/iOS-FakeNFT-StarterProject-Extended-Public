@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 @MainActor
 @Observable
@@ -90,6 +91,10 @@ final class CatalogViewModel {
                 return
             }
             
+            Logger.catalog.error(
+                "Не удалось загрузить первую страницу каталога: \(String(describing: error), privacy: .public)"
+            )
+            
             state = .failedFirstPage(error)
         }
     }
@@ -162,6 +167,10 @@ final class CatalogViewModel {
             guard requestedID == requestID else {
                 return
             }
+            
+            Logger.catalog.error(
+                "Не удалось загрузить страницу каталога \(self.nextPage): \(String(describing: error), privacy: .public)"
+            )
             
             state = .failedNextPage(error)
         }
