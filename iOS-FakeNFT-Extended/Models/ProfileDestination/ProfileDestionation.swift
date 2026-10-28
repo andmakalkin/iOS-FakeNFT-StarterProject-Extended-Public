@@ -6,6 +6,7 @@
 //
 
 enum ProfileDestionation: Hashable {
+    case editProfile
     case myNFT
     case likedNFT
 }

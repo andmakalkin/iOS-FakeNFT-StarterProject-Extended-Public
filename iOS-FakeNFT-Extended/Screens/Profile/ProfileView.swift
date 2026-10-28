@@ -13,9 +13,7 @@ struct ProfileView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button {
-                        
-                    } label: {
+                    NavigationLink(value: ProfileDestionation.editProfile) {
                         Image(.edit42)
                             .frame(width: 42, height: 42)
                     }
@@ -95,6 +93,8 @@ struct ProfileView: View {
             }
             .navigationDestination(for: ProfileDestionation.self) { destionation in
                 switch destionation {
+                case .editProfile:
+                    EditProfileView()
                 case .myNFT:
                     EmptyView()
                 case .likedNFT:
