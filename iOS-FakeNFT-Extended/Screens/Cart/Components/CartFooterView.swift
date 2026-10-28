@@ -12,10 +12,7 @@ struct CartFooterView: View {
     let onPayTapped: () -> Void
     
     var body: some View {
-        // Окрашиваем весь базовый контейнер в белый цвет, чтобы зона под таб-баром стала белой
         VStack(spacing: 0) {
-            
-            // Сама светло-серая панель подвала по Фигме
             VStack(spacing: 0) {
                 Divider()
                 
