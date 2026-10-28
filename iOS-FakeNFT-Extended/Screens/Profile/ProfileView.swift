@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @State private var viewModel = ProfileViewModel()
     var body: some View {
         NavigationStack {
             VStack {
@@ -23,17 +24,17 @@ struct ProfileView: View {
                 
                 VStack(spacing: 20) {
                     HStack(spacing: 16) {
-                        Image(.userpickPhoto28)
+                        viewModel.getImage()
                             .resizable()
                             .frame(width: 70, height: 70)
-                        Text("Joaquin Phoenix")
+                        Text(viewModel.getName())
                             .font(.system(size: 22, weight: .bold))
                             .tint(.ypBlack)
                         Spacer()
                     }
                     .frame(height: 70)
                     HStack {
-                        Text("Дизайнер из Казани, люблю цифровое искусство  и бейглы. В моей коллекции уже 100+ NFT,  и еще больше — на моём сайте. Открыт к коллаборациям.")
+                        Text(viewModel.getDescription())
                             .font(.system(size: 13))
                         Spacer()
                     }
@@ -44,7 +45,7 @@ struct ProfileView: View {
                     Button {
                         
                     } label: {
-                        Text("Joaquin Phoenix.com")
+                        Text(viewModel.getWebsite())
                     }
                     Spacer()
                 }
@@ -94,7 +95,7 @@ struct ProfileView: View {
             .navigationDestination(for: ProfileDestionation.self) { destionation in
                 switch destionation {
                 case .editProfile:
-                    EditProfileView()
+                    EditProfileView(viewModel: $viewModel)
                 case .myNFT:
                     EmptyView()
                 case .likedNFT:

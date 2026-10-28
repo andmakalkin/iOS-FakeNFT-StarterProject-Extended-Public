@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct EditProfileView: View {
-    @State var text = ""
-    @State var text2 = ""
+    @Binding var viewModel: ProfileViewModel
+    
+    @State private var imageURL = ""
+    @State private var name = ""
+    @State private var description = ""
+    @State private var website = ""
     @State private var showMenu = false
     @State private var showAlert = false
+    
     var body: some View {
         VStack {
             Button(action: {
                 showMenu = true
             }, label: {
                 ZStack(alignment: .bottomTrailing) {
-                    Image(.userpickPhoto28)
+                    viewModel.getImage()
                         .resizable()
                         .frame(width: 70, height: 70)
                     Image(.addProfilePhoto22)
@@ -39,7 +44,7 @@ struct EditProfileView: View {
             })
             .padding(EdgeInsets(top: 1, leading: 0, bottom: 0, trailing: 0))
             .alert("Ссылка на фото", isPresented: $showAlert) {
-                TextField("", text: $text)
+                TextField("", text: $imageURL)
                 Button("Сохранить") {
                     
                 }
@@ -56,7 +61,7 @@ struct EditProfileView: View {
             }
             .padding(EdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0))
             
-            TextField("", text: $text)
+            TextField("", text: $name)
                 .frame(height: 44)
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
                 .background {
@@ -72,7 +77,7 @@ struct EditProfileView: View {
             }
             .padding(EdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0))
             
-            TextEditor(text: $text2)
+            TextEditor(text: $description)
                 .frame(height: 132)
                 .scrollContentBackground(.hidden)
                 .background(.clear)
@@ -90,7 +95,7 @@ struct EditProfileView: View {
             }
             .padding(EdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0))
             
-            TextField("", text: $text)
+            TextField("", text: $website)
                 .frame(height: 44)
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
                 .background {
@@ -116,9 +121,19 @@ struct EditProfileView: View {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
         }
         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+        .onAppear {
+            setup()
+        }
+    }
+    
+    private func setup() {
+        name = viewModel.getName()
+        description = viewModel.getDescription()
+        website = viewModel.getWebsite()
     }
 }
 
 #Preview {
-    EditProfileView()
+    @Previewable @State var vm = ProfileViewModel()
+    EditProfileView(viewModel: $vm)
 }
