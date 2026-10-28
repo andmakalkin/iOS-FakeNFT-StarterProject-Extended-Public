@@ -1,0 +1,609 @@
+[
+  {
+    "id": "1",
+    "name": "Peach",
+    "nfts": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png",
+    "description": "Collection description",
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "2",
+    "name": "Blue",
+    "nfts": [
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Blue.png",
+    "description": "Collection description",
+    "author": "2",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "3",
+    "name": "Brown",
+    "nfts": [
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Brown.png",
+    "description": "Collection description",
+    "author": "3",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "4",
+    "name": "Beige",
+    "nfts": [
+      "26",
+      "27",
+      "28",
+      "29"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Beige.png",
+    "description": "Collection description",
+    "author": "4",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "5",
+    "name": "Gray",
+    "nfts": [
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Gray.png",
+    "description": "Collection description",
+    "author": "5",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "6",
+    "name": "Green",
+    "nfts": [
+      "42",
+      "43"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Green.png",
+    "description": "Collection description",
+    "author": "6",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "7",
+    "name": "Pink",
+    "nfts": [
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "52"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Pink.png",
+    "description": "Collection description",
+    "author": "7",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "8",
+    "name": "White",
+    "nfts": [
+      "53",
+      "54",
+      "55",
+      "56",
+      "57"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/White.png",
+    "description": "Collection description",
+    "author": "8",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "9",
+    "name": "Yellow",
+    "nfts": [
+      "58",
+      "59",
+      "60",
+      "61",
+      "62",
+      "63",
+      "64",
+      "65",
+      "66",
+      "67",
+      "68",
+      "69",
+      "70",
+      "71",
+      "72"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Yellow.png",
+    "description": "Collection description",
+    "author": "9",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "10",
+    "name": "Red",
+    "nfts": [
+      "73",
+      "74",
+      "75",
+      "76",
+      "77",
+      "78",
+      "79"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "10",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "11",
+    "name": "Orange",
+    "nfts": [
+      "80",
+      "81",
+      "82"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "11",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "12",
+    "name": "Purple",
+    "nfts": [
+      "83",
+      "84",
+      "85",
+      "86",
+      "87",
+      "88",
+      "89",
+      "90",
+      "91",
+      "92",
+      "93",
+      "94",
+      "95"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "12",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "13",
+    "name": "Black",
+    "nfts": [
+      "96"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "13",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "14",
+    "name": "Cyan",
+    "nfts": [
+      "97",
+      "98",
+      "99",
+      "100",
+      "101",
+      "102",
+      "103",
+      "104",
+      "105",
+      "106"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "14",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "15",
+    "name": "Mint",
+    "nfts": [
+      "107",
+      "108",
+      "109",
+      "110",
+      "111",
+      "112"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "15",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "16",
+    "name": "Teal",
+    "nfts": [
+      "113",
+      "114",
+      "115",
+      "116",
+      "117",
+      "118",
+      "119",
+      "120",
+      "121",
+      "122",
+      "123",
+      "124",
+      "125",
+      "126"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "16",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "17",
+    "name": "Navy",
+    "nfts": [
+      "127",
+      "128",
+      "129",
+      "130",
+      "131",
+      "132",
+      "133",
+      "134"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "17",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "18",
+    "name": "Indigo",
+    "nfts": [
+      "135",
+      "136",
+      "137",
+      "138",
+      "139",
+      "140",
+      "141",
+      "142",
+      "143",
+      "144",
+      "145"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "18",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "19",
+    "name": "Violet",
+    "nfts": [
+      "146",
+      "147",
+      "148",
+      "149",
+      "150",
+      "151",
+      "152",
+      "153",
+      "154",
+      "155",
+      "156",
+      "157",
+      "158",
+      "159",
+      "160",
+      "161"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "19",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "20",
+    "name": "Lavender",
+    "nfts": [
+      "162",
+      "163",
+      "164",
+      "165"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "20",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "21",
+    "name": "Coral",
+    "nfts": [
+      "166",
+      "167",
+      "168",
+      "169",
+      "170",
+      "171",
+      "172",
+      "173",
+      "174",
+      "175",
+      "176",
+      "177",
+      "178",
+      "179",
+      "180",
+      "181",
+      "182",
+      "183"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "21",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "22",
+    "name": "Scarlet",
+    "nfts": [
+      "184",
+      "185",
+      "186",
+      "187",
+      "188"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "22",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "23",
+    "name": "Crimson",
+    "nfts": [
+      "189",
+      "190",
+      "191",
+      "192",
+      "193",
+      "194",
+      "195",
+      "196",
+      "197",
+      "198",
+      "199",
+      "200",
+      "201",
+      "202",
+      "203",
+      "204",
+      "205",
+      "206",
+      "207",
+      "208"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "23",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "24",
+    "name": "Amber",
+    "nfts": [
+      "209",
+      "210",
+      "211",
+      "212",
+      "213",
+      "214",
+      "215",
+      "216",
+      "217"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "24",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "25",
+    "name": "Gold",
+    "nfts": [
+      "218",
+      "219",
+      "220",
+      "221",
+      "222",
+      "223",
+      "224",
+      "225",
+      "226",
+      "227",
+      "228",
+      "229",
+      "230",
+      "231",
+      "232",
+      "233",
+      "234"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "25",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "26",
+    "name": "Silver",
+    "nfts": [
+      "235",
+      "236"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "26",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "27",
+    "name": "Ivory",
+    "nfts": [
+      "237",
+      "238",
+      "239",
+      "240",
+      "241",
+      "242",
+      "243",
+      "244",
+      "245",
+      "246",
+      "247",
+      "248",
+      "249",
+      "250",
+      "251",
+      "252",
+      "253",
+      "254",
+      "255"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "27",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "28",
+    "name": "Turquoise",
+    "nfts": [
+      "256",
+      "257",
+      "258",
+      "259",
+      "260",
+      "261",
+      "262"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "28",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "29",
+    "name": "Magenta",
+    "nfts": [
+      "263",
+      "264",
+      "265",
+      "266",
+      "267",
+      "268",
+      "269",
+      "270",
+      "271",
+      "272",
+      "273",
+      "274"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "29",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "30",
+    "name": "Lime",
+    "nfts": [
+      "275",
+      "276",
+      "277"
+    ],
+    "createdAt": "2023-04-20T02:22:27Z",
+    "cover": "https://example.com",
+    "description": "Collection description",
+    "author": "30",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  }
+]

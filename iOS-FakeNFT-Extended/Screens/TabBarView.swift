@@ -1,16 +1,21 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @Environment(ServicesAssembly.self) private var services
+    
     var body: some View {
         TabView {
-            TestCatalogView()
-                .tabItem {
-                    Label(
-                        NSLocalizedString("Tab.catalog", comment: ""),
-                        systemImage: "square.stack.3d.up.fill"
-                    )
-                }
-                .backgroundStyle(.background)
+            CatalogView(
+                collectionService: services.collectionService,
+                userDefaultsService: services.userDefaultsService
+            )
+            .tabItem {
+                Label(
+                    "Tab.catalog",
+                    image: .tabBarCatalog30
+                )
+            }
+            .backgroundStyle(.background)
         }
     }
 }
