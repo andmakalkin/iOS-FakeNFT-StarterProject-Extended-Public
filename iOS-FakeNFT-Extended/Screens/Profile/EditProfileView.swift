@@ -10,12 +10,16 @@ import SwiftUI
 struct EditProfileView: View {
     @Binding var viewModel: ProfileViewModel
     
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var imageURL = ""
+    @State private var image = Image(.profilePhotoDefault70)
     @State private var name = ""
     @State private var description = ""
     @State private var website = ""
     @State private var showMenu = false
     @State private var showAlert = false
+    @State private var showExitAlert = false
     
     var body: some View {
         VStack {
@@ -23,7 +27,7 @@ struct EditProfileView: View {
                 showMenu = true
             }, label: {
                 ZStack(alignment: .bottomTrailing) {
-                    viewModel.getImage()
+                    image
                         .resizable()
                         .frame(width: 70, height: 70)
                     Image(.addProfilePhoto22)
@@ -36,7 +40,7 @@ struct EditProfileView: View {
                     Text("Изменить фото")
                 }
                 Button("Удалить фото", role: .destructive) {
-                    
+                    image = Image(.profilePhotoDefault70)
                 }
                 Button("Отмена", role: .cancel) {
                     
@@ -106,7 +110,13 @@ struct EditProfileView: View {
             Spacer()
             
             Button {
-                
+                viewModel.save(
+                    image: image,
+                    name: name,
+                    description: description,
+                    website: website
+                )
+                dismiss()
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
@@ -121,12 +131,35 @@ struct EditProfileView: View {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
         }
         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+        .navigationBarBackButtonHidden()
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showExitAlert = true
+                } label: {
+                    Image(.backward24)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+
+            }
+        })
+        .alert("Уверены, что хотите выйти?", isPresented: $showExitAlert) {
+            Button("Остаться", role: .cancel) {
+                
+            }
+            
+            Button("Выйти", role: .destructive) {
+                dismiss()
+            }
+        }
         .onAppear {
             setup()
         }
     }
     
     private func setup() {
+        image = viewModel.getImage()
         name = viewModel.getName()
         description = viewModel.getDescription()
         website = viewModel.getWebsite()

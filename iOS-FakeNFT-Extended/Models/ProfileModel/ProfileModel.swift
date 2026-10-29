@@ -21,4 +21,11 @@ extension ProfileModel {
         description: "Дизайнер из Казани, люблю цифровое искусство  и бейглы. В моей коллекции уже 100+ NFT,  и еще больше — на моём сайте. Открыт к коллаборациям.",
         website: "Joaquin Phoenix.com"
     )
+    
+    static let empty = ProfileModel(
+        image: Image(.profilePhotoDefault70),
+        name: "",
+        description: "",
+        website: ""
+    )
 }
