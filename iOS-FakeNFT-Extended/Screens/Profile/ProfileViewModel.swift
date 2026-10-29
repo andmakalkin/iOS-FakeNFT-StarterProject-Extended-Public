@@ -7,61 +7,100 @@
 import Foundation
 import SwiftUI
 import Kingfisher
+import ProgressHUD
 
 @Observable
 final class ProfileViewModel {
-    private var profileModel: ProfileModel = ProfileModel.mock
+    private let profileService: ProfileService
+    private var profileModel: Profile?
     private var newProfileModel = ProfileModel.empty
     
-    var image: UIImage?
-    var isImageLoading = false
+    var image: UIImage = UIImage(resource: .profilePhotoDefault70)
     
-    func getImage() -> Image {
-        profileModel.image
+    init(profileService: ProfileService) {
+        self.profileService = profileService
+    }
+    
+    func loadProfile() async {
+        do {
+            profileModel = try await profileService.loadProfile(id: "1")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func getImage() -> UIImage {
+        image
     }
     
     func getName() -> String {
-        profileModel.name
+        guard let profileModel else { return "" }
+        return profileModel.name
     }
     
     func getDescription() -> String {
-        profileModel.description
+        guard let profileModel else { return "" }
+        return profileModel.description
     }
     
     func getWebsite() -> String {
-        profileModel.website
+        guard let profileModel else { return "" }
+        return profileModel.website
     }
-    
-    
 }
 
 extension ProfileViewModel {
-    func save(image: Image, name: String, description: String, website: String) {
-        let model = ProfileModel(
-            image: image,
-            name: name,
-            description: description,
-            website: website
-        )
-        profileModel = model
+    func save(
+        name: String,
+        avatar: String,
+        description: String,
+        website: String
+    ) async {
+        do {
+            try await profileService.updateProfile(
+                name: name,
+                avatar: avatar,
+                description: description,
+                website: website
+            )
+            
+            if let currentProfile = profileModel {
+                profileModel = Profile(
+                    name: name,
+                    avatar: avatar,
+                    description: description,
+                    website: website,
+                    nfts: currentProfile.nfts,
+                    rating: currentProfile.rating,
+                    id: currentProfile.id
+                )
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func loadImage(urlString: String) {
         
         guard let url = URL(string: urlString) else { return }
         
-        isImageLoading = true
-        
         KingfisherManager.shared.retrieveImage(with: url) { [weak self] result in
             guard let self else { return }
+            
+            ProgressHUD.animate()
             
             switch result {
             case .success(let value):
                 self.image = value.image
+                ProgressHUD.succeed()
             case .failure(let error):
                 print(error.localizedDescription)
+                ProgressHUD.dismiss()
             }
-            self.isImageLoading = false
         }
+    }
+    
+    func setupImage() {
+        image = getImage()
     }
 }

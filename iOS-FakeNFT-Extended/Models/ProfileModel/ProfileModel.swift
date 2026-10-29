@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileModel {
-    let image: Image
+    let image: UIImage
     let name: String
     let description: String
     let website: String
@@ -16,14 +16,14 @@ struct ProfileModel {
 
 extension ProfileModel {
     static let mock = ProfileModel(
-        image: Image(.userpickPhoto28),
+        image: .userpickPhoto28,
         name: "Joaquin Phoenix",
         description: "Дизайнер из Казани, люблю цифровое искусство  и бейглы. В моей коллекции уже 100+ NFT,  и еще больше — на моём сайте. Открыт к коллаборациям.",
         website: "Joaquin Phoenix.com"
     )
     
     static let empty = ProfileModel(
-        image: Image(.profilePhotoDefault70),
+        image: .profilePhotoDefault70,
         name: "",
         description: "",
         website: ""

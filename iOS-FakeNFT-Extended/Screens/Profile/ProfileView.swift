@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var viewModel = ProfileViewModel()
+    @State private var viewModel = ProfileViewModel(profileService: ProfileServiceImpl(networkClient: MockNetworkClient()))
     var body: some View {
         NavigationStack {
             VStack {
@@ -24,13 +24,14 @@ struct ProfileView: View {
                 
                 VStack(spacing: 20) {
                     HStack(spacing: 16) {
-                        viewModel.getImage()
+                        Image(uiImage: viewModel.getImage())
                             .resizable()
                             .frame(width: 70, height: 70)
                         Text(viewModel.getName())
                             .font(.system(size: 22, weight: .bold))
                             .tint(.ypBlack)
                         Spacer()
+                        
                     }
                     .frame(height: 70)
                     HStack {
@@ -101,6 +102,9 @@ struct ProfileView: View {
                 case .likedNFT:
                     EmptyView()
                 }
+            }
+            .task {
+                await viewModel.loadProfile()
             }
         }
     }

@@ -1,0 +1,16 @@
+//
+//  mockProfile.json
+//  iOS-FakeNFT-Extended
+//
+//  Created by ivan on 2026-10-29.
+//
+
+{
+    "name": "Joaquin Phoenix",
+    "avatar": "https://i.pinimg.com/736x/89/eb/75/89eb7590b5de5619ebe32fee06a19131.jpg",
+    "description": "Дизайнер из Казани, люблю цифровое искусство  и бейглы. В моей коллекции уже 100+ NFT,  и еще больше — на моём сайте. Открыт к коллаборациям.",
+    "website": "Joaquin Phoenix.com",
+    "nfts": [],
+    "rating": "0",
+    "id": "1"
+}
