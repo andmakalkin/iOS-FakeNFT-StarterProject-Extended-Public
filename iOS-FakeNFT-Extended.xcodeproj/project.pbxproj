@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		551ABF6B309248E200BBE052 /* NumberFormatter+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551ABF6A309248DF00BBE052 /* NumberFormatter+Presets.swift */; };
+		551ABF6D30924C1700BBE052 /* CollectionNftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551ABF6C30924C1600BBE052 /* CollectionNftCell.swift */; };
 		556313F630854E49003B4A85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F530854E49003B4A85 /* Config.xcconfig */; };
 		556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F730854EED003B4A85 /* Secrets.example.xcconfig */; };
 		557D6B03308A77B40095BF3C /* NftCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6B02308A77B00095BF3C /* NftCollection.swift */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		551ABF6A309248DF00BBE052 /* NumberFormatter+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Presets.swift"; sourceTree = "<group>"; };
+		551ABF6C30924C1600BBE052 /* CollectionNftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionNftCell.swift; sourceTree = "<group>"; };
 		556313F530854E49003B4A85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		556313F730854EED003B4A85 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		556313F93085576F003B4A85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 		557D6B05308A7C430095BF3C /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				551ABF6C30924C1600BBE052 /* CollectionNftCell.swift */,
 				55A1EF09308D4647000BC2E5 /* ShimmerPlaceholderView.swift */,
 				557D6B06308A850D0095BF3C /* CatalogCollectionCell.swift */,
 			);
@@ -561,6 +564,7 @@
 			files = (
 				55A1EE42308CC3A0000BC2E5 /* CollectionsRequest.swift in Sources */,
 				ABC5E1992C31F666002B4068 /* Fonts.swift in Sources */,
+				551ABF6D30924C1700BBE052 /* CollectionNftCell.swift in Sources */,
 				ABC5E1CF2C32041D002B4068 /* NftDetailViewController.swift in Sources */,
 				557D6D6F308AAC5C0095BF3C /* CatalogViewModel.swift in Sources */,
 				557D6D6B308AA3740095BF3C /* NftCollection+Mock.swift in Sources */,
