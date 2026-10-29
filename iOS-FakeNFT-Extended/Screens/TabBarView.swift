@@ -11,6 +11,18 @@ struct TabBarView: View {
                     )
                 }
                 .backgroundStyle(.background)
+            
+            
+            CartView()
+                .tabItem {
+                    Label(
+                        "Корзина",
+                        image: .tabBarBasket30
+                    )
+                }
+                .backgroundStyle(.background)
         }
+        
     }
 }
+
