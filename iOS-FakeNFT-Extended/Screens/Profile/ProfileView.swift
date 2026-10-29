@@ -24,9 +24,10 @@ struct ProfileView: View {
                 
                 VStack(spacing: 20) {
                     HStack(spacing: 16) {
-                        Image(uiImage: viewModel.getImage())
+                        Image(uiImage: viewModel.image)
                             .resizable()
                             .frame(width: 70, height: 70)
+                            .clipShape(Circle())
                         Text(viewModel.getName())
                             .font(.system(size: 22, weight: .bold))
                             .tint(.ypBlack)
@@ -105,6 +106,7 @@ struct ProfileView: View {
             }
             .task {
                 await viewModel.loadProfile()
+                viewModel.loadProfileImage()
             }
         }
     }

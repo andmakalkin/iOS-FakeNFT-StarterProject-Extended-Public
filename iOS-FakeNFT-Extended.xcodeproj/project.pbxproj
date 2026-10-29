@@ -94,7 +94,7 @@
 		84A4B8C730939F29009ACE4A /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRequest.swift.swift; sourceTree = "<group>"; };
 		84A4B8CB3093A27B009ACE4A /* MockNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkClient.swift; sourceTree = "<group>"; };
-		84A4B8CD3093A345009ACE4A /* mockProfile.json */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mockProfile.json; sourceTree = "<group>"; };
+		84A4B8CD3093A345009ACE4A /* mockProfile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mockProfile.json; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_FakeNFT_ExtendedApp.swift; sourceTree = "<group>"; };
 		ABC5E16D2C31F5AF002B4068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -246,7 +246,6 @@
 		ABC5E15F2C31F5AF002B4068 = {
 			isa = PBXGroup;
 			children = (
-				84A4B8CD3093A345009ACE4A /* mockProfile.json */,
 				84A4B8AC30909B6B009ACE4A /* docs */,
 				ABC5E16A2C31F5AF002B4068 /* iOS-FakeNFT-Extended */,
 				ABC5E17B2C31F5B0002B4068 /* iOS-FakeNFT-ExtendedTests */,
@@ -358,6 +357,7 @@
 				84A4B8CB3093A27B009ACE4A /* MockNetworkClient.swift */,
 				ABC5E1A32C31F800002B4068 /* NetworkClient.swift */,
 				ABC5E1A52C31F815002B4068 /* NetworkRequest.swift */,
+				84A4B8CD3093A345009ACE4A /* mockProfile.json */,
 			);
 			path = NetworkClient;
 			sourceTree = "<group>";

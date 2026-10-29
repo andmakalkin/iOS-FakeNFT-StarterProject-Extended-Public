@@ -13,6 +13,7 @@ import ProgressHUD
 final class ProfileViewModel {
     private let profileService: ProfileService
     private var profileModel: Profile?
+
     private var newProfileModel = ProfileModel.empty
     
     var image: UIImage = UIImage(resource: .profilePhotoDefault70)
@@ -29,8 +30,9 @@ final class ProfileViewModel {
         }
     }
     
-    func getImage() -> UIImage {
-        image
+    func loadProfileImage() {
+        guard let profileModel else { return }
+        loadImage(urlString: profileModel.avatar)
     }
     
     func getName() -> String {
@@ -98,9 +100,5 @@ extension ProfileViewModel {
                 ProgressHUD.dismiss()
             }
         }
-    }
-    
-    func setupImage() {
-        image = getImage()
     }
 }

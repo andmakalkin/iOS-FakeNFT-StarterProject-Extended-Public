@@ -163,7 +163,6 @@ struct EditProfileView: View {
     }
     
     private func setup() {
-        viewModel.setupImage()
         name = viewModel.getName()
         description = viewModel.getDescription()
         website = viewModel.getWebsite()
