@@ -44,9 +44,7 @@ struct ProfileView: View {
                 .padding(EdgeInsets(top: 20, leading: 16, bottom: 0, trailing: 16))
                 
                 HStack {
-                    Button {
-                        
-                    } label: {
+                    NavigationLink(value: ProfileDestionation.website) {
                         Text(viewModel.getWebsite())
                     }
                     Spacer()
@@ -102,6 +100,8 @@ struct ProfileView: View {
                     EmptyView()
                 case .likedNFT:
                     EmptyView()
+                case .website:
+                    WebView(url: URL(string: "https://www.pinterest.com")!)
                 }
             }
             .task {
