@@ -14,28 +14,30 @@ struct CollectionView: View {
     
     var body: some View {
         ScrollView {
-            coverView
-                .frame(height: 310)
-                .padding(.bottom, 16)
-            
-            VStack(alignment: .leading, spacing: 0) {
-                titleView
-                    .frame(minHeight: 28)
-                    .padding(.bottom, 8)
+            VStack(spacing: 16) {
+                coverView
+                    .frame(maxWidth: .infinity, minHeight: 310)
                 
-                authorView
-                    .frame(minHeight: 28)
-                
-                if viewModel.collection.description != nil {
-                    descriptionView
+                VStack(alignment: .leading, spacing: 0) {
+                    titleView
+                        .frame(minHeight: 28)
+                        .padding(.bottom, 8)
+                    
+                    authorView
+                        .frame(minHeight: 28)
+                    
+                    if viewModel.collection.description != nil {
+                        descriptionView
+                    }
+                    
+                    nftsView
+                        .padding(.top, 24)
                 }
-                
-                nftsView
-                    .padding(.top, 24)
+                .padding(.horizontal, 16)
             }
-            .padding(.horizontal, 16)
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .top)
+        .contentMargins(.bottom, 40, for: .scrollContent)
         .scrollIndicators(.hidden)
         .background(.ypWhite)
         .navigationBarBackButtonHidden(true)
