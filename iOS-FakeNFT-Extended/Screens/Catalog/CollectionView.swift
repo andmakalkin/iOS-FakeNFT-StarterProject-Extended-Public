@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CollectionView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var viewModel = CollectionViewModel()
     
     var body: some View {
@@ -34,6 +36,13 @@ struct CollectionView: View {
         .ignoresSafeArea()
         .scrollIndicators(.hidden)
         .background(.ypWhite)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                backButton
+            }
+        }
     }
     
     private var coverView: some View {
@@ -88,8 +97,23 @@ struct CollectionView: View {
             Spacer()
         }
     }
+    
+    private var backButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(.backward24)
+                .renderingMode(.template)
+                .foregroundStyle(.ypBlack)
+                .frame(width: 24, height: 24)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
 }
 
 #Preview {
-    CollectionView()
+    NavigationStack {
+        CollectionView()
+    }
 }
