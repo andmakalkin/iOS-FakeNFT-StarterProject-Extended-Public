@@ -28,8 +28,10 @@ struct CollectionView: View {
                 
                 if viewModel.collection.description != nil {
                     descriptionView
-                        .padding(.bottom, 24)
                 }
+                
+                nftsView
+                    .padding(.top, 24)
             }
             .padding(.horizontal, 16)
         }
@@ -95,6 +97,32 @@ struct CollectionView: View {
                 .foregroundStyle(.ypBlack)
             
             Spacer()
+        }
+    }
+    
+    private var nftsView: some View {
+        let columns = [
+            GridItem(
+                .adaptive(minimum: 108),
+                spacing: 9
+            )
+        ]
+        
+        return LazyVGrid(columns: columns, spacing: 28) {
+            ForEach(viewModel.nfts) { nft in
+                CollectionNftCell(
+                    onTapLike: {},
+                    onTapCart: {},
+                    onTapNft: {},
+                    isLiked: true,
+                    isInCart: true,
+                    title: nft.name,
+                    rating: nft.rating,
+                    price: nft.price,
+                    imageURL: nil,
+                    imageString: "nft\(nft.id)"
+                )
+            }
         }
     }
     

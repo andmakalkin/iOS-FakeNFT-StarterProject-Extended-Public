@@ -12,4 +12,5 @@ import Foundation
 
 final class CollectionViewModel {
     let collection: NftCollection = NftCollection.peach
+    var nfts: [Nft] = Nft.mockNfts
 }
