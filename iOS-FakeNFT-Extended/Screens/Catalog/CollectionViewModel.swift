@@ -27,9 +27,7 @@ final class CollectionViewModel {
     
     private(set) var state: State = .initial
     private let collectionId: String
-    var collection: NftCollection = NftCollection.peach
-    var nfts: [Nft] = Nft.mockNfts
-    
+
     // MARK: - Dependencies
 
     private let collectionService: CollectionServiceProtocol
@@ -46,13 +44,50 @@ final class CollectionViewModel {
     }
     
     func loadCollection() async {
+        state = .loading
+        
         do {
             let collection = try await collectionService.loadCollection(id: collectionId)
-            self.collection = collection
+            
+            let nfts = try await loadNfts(
+                ids: collection.nfts
+            )
+            
+            let content = Content(
+                collection: collection,
+                nfts: nfts
+            )
+            
+            state = .loaded(content)
+            
         } catch is CancellationError {
             return
         } catch {
-            return
+            state = .failed(error)
+        }
+    }
+    
+    private func loadNfts(ids: [String]) async throws -> [Nft] {
+        try await withThrowingTaskGroup(
+            of: (Int, Nft).self
+        ) { group in
+            for (index, id) in ids.enumerated() {
+                group.addTask { [nftService] in
+                    let nft = try await nftService.loadNft(id: id)
+                    return (index, nft)
+                }
+            }
+
+            var loadedNfts = Array<Nft?>(
+                repeating: nil,
+                count: ids.count
+            )
+
+            for try await (index, nft) in group {
+                loadedNfts[index] = nft
+            }
+
+            return loadedNfts.compactMap { $0 }
         }
     }
 }

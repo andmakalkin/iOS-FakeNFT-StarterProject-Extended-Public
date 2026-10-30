@@ -28,42 +28,21 @@ struct CollectionView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                coverView
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 310)
-                    .clipShape(
-                        UnevenRoundedRectangle(
-                            cornerRadii: RectangleCornerRadii(
-                                bottomLeading: 12,
-                                bottomTrailing: 12
-                            )
-                        )
-                    )
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    titleView
-                        .frame(minHeight: 28)
-                        .padding(.bottom, 8)
-                    
-                    authorView
-                        .frame(minHeight: 28)
-                    
-                    if viewModel.collection.description != nil {
-                        descriptionView
-                    }
-                    
-                    nftsView
-                        .padding(.top, 24)
-                }
-                .padding(.horizontal, 16)
+        ZStack {
+            Color.ypWhite
+                .ignoresSafeArea()
+            
+            switch viewModel.state {
+            case .initial, .loading:
+                ProgressView()
+
+            case .loaded(let content):
+                contentView(content)
+            
+            case .failed:
+                Text("Ошибка")
             }
         }
-        .ignoresSafeArea(edges: .top)
-        .contentMargins(.bottom, 40, for: .scrollContent)
-        .scrollIndicators(.hidden)
-        .background(.ypWhite)
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -76,8 +55,46 @@ struct CollectionView: View {
         }
     }
     
-    private var coverView: some View {
-        KFImage(viewModel.collection.coverURL)
+    private func contentView(_ content: CollectionViewModel.Content) -> some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                coverView(content.collection)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 310)
+                    .clipShape(
+                        UnevenRoundedRectangle(
+                            cornerRadii: RectangleCornerRadii(
+                                bottomLeading: 12,
+                                bottomTrailing: 12
+                            )
+                        )
+                    )
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    titleView(content.collection)
+                        .frame(minHeight: 28)
+                        .padding(.bottom, 8)
+                    
+                    authorView(content.collection)
+                        .frame(minHeight: 28)
+                    
+                    if content.collection.description != nil {
+                        descriptionView(content.collection)
+                    }
+                    
+                    nftsView(content.nfts)
+                        .padding(.top, 24)
+                }
+                .padding(.horizontal, 16)
+            }
+        }
+        .ignoresSafeArea(edges: .top)
+        .contentMargins(.bottom, 40, for: .scrollContent)
+        .scrollIndicators(.hidden)
+    }
+    
+    private func coverView(_ collection: NftCollection) -> some View {
+        KFImage(collection.coverURL)
             .placeholder {
                 ShimmerPlaceholderView()
             }
@@ -98,9 +115,9 @@ struct CollectionView: View {
         
     }
     
-    private var titleView: some View {
+    private func titleView(_ collection: NftCollection) -> some View {
         HStack(spacing: 0) {
-            Text(viewModel.collection.name)
+            Text(collection.name)
                 .font(AppFont.bold22)
                 .tracking(0.35)
                 .foregroundStyle(.ypBlack)
@@ -109,14 +126,14 @@ struct CollectionView: View {
         }
     }
     
-    private var authorView: some View {
+    private func authorView(_ collection: NftCollection) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
             
-            Text(viewModel.collection.author ?? "—")
+            Text(collection.author ?? "—")
                 .font(AppFont.regular15)
                 .tracking(-0.24)
                 .foregroundStyle(.ypUniversalBlue)
@@ -125,9 +142,9 @@ struct CollectionView: View {
         }
     }
     
-    private var descriptionView: some View {
+    private func descriptionView(_ collection: NftCollection) -> some View {
         HStack(spacing: 0) {
-            Text(viewModel.collection.description ?? "")
+            Text(collection.description ?? "")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
@@ -136,7 +153,7 @@ struct CollectionView: View {
         }
     }
     
-    private var nftsView: some View {
+    private func nftsView(_ nfts: [Nft]) -> some View {
         let columns = [
             GridItem(
                 .adaptive(minimum: 108),
@@ -145,7 +162,7 @@ struct CollectionView: View {
         ]
         
         return LazyVGrid(columns: columns, spacing: 28) {
-            ForEach(viewModel.nfts) { nft in
+            ForEach(nfts) { nft in
                 CollectionNftCell(
                     onTapLike: {},
                     onTapCart: {},
