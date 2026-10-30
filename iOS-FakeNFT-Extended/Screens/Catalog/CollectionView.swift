@@ -10,7 +10,19 @@ import SwiftUI
 struct CollectionView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @State private var viewModel = CollectionViewModel()
+    @State private var viewModel: CollectionViewModel
+    
+    init(
+        collectionId: String,
+        collectionService: CollectionServiceProtocol
+    ) {
+        _viewModel = State(
+            initialValue: CollectionViewModel(
+                collectionId: collectionId,
+                collectionService: collectionService
+            )
+        )
+    }
     
     var body: some View {
         ScrollView {
@@ -46,6 +58,9 @@ struct CollectionView: View {
             ToolbarItem(placement: .topBarLeading) {
                 backButton
             }
+        }
+        .task {
+            await viewModel.loadCollection()
         }
     }
     
@@ -144,6 +159,9 @@ struct CollectionView: View {
 
 #Preview {
     NavigationStack {
-        CollectionView()
+        CollectionView(
+            collectionId: "1",
+            collectionService: CollectionService(networkClient: MockNetworkClient())
+        )
     }
 }

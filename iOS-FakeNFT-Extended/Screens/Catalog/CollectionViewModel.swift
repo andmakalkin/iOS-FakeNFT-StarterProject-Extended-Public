@@ -11,6 +11,30 @@ import Foundation
 @Observable
 
 final class CollectionViewModel {
-    let collection: NftCollection = NftCollection.peach
+    private let collectionId: String
+    var collection: NftCollection = NftCollection.peach
     var nfts: [Nft] = Nft.mockNfts
+    
+    // MARK: - Dependencies
+
+    private let collectionService: CollectionServiceProtocol
+    
+    init(
+        collectionId: String,
+        collectionService: CollectionServiceProtocol
+    ) {
+        self.collectionId = collectionId
+        self.collectionService = collectionService
+    }
+    
+    func loadCollection() async {
+        do {
+            let collection = try await collectionService.loadCollection(id: collectionId)
+            self.collection = collection
+        } catch is CancellationError {
+            return
+        } catch {
+            return
+        }
+    }
 }
