@@ -11,6 +11,21 @@ import Foundation
 @Observable
 
 final class CollectionViewModel {
+    // MARK: - State
+    
+    enum State {
+        case initial
+        case loading
+        case loaded(Content)
+        case failed(Error)
+    }
+    
+    struct Content {
+        let collection: NftCollection
+        let nfts: [Nft]
+    }
+    
+    private(set) var state: State = .initial
     private let collectionId: String
     var collection: NftCollection = NftCollection.peach
     var nfts: [Nft] = Nft.mockNfts
@@ -18,13 +33,16 @@ final class CollectionViewModel {
     // MARK: - Dependencies
 
     private let collectionService: CollectionServiceProtocol
+    private let nftService: NftService
     
     init(
         collectionId: String,
-        collectionService: CollectionServiceProtocol
+        collectionService: CollectionServiceProtocol,
+        nftService: NftService
     ) {
         self.collectionId = collectionId
         self.collectionService = collectionService
+        self.nftService = nftService
     }
     
     func loadCollection() async {

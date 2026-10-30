@@ -17,12 +17,13 @@ actor MockNetworkClient: NetworkClient {
         }
 
         let collectionsPath = "/api/v1/collections"
+        let nftPath = "/api/v1/nft"
 
         try await Task.sleep(for: .seconds(1))
 
-        let collections = try loadCollections()
-
         if endpoint.path == collectionsPath {
+            let collections = try loadCollections()
+
             return try makeCollectionsPage(
                 from: collections,
                 endpoint: endpoint
@@ -30,8 +31,19 @@ actor MockNetworkClient: NetworkClient {
         }
 
         if endpoint.path.hasPrefix("\(collectionsPath)/") {
+            let collections = try loadCollections()
+
             return try makeCollectionById(
                 from: collections,
+                endpoint: endpoint
+            )
+        }
+
+        if endpoint.path.hasPrefix("\(nftPath)/") {
+            let nfts = try loadNfts()
+
+            return try makeNftById(
+                from: nfts,
                 endpoint: endpoint
             )
         }
@@ -75,6 +87,28 @@ actor MockNetworkClient: NetworkClient {
         do {
             return try decoder.decode(
                 [NftCollection].self,
+                from: data
+            )
+        } catch {
+            throw NetworkClientError.parsingError
+        }
+    }
+
+    private func loadNfts() throws -> [Nft] {
+        guard let fileURL = Bundle.main.url(
+            forResource: "mockNfts",
+            withExtension: "json"
+        ) else {
+            throw NetworkClientError.incorrectRequest(
+                "mockNfts.json not found"
+            )
+        }
+
+        let data = try Data(contentsOf: fileURL)
+
+        do {
+            return try decoder.decode(
+                [Nft].self,
                 from: data
             )
         } catch {
@@ -146,6 +180,21 @@ actor MockNetworkClient: NetworkClient {
         }
 
         return try encoder.encode(collection)
+    }
+
+    private func makeNftById(
+        from nfts: [Nft],
+        endpoint: URL
+    ) throws -> Data {
+        let id = endpoint.lastPathComponent
+
+        guard let nft = nfts.first(
+            where: { $0.id == id }
+        ) else {
+            throw NetworkClientError.httpStatusCode(404)
+        }
+
+        return try encoder.encode(nft)
     }
 
     private func queryValue(

@@ -25,6 +25,7 @@
 		55A1EF0A308D464B000BC2E5 /* ShimmerPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A1EF09308D4647000BC2E5 /* ShimmerPlaceholderView.swift */; };
 		55A8352C308E284800D44D75 /* Logger+Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A8352B308E284700D44D75 /* Logger+Categories.swift */; };
 		55D4002F3095025A0079F9F9 /* CollectionByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D4002E309502510079F9F9 /* CollectionByIdRequest.swift */; };
+		55D4003130953BB10079F9F9 /* mockNfts.json in Resources */ = {isa = PBXBuildFile; fileRef = 55D4003030953BB10079F9F9 /* mockNfts.json */; };
 		55D4FF5330949F230079F9F9 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D4FF5230949F170079F9F9 /* CollectionView.swift */; };
 		55D4FF5530949F3F0079F9F9 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D4FF5430949F320079F9F9 /* CollectionViewModel.swift */; };
 		55D4FFC23094CA870079F9F9 /* Nft+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D4FFC13094CA7F0079F9F9 /* Nft+Mock.swift */; };
@@ -104,6 +105,7 @@
 		55A1EF09308D4647000BC2E5 /* ShimmerPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerPlaceholderView.swift; sourceTree = "<group>"; };
 		55A8352B308E284700D44D75 /* Logger+Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Categories.swift"; sourceTree = "<group>"; };
 		55D4002E309502510079F9F9 /* CollectionByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionByIdRequest.swift; sourceTree = "<group>"; };
+		55D4003030953BB10079F9F9 /* mockNfts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mockNfts.json; sourceTree = "<group>"; };
 		55D4FF5230949F170079F9F9 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		55D4FF5430949F320079F9F9 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 		55D4FFC13094CA7F0079F9F9 /* Nft+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Nft+Mock.swift"; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				ABC5E1952C31F64A002B4068 /* DesignSystem */,
 				ABC5E1E92C32084F002B4068 /* Localizable.strings */,
 				55A1EE49308CDD76000BC2E5 /* mockCollections.json */,
+				55D4003030953BB10079F9F9 /* mockNfts.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				556313F630854E49003B4A85 /* Config.xcconfig in Resources */,
+				55D4003130953BB10079F9F9 /* mockNfts.json in Resources */,
 				55A1EE4A308CDD76000BC2E5 /* mockCollections.json in Resources */,
 				556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */,
 				ABC5E1732C31F5AF002B4068 /* Preview Assets.xcassets in Resources */,

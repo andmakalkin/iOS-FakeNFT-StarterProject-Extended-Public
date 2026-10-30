@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CollectionView: View {
     @Environment(\.dismiss) private var dismiss
@@ -14,12 +15,14 @@ struct CollectionView: View {
     
     init(
         collectionId: String,
-        collectionService: CollectionServiceProtocol
+        collectionService: CollectionServiceProtocol,
+        nftService: NftService
     ) {
         _viewModel = State(
             initialValue: CollectionViewModel(
                 collectionId: collectionId,
-                collectionService: collectionService
+                collectionService: collectionService,
+                nftService: nftService
             )
         )
     }
@@ -28,7 +31,16 @@ struct CollectionView: View {
         ScrollView {
             VStack(spacing: 16) {
                 coverView
-                    .frame(maxWidth: .infinity, minHeight: 310)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 310)
+                    .clipShape(
+                        UnevenRoundedRectangle(
+                            cornerRadii: RectangleCornerRadii(
+                                bottomLeading: 12,
+                                bottomTrailing: 12
+                            )
+                        )
+                    )
                 
                 VStack(alignment: .leading, spacing: 0) {
                     titleView
@@ -65,18 +77,25 @@ struct CollectionView: View {
     }
     
     private var coverView: some View {
-        Image(viewModel.collection.cover ?? "")
+        KFImage(viewModel.collection.coverURL)
+            .placeholder {
+                ShimmerPlaceholderView()
+            }
+            .onFailureView {
+                ZStack {
+                    Color.imagePlaceholderBackground
+                    
+                    Image(.imageStub)
+                        .resizable()
+                        .scaledToFill()
+                        .scaleEffect(0.3)
+                }
+            }
+            .cancelOnDisappear(true)
+            .fade(duration: 0.3)
             .resizable()
             .scaledToFill()
-            .clipShape(
-                UnevenRoundedRectangle(
-                    cornerRadii:
-                        RectangleCornerRadii(
-                            bottomLeading: 12,
-                            bottomTrailing: 12
-                        )
-                )
-            )
+        
     }
     
     private var titleView: some View {
@@ -161,7 +180,13 @@ struct CollectionView: View {
     NavigationStack {
         CollectionView(
             collectionId: "1",
-            collectionService: CollectionService(networkClient: MockNetworkClient())
+            collectionService: CollectionService(
+                networkClient: MockNetworkClient()
+            ),
+            nftService: NftServiceImpl(
+                networkClient: MockNetworkClient(),
+                storage: NftStorageImpl()
+            )
         )
     }
 }
