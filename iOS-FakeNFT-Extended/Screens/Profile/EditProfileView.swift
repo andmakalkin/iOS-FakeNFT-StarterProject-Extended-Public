@@ -162,9 +162,9 @@ struct EditProfileView: View {
     }
     
     private func setup() {
-        name = viewModel.getName()
-        description = viewModel.getDescription()
-        website = viewModel.getWebsite()
+        name = viewModel.getName
+        description = viewModel.getDescription
+        website = viewModel.getWebsite
     }
 }
 

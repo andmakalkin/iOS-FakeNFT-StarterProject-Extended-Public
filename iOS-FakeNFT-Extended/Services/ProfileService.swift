@@ -17,8 +17,6 @@ protocol ProfileService {
     ) async throws
 }
 
-import Foundation
-
 @MainActor
 final class ProfileServiceImpl: ProfileService {
     private let networkClient: NetworkClient

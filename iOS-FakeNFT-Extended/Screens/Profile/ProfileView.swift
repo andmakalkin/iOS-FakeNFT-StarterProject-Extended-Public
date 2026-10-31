@@ -28,7 +28,7 @@ struct ProfileView: View {
                             .resizable()
                             .frame(width: 70, height: 70)
                             .clipShape(Circle())
-                        Text(viewModel.getName())
+                        Text(viewModel.getName)
                             .font(.system(size: 22, weight: .bold))
                             .tint(.ypBlack)
                         Spacer()
@@ -36,7 +36,7 @@ struct ProfileView: View {
                     }
                     .frame(height: 70)
                     HStack {
-                        Text(viewModel.getDescription())
+                        Text(viewModel.getDescription)
                             .font(.system(size: 13))
                         Spacer()
                     }
@@ -45,7 +45,7 @@ struct ProfileView: View {
                 
                 HStack {
                     NavigationLink(value: ProfileDestination.website) {
-                        Text(viewModel.getWebsite())
+                        Text(viewModel.getWebsite)
                     }
                     Spacer()
                 }
@@ -101,7 +101,7 @@ struct ProfileView: View {
                 case .likedNFT:
                     EmptyView()
                 case .website:
-                    WebView(url: URL(string: "https://www.pinterest.com")!)
+                    WebView(url: URL(string: viewModel.website)!)
                 }
             }
             .task {

@@ -16,6 +16,8 @@ final class ProfileViewModel {
 
     private var newProfileModel = ProfileModel.empty
     
+    let website = "https://www.pinterest.com"
+    
     var image: UIImage = UIImage(resource: .profilePhotoDefault70)
     
     init(profileService: ProfileService) {
@@ -35,19 +37,16 @@ final class ProfileViewModel {
         loadImage(urlString: profileModel.avatar)
     }
     
-    func getName() -> String {
-        guard let profileModel else { return "" }
-        return profileModel.name
+    var getName: String {
+        profileModel?.name ?? ""
     }
-    
-    func getDescription() -> String {
-        guard let profileModel else { return "" }
-        return profileModel.description
+
+    var getDescription: String {
+        profileModel?.description ?? ""
     }
-    
-    func getWebsite() -> String {
-        guard let profileModel else { return "" }
-        return profileModel.website
+
+    var getWebsite: String {
+        profileModel?.website ?? ""
     }
 }
 
