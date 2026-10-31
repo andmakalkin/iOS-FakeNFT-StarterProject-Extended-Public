@@ -14,7 +14,7 @@ struct ProfileView: View {
             VStack {
                 HStack {
                     Spacer()
-                    NavigationLink(value: ProfileDestionation.editProfile) {
+                    NavigationLink(value: ProfileDestination.editProfile) {
                         Image(.edit42)
                             .frame(width: 42, height: 42)
                     }
@@ -44,7 +44,7 @@ struct ProfileView: View {
                 .padding(EdgeInsets(top: 20, leading: 16, bottom: 0, trailing: 16))
                 
                 HStack {
-                    NavigationLink(value: ProfileDestionation.website) {
+                    NavigationLink(value: ProfileDestination.website) {
                         Text(viewModel.getWebsite())
                     }
                     Spacer()
@@ -52,7 +52,7 @@ struct ProfileView: View {
                 .padding(EdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 16))
                 
                 VStack {
-                    NavigationLink(value: ProfileDestionation.myNFT) {
+                    NavigationLink(value: ProfileDestination.myNFT) {
                         HStack {
                             HStack(spacing: 8) {
                                 Text("Мои NFT")
@@ -70,7 +70,7 @@ struct ProfileView: View {
                     .tint(.ypBlack)
                     .frame(height: 54)
                     
-                    NavigationLink(value: ProfileDestionation.likedNFT) {
+                    NavigationLink(value: ProfileDestination.likedNFT) {
                         HStack {
                             HStack(spacing: 8) {
                                 Text("Избранные NFT")
@@ -92,8 +92,8 @@ struct ProfileView: View {
                 
                 Spacer()
             }
-            .navigationDestination(for: ProfileDestionation.self) { destionation in
-                switch destionation {
+            .navigationDestination(for: ProfileDestination.self) { destination in
+                switch destination {
                 case .editProfile:
                     EditProfileView(viewModel: $viewModel)
                 case .myNFT:
