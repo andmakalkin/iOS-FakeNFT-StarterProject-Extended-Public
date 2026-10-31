@@ -13,7 +13,6 @@ struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var imageURL = ""
-    //@State private var image = Image(.profilePhotoDefault70)
     @State private var name = ""
     @State private var description = ""
     @State private var website = ""
