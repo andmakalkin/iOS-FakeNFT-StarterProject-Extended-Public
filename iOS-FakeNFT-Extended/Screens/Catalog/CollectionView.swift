@@ -31,7 +31,8 @@ struct CollectionView: View {
         collectionService: CollectionServiceProtocol,
         nftService: NftService,
         orderService: OrderServiceProtocol,
-        profileService: ProfileServiceProtocol
+        profileService: ProfileServiceProtocol,
+        userService: UserServiceProtocol
     ) {
         _viewModel = State(
             initialValue: CollectionViewModel(
@@ -39,7 +40,8 @@ struct CollectionView: View {
                 collectionService: collectionService,
                 nftService: nftService,
                 orderService: orderService,
-                profileService: profileService
+                profileService: profileService,
+                userService: userService
             )
         )
     }
@@ -106,7 +108,7 @@ struct CollectionView: View {
                         .frame(minHeight: 28)
                         .padding(.bottom, 8)
                     
-                    authorView(content.collection)
+                    authorView(content.collection, author: content.author)
                         .frame(minHeight: 28)
                     
                     if content.collection.description != nil {
@@ -161,14 +163,14 @@ struct CollectionView: View {
         }
     }
     
-    private func authorView(_ collection: NftCollection) -> some View {
+    private func authorView(_ collection: NftCollection, author: User?) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
             
-            Text(collection.author ?? "—")
+            Text(author?.name ?? "—")
                 .font(AppFont.regular15)
                 .tracking(-0.24)
                 .foregroundStyle(.ypUniversalBlue)
@@ -240,8 +242,6 @@ struct CollectionView: View {
 }
 
 #Preview {
-//    ImageCache.default.clearMemoryCache()
-//    ImageCache.default.clearDiskCache()
     let networkClient = MockNetworkClient()
     
     return NavigationStack {
@@ -258,6 +258,9 @@ struct CollectionView: View {
                 networkClient: networkClient
             ),
             profileService: ProfileService(
+                networkClient: networkClient
+            ),
+            userService: UserService(
                 networkClient: networkClient
             )
         )

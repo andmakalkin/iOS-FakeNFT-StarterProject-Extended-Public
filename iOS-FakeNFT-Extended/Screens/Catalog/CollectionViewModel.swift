@@ -23,6 +23,7 @@ final class CollectionViewModel {
     
     struct Content {
         let collection: NftCollection
+        let author: User?
         let nfts: [Nft]
         let cartNftIds: Set<String>
         let likedNftIds: Set<String>
@@ -37,19 +38,22 @@ final class CollectionViewModel {
     private let nftService: NftService
     private let orderService: OrderServiceProtocol
     private let profileService: ProfileServiceProtocol
+    private let userService: UserServiceProtocol
     
     init(
         collectionId: String,
         collectionService: CollectionServiceProtocol,
         nftService: NftService,
         orderService: OrderServiceProtocol,
-        profileService: ProfileServiceProtocol
+        profileService: ProfileServiceProtocol,
+        userService: UserServiceProtocol
     ) {
         self.collectionId = collectionId
         self.collectionService = collectionService
         self.nftService = nftService
         self.orderService = orderService
         self.profileService = profileService
+        self.userService = userService
     }
     
     func loadCollection() async {
@@ -61,11 +65,19 @@ final class CollectionViewModel {
             async let nfts = loadNfts(ids: collection.nfts)
             async let order = orderService.loadOrder()
             async let profile = profileService.loadProfile()
+            async let author: User? = {
+                guard let authorId = collection.author else {
+                    return nil
+                }
 
-            let (loadedNfts, loadedOrder, loadedProfile) = try await (nfts, order, profile)
+                return try await userService.loadUser(id: authorId)
+            }()
+
+            let (loadedNfts, loadedOrder, loadedProfile, loadedAuthor) = try await (nfts, order, profile, author)
 
             let content = Content(
                 collection: collection,
+                author: loadedAuthor,
                 nfts: loadedNfts,
                 cartNftIds: Set(loadedOrder.nfts),
                 likedNftIds: Set(loadedProfile.likes)
@@ -102,7 +114,6 @@ final class CollectionViewModel {
         } catch is CancellationError {
             return
         } catch {
-            print("CATCH CART:", error)
             Logger.collection.error(
                 "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error))"
             )
@@ -142,6 +153,7 @@ final class CollectionViewModel {
 
         let updatedContent = Content(
             collection: currentContent.collection,
+            author: currentContent.author,
             nfts: currentContent.nfts,
             cartNftIds: currentContent.cartNftIds,
             likedNftIds: Set(updatedProfile.likes)
@@ -159,6 +171,7 @@ final class CollectionViewModel {
 
         let updatedContent = Content(
             collection: currentContent.collection,
+            author: currentContent.author,
             nfts: currentContent.nfts,
             cartNftIds: Set(updatedOrder.nfts),
             likedNftIds: currentContent.likedNftIds

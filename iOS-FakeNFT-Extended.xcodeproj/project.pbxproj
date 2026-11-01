@@ -17,6 +17,9 @@
 		5522B00F3097719B00249D13 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B00E3097719800249D13 /* ProfileService.swift */; };
 		5522B07C3097808A00249D13 /* UpdateOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B07B3097808900249D13 /* UpdateOrderRequest.swift */; };
 		5522B07E3097854600249D13 /* UpdateProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B07D3097853E00249D13 /* UpdateProfileRequest.swift */; };
+		5522B0803097DE0300249D13 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B07F3097DE0200249D13 /* User.swift */; };
+		5522B0823097DEE700249D13 /* UserByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B0813097DEE400249D13 /* UserByIdRequest.swift */; };
+		5522B0843097DF4300249D13 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B0833097DF3900249D13 /* UserService.swift */; };
 		556313F630854E49003B4A85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F530854E49003B4A85 /* Config.xcconfig */; };
 		556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F730854EED003B4A85 /* Secrets.example.xcconfig */; };
 		557D6B03308A77B40095BF3C /* NftCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6B02308A77B00095BF3C /* NftCollection.swift */; };
@@ -104,6 +107,9 @@
 		5522B00E3097719800249D13 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		5522B07B3097808900249D13 /* UpdateOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOrderRequest.swift; sourceTree = "<group>"; };
 		5522B07D3097853E00249D13 /* UpdateProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRequest.swift; sourceTree = "<group>"; };
+		5522B07F3097DE0200249D13 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		5522B0813097DEE400249D13 /* UserByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserByIdRequest.swift; sourceTree = "<group>"; };
+		5522B0833097DF3900249D13 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		556313F530854E49003B4A85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		556313F730854EED003B4A85 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		556313F93085576F003B4A85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -364,6 +370,7 @@
 		ABC5E19F2C31F6CB002B4068 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				5522B07F3097DE0200249D13 /* User.swift */,
 				5522B00A30976E8400249D13 /* Profile.swift */,
 				5522B00430975E5100249D13 /* Order.swift */,
 				557D6B02308A77B00095BF3C /* NftCollection.swift */,
@@ -390,6 +397,7 @@
 				ABC5E1AA2C31FACD002B4068 /* NftService.swift */,
 				5522B008309760C300249D13 /* OrderService.swift */,
 				5522B00E3097719800249D13 /* ProfileService.swift */,
+				5522B0833097DF3900249D13 /* UserService.swift */,
 				ABC5E1B62C31FC70002B4068 /* ServicesAssembly.swift */,
 				55DECB57308BE3300071FCA9 /* UserDefaultsService.swift */,
 			);
@@ -399,15 +407,16 @@
 		ABC5E1AC2C31FB6C002B4068 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				5522B00C3097707A00249D13 /* ProfileRequest.swift */,
-				5522B07D3097853E00249D13 /* UpdateProfileRequest.swift */,
-				5522B00630975FC400249D13 /* OrderRequest.swift */,
-				5522B07B3097808900249D13 /* UpdateOrderRequest.swift */,
 				55D4002E309502510079F9F9 /* CollectionByIdRequest.swift */,
 				55A1EE41308CC39E000BC2E5 /* CollectionsRequest.swift */,
 				ABC5E1B12C31FBD4002B4068 /* ExampleRequest.swift */,
 				ABC5E1AD2C31FB7F002B4068 /* NftByIdRequest.swift */,
+				5522B00630975FC400249D13 /* OrderRequest.swift */,
+				5522B00C3097707A00249D13 /* ProfileRequest.swift */,
 				ABC5E1AF2C31FB90002B4068 /* RequestConstants.swift */,
+				5522B07B3097808900249D13 /* UpdateOrderRequest.swift */,
+				5522B07D3097853E00249D13 /* UpdateProfileRequest.swift */,
+				5522B0813097DEE400249D13 /* UserByIdRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -624,6 +633,7 @@
 				ABC5E16E2C31F5AF002B4068 /* ContentView.swift in Sources */,
 				55A1EE44308CCE61000BC2E5 /* CollectionService.swift in Sources */,
 				ABC5E1B92C31FD51002B4068 /* TestCatalogView.swift in Sources */,
+				5522B0823097DEE700249D13 /* UserByIdRequest.swift in Sources */,
 				ABC5E1DF2C3204FB002B4068 /* LoadingView.swift in Sources */,
 				ABC5E1972C31F656002B4068 /* Colors.swift in Sources */,
 				55A1EE48308CD48D000BC2E5 /* MockNetworkClient.swift in Sources */,
@@ -636,6 +646,7 @@
 				5522B00D3097708E00249D13 /* ProfileRequest.swift in Sources */,
 				ABC5E1A12C31F6D7002B4068 /* Nft.swift in Sources */,
 				ABC5E1AE2C31FB7F002B4068 /* NftByIdRequest.swift in Sources */,
+				5522B0843097DF4300249D13 /* UserService.swift in Sources */,
 				55DECB58308BE3330071FCA9 /* UserDefaultsService.swift in Sources */,
 				55A8352C308E284800D44D75 /* Logger+Categories.swift in Sources */,
 				ABC5E1DB2C3204CE002B4068 /* UIView+Constraints.swift in Sources */,
@@ -658,6 +669,7 @@
 				ABC5E1D12C32042C002B4068 /* NftDetailPresenter.swift in Sources */,
 				ABC5E1B02C31FB90002B4068 /* RequestConstants.swift in Sources */,
 				5522B00530975E5200249D13 /* Order.swift in Sources */,
+				5522B0803097DE0300249D13 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
