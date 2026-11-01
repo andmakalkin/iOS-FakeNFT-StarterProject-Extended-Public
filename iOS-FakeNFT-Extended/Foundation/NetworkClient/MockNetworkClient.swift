@@ -39,6 +39,17 @@ actor MockNetworkClient: NetworkClient {
         try await Task.sleep(for: .seconds(1))
 
         if endpoint.path == orderPath {
+            if request.httpMethod == .put {
+                let nfts = request.bodyParameters?
+                    .filter { $0.name == "nfts" }
+                    .compactMap(\.value) ?? []
+
+                order = Order(
+                    id: order.id,
+                    nfts: nfts
+                )
+            }
+
             return try encoder.encode(order)
         }
 
