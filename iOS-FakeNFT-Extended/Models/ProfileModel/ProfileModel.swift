@@ -14,7 +14,7 @@ struct ProfileModel {
     let website: String
 }
 
-extension ProfileModel {    
+extension ProfileModel {
     static let empty = ProfileModel(
         image: .profilePhotoDefault70,
         name: "",
