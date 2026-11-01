@@ -17,14 +17,16 @@ struct CollectionView: View {
         collectionId: String,
         collectionService: CollectionServiceProtocol,
         nftService: NftService,
-        orderService: OrderServiceProtocol
+        orderService: OrderServiceProtocol,
+        profileService: ProfileServiceProtocol
     ) {
         _viewModel = State(
             initialValue: CollectionViewModel(
                 collectionId: collectionId,
                 collectionService: collectionService,
                 nftService: nftService,
-                orderService: orderService
+                orderService: orderService,
+                profileService: profileService
             )
         )
     }
@@ -208,6 +210,9 @@ struct CollectionView: View {
                 storage: NftStorageImpl()
             ),
             orderService: OrderService(
+                networkClient: networkClient
+            ),
+            profileService: ProfileService(
                 networkClient: networkClient
             )
         )
