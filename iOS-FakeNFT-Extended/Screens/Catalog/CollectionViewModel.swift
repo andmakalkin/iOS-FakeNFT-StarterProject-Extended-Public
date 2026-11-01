@@ -32,15 +32,18 @@ final class CollectionViewModel {
 
     private let collectionService: CollectionServiceProtocol
     private let nftService: NftService
+    private let orderService: OrderServiceProtocol
     
     init(
         collectionId: String,
         collectionService: CollectionServiceProtocol,
-        nftService: NftService
+        nftService: NftService,
+        orderService: OrderServiceProtocol
     ) {
         self.collectionId = collectionId
         self.collectionService = collectionService
         self.nftService = nftService
+        self.orderService = orderService
     }
     
     func loadCollection() async {
