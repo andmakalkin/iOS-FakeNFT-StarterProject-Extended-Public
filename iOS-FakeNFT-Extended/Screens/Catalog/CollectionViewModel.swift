@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 @MainActor
 @Observable
@@ -75,6 +76,10 @@ final class CollectionViewModel {
         } catch is CancellationError {
             return
         } catch {
+            Logger.collection.error(
+                "Не удалось загрузить коллекцию \(self.collectionId, privacy: .public): \(String(describing: error), privacy: .public)"
+            )
+            
             state = .failed(error)
         }
     }
@@ -85,7 +90,9 @@ final class CollectionViewModel {
         } catch is CancellationError {
             return
         } catch {
-            // TODO: Ошибка
+            Logger.collection.error(
+                "Не удалось изменить лайк NFT \(nftId, privacy: .public): \(String(describing: error), privacy: .public)"
+            )
         }
     }
     
@@ -95,7 +102,10 @@ final class CollectionViewModel {
         } catch is CancellationError {
             return
         } catch {
-            // TODO: Ошибка
+            print("CATCH CART:", error)
+            Logger.collection.error(
+                "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error))"
+            )
         }
     }
     

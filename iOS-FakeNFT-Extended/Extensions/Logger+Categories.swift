@@ -15,4 +15,9 @@ extension Logger {
         subsystem: subsystem,
         category: "Catalog"
     )
+    
+    static let collection = Logger(
+        subsystem: subsystem,
+        category: "Collection"
+    )
 }
