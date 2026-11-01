@@ -47,7 +47,11 @@ actor MockNetworkClient: NetworkClient {
         let orderPath = "/api/v1/orders/1"
         let profilePath = "/api/v1/profile/1"
 
-        try await Task.sleep(for: .seconds(1))
+        if endpoint.path == orderPath || endpoint.path == profilePath {
+            try await Task.sleep(for: .milliseconds(100))
+        } else {
+            try await Task.sleep(for: .seconds(1))
+        }
 
         if endpoint.path == orderPath {
             if request.httpMethod == .put {

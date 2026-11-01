@@ -12,15 +12,15 @@ struct CollectionNftCell: View {
     let onTapLike: () -> Void
     let onTapCart: () -> Void
     let onTapNft: () -> Void
-    
+
     let isLiked: Bool
     let isInCart: Bool
-    
+
     let title: String
     let rating: Int
     let price: Double
     let imageURL: URL?
-    
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
@@ -48,7 +48,7 @@ struct CollectionNftCell: View {
                             .scaledToFill()
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                
+
                 Button {
                     onTapLike()
                 } label: {
@@ -57,24 +57,24 @@ struct CollectionNftCell: View {
                 .buttonStyle(.plain)
             }
             .padding(.bottom, 8)
-            
+
             HStack(spacing: 2) {
                 ForEach(1...5, id: \.self) { value in
                     Image(value <= rating ? .starActive12 : .starNoActive12)
                 }
-                
+
                 Spacer()
             }
             .frame(height: 12)
             .padding(.bottom, 4)
-            
+
             HStack(alignment: .center, spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(AppFont.bold17)
                         .lineLimit(1)
                         .frame(minHeight: 22)
-                    
+
                     Text(
                         NumberFormatter.ethCompactFormatter
                             .string(from: NSNumber(value: price)) ?? "\(price) ETH"
@@ -84,9 +84,9 @@ struct CollectionNftCell: View {
                     .frame(minHeight: 12)
                 }
                 .foregroundStyle(.ypBlack)
-                
+
                 Spacer()
-                
+
                 Button {
                     onTapCart()
                 } label: {

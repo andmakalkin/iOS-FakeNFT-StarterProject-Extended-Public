@@ -12,7 +12,7 @@ struct User: Codable, Identifiable, Sendable {
     let name: String
     let rating: Int
     let nfts: [String]
-    
+
     let avatar: String?
     let description: String?
     let website: String?

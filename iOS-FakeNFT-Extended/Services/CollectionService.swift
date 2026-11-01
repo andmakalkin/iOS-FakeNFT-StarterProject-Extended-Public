@@ -30,10 +30,10 @@ actor CollectionService: CollectionServiceProtocol {
 
         return try await networkClient.send(request: request)
     }
-    
+
     func loadCollection(id: String) async throws -> NftCollection {
         let request = CollectionByIdRequest(id: id)
-        
+
         return try await networkClient.send(request: request)
     }
 }

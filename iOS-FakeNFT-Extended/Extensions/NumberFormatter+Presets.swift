@@ -14,7 +14,7 @@ extension NumberFormatter {
         formatter.maximumFractionDigits = 2
         formatter.minimumFractionDigits = 0
         formatter.positiveSuffix = " ETH"
-        
+
         return formatter
     }()
 }

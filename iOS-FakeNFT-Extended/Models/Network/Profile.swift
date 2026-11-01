@@ -12,7 +12,7 @@ struct Profile: Codable, Identifiable, Sendable {
     let name: String
     let nfts: [String]
     let likes: [String]
-    
+
     let avatar: String?
     let description: String?
     let website: String?

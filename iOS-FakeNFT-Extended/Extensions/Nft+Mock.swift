@@ -21,7 +21,7 @@ extension Nft {
         tater,
         zoe
     ]
-    
+
     static let archie = Nft(
         id: "1",
         images: [],
@@ -33,7 +33,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let art = Nft(
         id: "2",
         images: [],
@@ -45,7 +45,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let biscuit = Nft(
         id: "3",
         images: [],
@@ -57,7 +57,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let daisy = Nft(
         id: "4",
         images: [],
@@ -69,7 +69,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let nacho = Nft(
         id: "5",
         images: [],
@@ -81,7 +81,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let oreo = Nft(
         id: "6",
         images: [],
@@ -93,7 +93,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let pixi = Nft(
         id: "7",
         images: [],
@@ -105,7 +105,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let ruby = Nft(
         id: "8",
         images: [],
@@ -117,7 +117,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let susan = Nft(
         id: "9",
         images: [],
@@ -129,7 +129,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let tater = Nft(
         id: "10",
         images: [],
@@ -141,7 +141,7 @@ extension Nft {
         author: "John Doe",
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
-    
+
     static let zoe = Nft(
         id: "11",
         images: [],

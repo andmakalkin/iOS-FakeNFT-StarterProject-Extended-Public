@@ -14,29 +14,29 @@ protocol ProfileServiceProtocol: Sendable {
 
 actor ProfileService: ProfileServiceProtocol {
     // MARK: - State
-    
+
     private var cachedProfile: Profile?
     private var operationTail: Task<Void, Never>?
     private var operationGeneration = 0
-    
+
     // MARK: - Dependencies
-    
+
     private let networkClient: NetworkClient
 
     // MARK: - Init
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
 
     // MARK: - Actions
-    
+
     func loadProfile() async throws -> Profile {
         try await performInQueue { service in
             try await service.fetchProfile()
         }
     }
-    
+
     func toggleLike(nftId: String) async throws -> Profile {
         try await performInQueue { service in
             let profile = try await service.currentProfile()

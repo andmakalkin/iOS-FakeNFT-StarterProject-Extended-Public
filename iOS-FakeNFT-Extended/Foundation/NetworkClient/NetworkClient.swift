@@ -71,7 +71,7 @@ actor DefaultNetworkClient: NetworkClient {
     private func encode(bodyParameters: [URLQueryItem]) -> Data? {
         var components = URLComponents()
         components.queryItems = bodyParameters
-        
+
         return components.percentEncodedQuery?.data(using: .utf8)
     }
 

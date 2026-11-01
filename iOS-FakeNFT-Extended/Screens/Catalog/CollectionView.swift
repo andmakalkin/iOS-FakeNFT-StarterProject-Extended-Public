@@ -10,9 +10,9 @@ import Kingfisher
 
 struct CollectionView: View {
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var viewModel: CollectionViewModel
-    
+
     private var isErrorAlertPresented: Binding<Bool> {
         Binding(
             get: {
@@ -25,7 +25,7 @@ struct CollectionView: View {
             set: { _ in }
         )
     }
-    
+
     init(
         collectionId: String,
         collectionService: CollectionServiceProtocol,
@@ -45,19 +45,19 @@ struct CollectionView: View {
             )
         )
     }
-    
+
     var body: some View {
         ZStack {
             Color.ypWhite
                 .ignoresSafeArea()
-            
+
             switch viewModel.state {
             case .initial, .loading:
                 ProgressView()
 
             case .loaded(let content):
                 contentView(content)
-            
+
             case .failed:
                 EmptyView()
             }
@@ -87,7 +87,7 @@ struct CollectionView: View {
             await viewModel.loadCollection()
         }
     }
-    
+
     private func contentView(_ content: CollectionViewModel.Content) -> some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -102,19 +102,19 @@ struct CollectionView: View {
                             )
                         )
                     )
-                
+
                 VStack(alignment: .leading, spacing: 0) {
                     titleView(content.collection)
                         .frame(minHeight: 28)
                         .padding(.bottom, 8)
-                    
-                    authorView(content.collection, author: content.author)
+
+                    authorView(content.author)
                         .frame(minHeight: 28)
-                    
+
                     if content.collection.description != nil {
                         descriptionView(content.collection)
                     }
-                    
+
                     nftsView(
                         content.nfts,
                         cartNftIds: content.cartNftIds,
@@ -129,7 +129,7 @@ struct CollectionView: View {
         .contentMargins(.bottom, 40, for: .scrollContent)
         .scrollIndicators(.hidden)
     }
-    
+
     private func coverView(_ collection: NftCollection) -> some View {
         KFImage(collection.coverURL)
             .placeholder {
@@ -138,7 +138,7 @@ struct CollectionView: View {
             .onFailureView {
                 ZStack {
                     Color.imagePlaceholderBackground
-                    
+
                     Image(.imageStub)
                         .resizable()
                         .scaledToFill()
@@ -149,47 +149,46 @@ struct CollectionView: View {
             .fade(duration: 0.3)
             .resizable()
             .scaledToFill()
-        
     }
-    
+
     private func titleView(_ collection: NftCollection) -> some View {
         HStack(spacing: 0) {
             Text(collection.name)
                 .font(AppFont.bold22)
                 .tracking(0.35)
                 .foregroundStyle(.ypBlack)
-            
+
             Spacer()
         }
     }
-    
-    private func authorView(_ collection: NftCollection, author: User?) -> some View {
+
+    private func authorView(_ author: User?) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
-            
+
             Text(author?.name ?? "—")
                 .font(AppFont.regular15)
                 .tracking(-0.24)
                 .foregroundStyle(.ypUniversalBlue)
-            
+
             Spacer()
         }
     }
-    
+
     private func descriptionView(_ collection: NftCollection) -> some View {
         HStack(spacing: 0) {
             Text(collection.description ?? "")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
-            
+
             Spacer()
         }
     }
-    
+
     private func nftsView(
         _ nfts: [Nft],
         cartNftIds: Set<String>,
@@ -201,7 +200,7 @@ struct CollectionView: View {
                 spacing: 9
             )
         ]
-        
+
         return LazyVGrid(columns: columns, spacing: 28) {
             ForEach(nfts) { nft in
                 CollectionNftCell(
@@ -226,7 +225,7 @@ struct CollectionView: View {
             }
         }
     }
-    
+
     private var backButton: some View {
         Button {
             dismiss()
@@ -243,7 +242,7 @@ struct CollectionView: View {
 
 #Preview {
     let networkClient = MockNetworkClient()
-    
+
     return NavigationStack {
         CollectionView(
             collectionId: "1",

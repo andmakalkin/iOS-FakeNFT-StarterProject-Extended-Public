@@ -13,14 +13,14 @@ import OSLog
 
 final class CollectionViewModel {
     // MARK: - State
-    
+
     enum State {
         case initial
         case loading
         case loaded(Content)
         case failed(Error)
     }
-    
+
     struct Content {
         let collection: NftCollection
         let author: User?
@@ -28,7 +28,7 @@ final class CollectionViewModel {
         let cartNftIds: Set<String>
         let likedNftIds: Set<String>
     }
-    
+
     private(set) var state: State = .initial
     private let collectionId: String
 
@@ -39,7 +39,9 @@ final class CollectionViewModel {
     private let orderService: OrderServiceProtocol
     private let profileService: ProfileServiceProtocol
     private let userService: UserServiceProtocol
-    
+
+    // MARK: - Init
+
     init(
         collectionId: String,
         collectionService: CollectionServiceProtocol,
@@ -55,13 +57,15 @@ final class CollectionViewModel {
         self.profileService = profileService
         self.userService = userService
     }
-    
+
+    // MARK: - Actions
+
     func loadCollection() async {
         state = .loading
-        
+
         do {
             let collection = try await collectionService.loadCollection(id: collectionId)
-            
+
             async let nfts = loadNfts(ids: collection.nfts)
             async let order = orderService.loadOrder()
             async let profile = profileService.loadProfile()
@@ -82,20 +86,20 @@ final class CollectionViewModel {
                 cartNftIds: Set(loadedOrder.nfts),
                 likedNftIds: Set(loadedProfile.likes)
             )
-            
+
             state = .loaded(content)
-            
+
         } catch is CancellationError {
             return
         } catch {
             Logger.collection.error(
                 "Не удалось загрузить коллекцию \(self.collectionId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
-            
+
             state = .failed(error)
         }
     }
-    
+
     func handleTapLike(nftId: String) async {
         do {
             try await toggleLike(nftId: nftId)
@@ -107,7 +111,7 @@ final class CollectionViewModel {
             )
         }
     }
-    
+
     func handleTapCart(nftId: String) async {
         do {
             try await toggleCart(nftId: nftId)
@@ -119,7 +123,9 @@ final class CollectionViewModel {
             )
         }
     }
-    
+
+    // MARK: - Helpers
+
     private func loadNfts(ids: [String]) async throws -> [Nft] {
         try await withThrowingTaskGroup(
             of: (Int, Nft).self
@@ -143,7 +149,7 @@ final class CollectionViewModel {
             return loadedNfts.compactMap { $0 }
         }
     }
-    
+
     private func toggleLike(nftId: String) async throws {
         guard case .loaded = state else { return }
 
@@ -161,7 +167,7 @@ final class CollectionViewModel {
 
         state = .loaded(updatedContent)
     }
-    
+
     private func toggleCart(nftId: String) async throws {
         guard case .loaded = state else { return }
 
