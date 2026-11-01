@@ -81,7 +81,7 @@ final class CollectionViewModel {
     
     func handleTapLike(nftId: String) async {
         do {
-            try await updateLikes(nftId: nftId)
+            try await toggleLike(nftId: nftId)
         } catch is CancellationError {
             return
         } catch {
@@ -91,7 +91,7 @@ final class CollectionViewModel {
     
     func handleTapCart(nftId: String) async {
         do {
-            try await updateOrder(nftId: nftId)
+            try await toggleCart(nftId: nftId)
         } catch is CancellationError {
             return
         } catch {
@@ -123,51 +123,35 @@ final class CollectionViewModel {
         }
     }
     
-    private func updateLikes(nftId: String) async throws {
-        guard case .loaded(let content) = state else { return }
-        
-        var updatedLikedNftIds = content.likedNftIds
+    private func toggleLike(nftId: String) async throws {
+        guard case .loaded = state else { return }
 
-        if updatedLikedNftIds.contains(nftId) {
-            updatedLikedNftIds.remove(nftId)
-        } else {
-            updatedLikedNftIds.insert(nftId)
-        }
+        let updatedProfile = try await profileService.toggleLike(nftId: nftId)
 
-        let updatedProfile = try await profileService.updateLikes(
-            Array(updatedLikedNftIds)
-        )
-        
+        guard case .loaded(let currentContent) = state else { return }
+
         let updatedContent = Content(
-            collection: content.collection,
-            nfts: content.nfts,
-            cartNftIds: content.cartNftIds,
+            collection: currentContent.collection,
+            nfts: currentContent.nfts,
+            cartNftIds: currentContent.cartNftIds,
             likedNftIds: Set(updatedProfile.likes)
         )
 
         state = .loaded(updatedContent)
     }
     
-    private func updateOrder(nftId: String) async throws {
-        guard case .loaded(let content) = state else { return }
+    private func toggleCart(nftId: String) async throws {
+        guard case .loaded = state else { return }
 
-        var updatedCartNftIds = content.cartNftIds
+        let updatedOrder = try await orderService.toggleCart(nftId: nftId)
 
-        if updatedCartNftIds.contains(nftId) {
-            updatedCartNftIds.remove(nftId)
-        } else {
-            updatedCartNftIds.insert(nftId)
-        }
-
-        let updatedOrder = try await orderService.updateOrder(
-            nfts: Array(updatedCartNftIds)
-        )
+        guard case .loaded(let currentContent) = state else { return }
 
         let updatedContent = Content(
-            collection: content.collection,
-            nfts: content.nfts,
+            collection: currentContent.collection,
+            nfts: currentContent.nfts,
             cartNftIds: Set(updatedOrder.nfts),
-            likedNftIds: content.likedNftIds
+            likedNftIds: currentContent.likedNftIds
         )
 
         state = .loaded(updatedContent)
