@@ -54,37 +54,17 @@ actor MockNetworkClient: NetworkClient {
         }
 
         if endpoint.path == profilePath {
-            if request.httpMethod == .put {
-                let parameters = request.bodyParameters ?? []
-
-                let name = parameters
-                    .first { $0.name == "name" }?
-                    .value ?? profile.name
-
-                let description = parameters
-                    .first { $0.name == "description" }?
-                    .value ?? profile.description
-
-                let avatar = parameters
-                    .first { $0.name == "avatar" }?
-                    .value ?? profile.avatar
-
-                let website = parameters
-                    .first { $0.name == "website" }?
-                    .value ?? profile.website
-
-                let likes = parameters
-                    .filter { $0.name == "likes" }
-                    .compactMap(\.value)
+            if request.httpMethod == .put,
+               let updateRequest = request as? UpdateProfileRequest {
 
                 profile = Profile(
                     id: profile.id,
-                    name: name,
+                    name: updateRequest.name ?? profile.name,
                     nfts: profile.nfts,
-                    likes: likes,
-                    avatar: avatar,
-                    description: description,
-                    website: website
+                    likes: updateRequest.likes ?? profile.likes,
+                    avatar: updateRequest.avatar ?? profile.avatar,
+                    description: updateRequest.description ?? profile.description,
+                    website: updateRequest.website ?? profile.website
                 )
             }
 

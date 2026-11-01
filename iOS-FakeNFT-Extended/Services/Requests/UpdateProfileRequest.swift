@@ -8,11 +8,25 @@
 import Foundation
 
 struct UpdateProfileRequest: NetworkRequest {
-    let name: String
+    let name: String?
     let description: String?
     let avatar: String?
     let website: String?
-    let likes: [String]
+    let likes: [String]?
+
+    init(
+        name: String? = nil,
+        description: String? = nil,
+        avatar: String? = nil,
+        website: String? = nil,
+        likes: [String]? = nil
+    ) {
+        self.name = name
+        self.description = description
+        self.avatar = avatar
+        self.website = website
+        self.likes = likes
+    }
 
     var endpoint: URL? {
         URL(string: "\(RequestConstants.baseURL)/api/v1/profile/1")
@@ -23,9 +37,13 @@ struct UpdateProfileRequest: NetworkRequest {
     }
 
     var bodyParameters: [URLQueryItem]? {
-        var parameters = [
-            URLQueryItem(name: "name", value: name)
-        ]
+        var parameters: [URLQueryItem] = []
+
+        if let name {
+            parameters.append(
+                URLQueryItem(name: "name", value: name)
+            )
+        }
 
         if let description {
             parameters.append(
@@ -45,10 +63,20 @@ struct UpdateProfileRequest: NetworkRequest {
             )
         }
 
-        let likeParameters = likes.map {
-            URLQueryItem(name: "likes", value: $0)
+        if let likes {
+            if likes.isEmpty {
+                parameters.append(
+                    URLQueryItem(name: "likes", value: "")
+                )
+            } else {
+                parameters.append(
+                    contentsOf: likes.map {
+                        URLQueryItem(name: "likes", value: $0)
+                    }
+                )
+            }
         }
 
-        return parameters + likeParameters
+        return parameters
     }
 }

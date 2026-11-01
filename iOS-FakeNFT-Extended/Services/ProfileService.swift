@@ -9,12 +9,13 @@ import Foundation
 
 protocol ProfileServiceProtocol: Sendable {
     func loadProfile() async throws -> Profile
+
     func updateProfile(
-        name: String,
+        name: String?,
         description: String?,
         avatar: String?,
         website: String?,
-        likes: [String]
+        likes: [String]?
     ) async throws -> Profile
 }
 
@@ -32,11 +33,11 @@ actor ProfileService: ProfileServiceProtocol {
     }
     
     func updateProfile(
-        name: String,
-        description: String?,
-        avatar: String?,
-        website: String?,
-        likes: [String]
+        name: String? = nil,
+        description: String? = nil,
+        avatar: String? = nil,
+        website: String? = nil,
+        likes: [String]? = nil
     ) async throws -> Profile {
         let request = UpdateProfileRequest(
             name: name,
