@@ -13,6 +13,19 @@ struct CollectionView: View {
     
     @State private var viewModel: CollectionViewModel
     
+    private var isErrorAlertPresented: Binding<Bool> {
+        Binding(
+            get: {
+                if case .failed = viewModel.state {
+                    return true
+                }
+
+                return false
+            },
+            set: { _ in }
+        )
+    }
+    
     init(
         collectionId: String,
         collectionService: CollectionServiceProtocol,
@@ -44,7 +57,7 @@ struct CollectionView: View {
                 contentView(content)
             
             case .failed:
-                Text("Ошибка")
+                EmptyView()
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -52,6 +65,20 @@ struct CollectionView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 backButton
+            }
+        }
+        .alert(
+            "Error.loadingData",
+            isPresented: isErrorAlertPresented
+        ) {
+            Button("Error.cancel", role: .cancel) {
+                dismiss()
+            }
+
+            Button("Error.repeat") {
+                Task {
+                    await viewModel.loadCollection()
+                }
             }
         }
         .task {
@@ -213,8 +240,8 @@ struct CollectionView: View {
 }
 
 #Preview {
-    ImageCache.default.clearMemoryCache()
-    ImageCache.default.clearDiskCache()
+//    ImageCache.default.clearMemoryCache()
+//    ImageCache.default.clearDiskCache()
     let networkClient = MockNetworkClient()
     
     return NavigationStack {
