@@ -11,6 +11,11 @@ actor MockNetworkClient: NetworkClient {
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
 
+    private var order = Order(
+        id: "1",
+        nfts: ["1", "3", "8"]
+    )
+
     func send(request: NetworkRequest) async throws -> Data {
         guard let endpoint = request.endpoint else {
             throw NetworkClientError.incorrectRequest("Empty endpoint")
@@ -18,8 +23,13 @@ actor MockNetworkClient: NetworkClient {
 
         let collectionsPath = "/api/v1/collections"
         let nftPath = "/api/v1/nft"
+        let orderPath = "/api/v1/orders/1"
 
         try await Task.sleep(for: .seconds(1))
+
+        if endpoint.path == orderPath {
+            return try encoder.encode(order)
+        }
 
         if endpoint.path == collectionsPath {
             let collections = try loadCollections()
