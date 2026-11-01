@@ -12,6 +12,7 @@
 		5522B00530975E5200249D13 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B00430975E5100249D13 /* Order.swift */; };
 		5522B00730975FC700249D13 /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B00630975FC400249D13 /* OrderRequest.swift */; };
 		5522B009309760C500249D13 /* OrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B008309760C300249D13 /* OrderService.swift */; };
+		5522B00B30976E8600249D13 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B00A30976E8400249D13 /* Profile.swift */; };
 		556313F630854E49003B4A85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F530854E49003B4A85 /* Config.xcconfig */; };
 		556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F730854EED003B4A85 /* Secrets.example.xcconfig */; };
 		557D6B03308A77B40095BF3C /* NftCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6B02308A77B00095BF3C /* NftCollection.swift */; };
@@ -94,6 +95,7 @@
 		5522B00430975E5100249D13 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		5522B00630975FC400249D13 /* OrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequest.swift; sourceTree = "<group>"; };
 		5522B008309760C300249D13 /* OrderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderService.swift; sourceTree = "<group>"; };
+		5522B00A30976E8400249D13 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		556313F530854E49003B4A85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		556313F730854EED003B4A85 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		556313F93085576F003B4A85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 		ABC5E19F2C31F6CB002B4068 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				5522B00A30976E8400249D13 /* Profile.swift */,
 				5522B00430975E5100249D13 /* Order.swift */,
 				557D6B02308A77B00095BF3C /* NftCollection.swift */,
 				ABC5E1A02C31F6D7002B4068 /* Nft.swift */,
@@ -616,6 +619,7 @@
 				557D6B03308A77B40095BF3C /* NftCollection.swift in Sources */,
 				55A1EE46308CD363000BC2E5 /* CollectionsSortOption.swift in Sources */,
 				ABC5E1D32C320438002B4068 /* NftDetailAssembly.swift in Sources */,
+				5522B00B30976E8600249D13 /* Profile.swift in Sources */,
 				ABC5E1A12C31F6D7002B4068 /* Nft.swift in Sources */,
 				ABC5E1AE2C31FB7F002B4068 /* NftByIdRequest.swift in Sources */,
 				55DECB58308BE3330071FCA9 /* UserDefaultsService.swift in Sources */,
