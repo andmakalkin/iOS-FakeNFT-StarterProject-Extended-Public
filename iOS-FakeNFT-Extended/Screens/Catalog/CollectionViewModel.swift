@@ -24,6 +24,7 @@ final class CollectionViewModel {
         let collection: NftCollection
         let nfts: [Nft]
         let cartNftIds: Set<String>
+        let likedNftIds: Set<String>
     }
     
     private(set) var state: State = .initial
@@ -58,13 +59,15 @@ final class CollectionViewModel {
             
             async let nfts = loadNfts(ids: collection.nfts)
             async let order = orderService.loadOrder()
+            async let profile = profileService.loadProfile()
 
-            let (loadedNfts, loadedOrder) = try await (nfts, order)
+            let (loadedNfts, loadedOrder, loadedProfile) = try await (nfts, order, profile)
 
             let content = Content(
                 collection: collection,
                 nfts: loadedNfts,
-                cartNftIds: Set(loadedOrder.nfts)
+                cartNftIds: Set(loadedOrder.nfts),
+                likedNftIds: Set(loadedProfile.likes)
             )
             
             state = .loaded(content)
