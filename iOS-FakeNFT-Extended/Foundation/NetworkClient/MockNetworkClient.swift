@@ -54,6 +54,40 @@ actor MockNetworkClient: NetworkClient {
         }
 
         if endpoint.path == profilePath {
+            if request.httpMethod == .put {
+                let parameters = request.bodyParameters ?? []
+
+                let name = parameters
+                    .first { $0.name == "name" }?
+                    .value ?? profile.name
+
+                let description = parameters
+                    .first { $0.name == "description" }?
+                    .value ?? profile.description
+
+                let avatar = parameters
+                    .first { $0.name == "avatar" }?
+                    .value ?? profile.avatar
+
+                let website = parameters
+                    .first { $0.name == "website" }?
+                    .value ?? profile.website
+
+                let likes = parameters
+                    .filter { $0.name == "likes" }
+                    .compactMap(\.value)
+
+                profile = Profile(
+                    id: profile.id,
+                    name: name,
+                    nfts: profile.nfts,
+                    likes: likes,
+                    avatar: avatar,
+                    description: description,
+                    website: website
+                )
+            }
+
             return try encoder.encode(profile)
         }
 
