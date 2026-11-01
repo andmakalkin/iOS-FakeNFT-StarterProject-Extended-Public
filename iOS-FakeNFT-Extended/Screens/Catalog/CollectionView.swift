@@ -172,8 +172,7 @@ struct CollectionView: View {
                     title: nft.name,
                     rating: nft.rating,
                     price: nft.price,
-                    imageURL: nil,
-                    imageString: "nft\(nft.id)"
+                    imageURL: nft.images.first
                 )
             }
         }

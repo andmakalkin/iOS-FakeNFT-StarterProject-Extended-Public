@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CollectionNftCell: View {
     let onTapLike: () -> Void
@@ -19,16 +20,33 @@ struct CollectionNftCell: View {
     let rating: Int
     let price: Double
     let imageURL: URL?
-    let imageString: String
     
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                Image(imageString)
-                    .resizable()
-                    .scaledToFill()
+                Rectangle()
+                    .fill(.clear)
                     .aspectRatio(1, contentMode: .fit)
-                    .clipped()
+                    .overlay {
+                        KFImage(imageURL)
+                            .placeholder {
+                                ShimmerPlaceholderView()
+                            }
+                            .onFailureView {
+                                ZStack {
+                                    Color.imagePlaceholderBackground
+
+                                    Image(.imageStub)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .scaleEffect(0.4)
+                                }
+                            }
+                            .cancelOnDisappear(true)
+                            .fade(duration: 0.3)
+                            .resizable()
+                            .scaledToFill()
+                    }
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 Button {
@@ -96,8 +114,7 @@ struct CollectionNftCell: View {
         title: "Archie",
         rating: 3,
         price: 1.78,
-        imageURL: nil,
-        imageString: "nft1"
+        imageURL: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Archie/1.png")
     )
     .background(.ypWhite)
     .frame(width: 108)
