@@ -19,7 +19,13 @@ struct UpdateOrderRequest: NetworkRequest {
     }
     
     var bodyParameters: [URLQueryItem]? {
-        nfts.map {
+        if nfts.isEmpty {
+            return [
+                URLQueryItem(name: "nfts", value: "")
+            ]
+        }
+
+        return nfts.map {
             URLQueryItem(name: "nfts", value: $0)
         }
     }
