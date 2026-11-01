@@ -84,7 +84,7 @@ struct CollectionView: View {
                         descriptionView(content.collection)
                     }
                     
-                    nftsView(content.nfts)
+                    nftsView(content.nfts, cartNftIds: content.cartNftIds)
                         .padding(.top, 24)
                 }
                 .padding(.horizontal, 16)
@@ -155,7 +155,7 @@ struct CollectionView: View {
         }
     }
     
-    private func nftsView(_ nfts: [Nft]) -> some View {
+    private func nftsView(_ nfts: [Nft], cartNftIds: Set<String>) -> some View {
         let columns = [
             GridItem(
                 .adaptive(minimum: 108),
@@ -170,7 +170,7 @@ struct CollectionView: View {
                     onTapCart: {},
                     onTapNft: {},
                     isLiked: true,
-                    isInCart: true,
+                    isInCart: cartNftIds.contains(nft.id),
                     title: nft.name,
                     rating: nft.rating,
                     price: nft.price,
@@ -195,18 +195,20 @@ struct CollectionView: View {
 }
 
 #Preview {
+    let networkClient = MockNetworkClient()
+    
     NavigationStack {
         CollectionView(
             collectionId: "1",
             collectionService: CollectionService(
-                networkClient: MockNetworkClient()
+                networkClient: networkClient
             ),
             nftService: NftServiceImpl(
-                networkClient: MockNetworkClient(),
+                networkClient: networkClient,
                 storage: NftStorageImpl()
             ),
             orderService: OrderService(
-                networkClient: MockNetworkClient()
+                networkClient: networkClient
             )
         )
     }
