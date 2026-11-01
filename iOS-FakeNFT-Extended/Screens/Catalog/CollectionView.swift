@@ -176,8 +176,16 @@ struct CollectionView: View {
         return LazyVGrid(columns: columns, spacing: 28) {
             ForEach(nfts) { nft in
                 CollectionNftCell(
-                    onTapLike: {},
-                    onTapCart: {},
+                    onTapLike: {
+                        Task {
+                            await viewModel.handleTapLike(nftId: nft.id)
+                        }
+                    },
+                    onTapCart: {
+                        Task {
+                            await viewModel.handleTapCart(nftId: nft.id)
+                        }
+                    },
                     onTapNft: {},
                     isLiked: likedNftIds.contains(nft.id),
                     isInCart: cartNftIds.contains(nft.id),
@@ -205,9 +213,11 @@ struct CollectionView: View {
 }
 
 #Preview {
+    ImageCache.default.clearMemoryCache()
+    ImageCache.default.clearDiskCache()
     let networkClient = MockNetworkClient()
     
-    NavigationStack {
+    return NavigationStack {
         CollectionView(
             collectionId: "1",
             collectionService: CollectionService(

@@ -79,6 +79,26 @@ final class CollectionViewModel {
         }
     }
     
+    func handleTapLike(nftId: String) async {
+        do {
+            try await updateLikes(nftId: nftId)
+        } catch is CancellationError {
+            return
+        } catch {
+            // TODO: Ошибка
+        }
+    }
+    
+    func handleTapCart(nftId: String) async {
+        do {
+            try await updateOrder(nftId: nftId)
+        } catch is CancellationError {
+            return
+        } catch {
+            // TODO: Ошибка
+        }
+    }
+    
     private func loadNfts(ids: [String]) async throws -> [Nft] {
         try await withThrowingTaskGroup(
             of: (Int, Nft).self
@@ -101,5 +121,55 @@ final class CollectionViewModel {
 
             return loadedNfts.compactMap { $0 }
         }
+    }
+    
+    private func updateLikes(nftId: String) async throws {
+        guard case .loaded(let content) = state else { return }
+        
+        var updatedLikedNftIds = content.likedNftIds
+
+        if updatedLikedNftIds.contains(nftId) {
+            updatedLikedNftIds.remove(nftId)
+        } else {
+            updatedLikedNftIds.insert(nftId)
+        }
+
+        let updatedProfile = try await profileService.updateLikes(
+            Array(updatedLikedNftIds)
+        )
+        
+        let updatedContent = Content(
+            collection: content.collection,
+            nfts: content.nfts,
+            cartNftIds: content.cartNftIds,
+            likedNftIds: Set(updatedProfile.likes)
+        )
+
+        state = .loaded(updatedContent)
+    }
+    
+    private func updateOrder(nftId: String) async throws {
+        guard case .loaded(let content) = state else { return }
+
+        var updatedCartNftIds = content.cartNftIds
+
+        if updatedCartNftIds.contains(nftId) {
+            updatedCartNftIds.remove(nftId)
+        } else {
+            updatedCartNftIds.insert(nftId)
+        }
+
+        let updatedOrder = try await orderService.updateOrder(
+            nfts: Array(updatedCartNftIds)
+        )
+
+        let updatedContent = Content(
+            collection: content.collection,
+            nfts: content.nfts,
+            cartNftIds: Set(updatedOrder.nfts),
+            likedNftIds: content.likedNftIds
+        )
+
+        state = .loaded(updatedContent)
     }
 }
