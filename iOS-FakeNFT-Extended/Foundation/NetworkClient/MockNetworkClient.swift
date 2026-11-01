@@ -16,6 +16,16 @@ actor MockNetworkClient: NetworkClient {
         nfts: ["1", "3", "8"]
     )
 
+    private var profile = Profile(
+        id: "1",
+        name: "Joaquin Phoenix",
+        nfts: ["2", "4", "7"],
+        likes: ["1", "5", "8"],
+        avatar: nil,
+        description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
+        website: "https://yandex.ru/legal/practicum_termsofuse"
+    )
+
     func send(request: NetworkRequest) async throws -> Data {
         guard let endpoint = request.endpoint else {
             throw NetworkClientError.incorrectRequest("Empty endpoint")
@@ -24,11 +34,16 @@ actor MockNetworkClient: NetworkClient {
         let collectionsPath = "/api/v1/collections"
         let nftPath = "/api/v1/nft"
         let orderPath = "/api/v1/orders/1"
+        let profilePath = "/api/v1/profile/1"
 
         try await Task.sleep(for: .seconds(1))
 
         if endpoint.path == orderPath {
             return try encoder.encode(order)
+        }
+
+        if endpoint.path == profilePath {
+            return try encoder.encode(profile)
         }
 
         if endpoint.path == collectionsPath {
