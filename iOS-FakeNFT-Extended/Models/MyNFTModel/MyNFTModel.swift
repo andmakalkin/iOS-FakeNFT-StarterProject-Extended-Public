@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct MyNFTModel {
+struct MyNFTModel: Identifiable {
     let id: String
     let image: Image
     let name: String
