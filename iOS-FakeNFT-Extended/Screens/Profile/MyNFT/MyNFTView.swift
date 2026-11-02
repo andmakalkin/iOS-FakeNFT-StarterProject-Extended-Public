@@ -13,8 +13,7 @@ struct MyNFTView: View {
     @State var viewModel = MyNFTViewModel()
     
     @State private var isFiltersShow = false
-    @State private var currentFilter: MyNFTFilters?
-    
+
     var body: some View {
         ZStack {
             VStack {
@@ -43,7 +42,7 @@ struct MyNFTView: View {
                 
                 ScrollView {
                     LazyVStack(spacing: 32) {
-                        ForEach(viewModel.nfts) { nft in
+                        ForEach(viewModel.filtredNFTs) { nft in
                             NFTCell(nft: nft)
                         }
                     }
@@ -53,7 +52,7 @@ struct MyNFTView: View {
                 Spacer()
             }
             
-            if viewModel.nfts.isEmpty {
+            if viewModel.filtredNFTs.isEmpty {
                 Text("У Вас ещё нет NFT")
                     .font(.system(size: 17, weight: .bold))
                     .foregroundStyle(.ypBlack)
@@ -62,13 +61,13 @@ struct MyNFTView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .confirmationDialog("Сортировка", isPresented: $isFiltersShow, titleVisibility: .visible) {
             Button("По цене") {
-                currentFilter = .price
+                viewModel.currentFilter = .price
             }
             Button("По рейтингу") {
-                currentFilter = .rating
+                viewModel.currentFilter = .rating
             }
             Button("По названию") {
-                currentFilter = .name
+                viewModel.currentFilter = .name
             }
         }
     }
