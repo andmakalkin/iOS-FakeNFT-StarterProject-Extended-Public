@@ -9,6 +9,7 @@ import Foundation
 protocol CartServiceProtocol: Sendable {
     func fetchCart() async throws -> Order
     func fetchNftById(id: String) async throws -> Nft
+    func fetchCurrencies() async throws -> [Currency]
 }
 
 final class CartService: CartServiceProtocol, @unchecked Sendable {
@@ -26,6 +27,11 @@ final class CartService: CartServiceProtocol, @unchecked Sendable {
     
     func fetchNftById(id: String) async throws -> Nft {
         let request = NFTRequest(id: id)
+        return try await networkClient.send(request: request)
+    }
+    
+    func fetchCurrencies() async throws -> [Currency] {
+        let request = CurrenciesRequest()
         return try await networkClient.send(request: request)
     }
 }
