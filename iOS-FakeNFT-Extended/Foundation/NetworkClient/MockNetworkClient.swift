@@ -26,6 +26,13 @@ actor MockNetworkClient: NetworkClient {
 
         case (.put, "/api/v1/profile/1"):
             return try await updateProfile(request: request)
+            
+        case (.get, "/api/v1/nft"):
+            return try await loadNFTs()
+
+        case (.get, let path) where path.hasPrefix("/api/v1/nft/"):
+            let id = String(path.dropFirst("/api/v1/nft/".count))
+            return try await loadNFT(id: id)
 
         default:
             throw NetworkClientError.incorrectRequest(
@@ -136,6 +143,39 @@ actor MockNetworkClient: NetworkClient {
         currentProfile = updatedProfile
 
         return try encoder.encode(updatedProfile)
+    }
+    
+    private func loadNFTs() async throws -> Data {
+        guard let fileURL = Bundle.main.url(
+            forResource: "mockNFTs",
+            withExtension: "json"
+        ) else {
+            throw NetworkClientError.incorrectRequest(
+                "mockNFTs.json not found"
+            )
+        }
+
+        return try Data(contentsOf: fileURL)
+    }
+
+    private func loadNFT(id: String) async throws -> Data {
+        let data = try await loadNFTs()
+
+        do {
+            let nfts = try decoder.decode([Nft].self, from: data)
+
+            guard let nft = nfts.first(where: { $0.id == id }) else {
+                throw NetworkClientError.incorrectRequest(
+                    "NFT with id \(id) not found"
+                )
+            }
+
+            return try encoder.encode(nft)
+        } catch let error as NetworkClientError {
+            throw error
+        } catch {
+            throw NetworkClientError.parsingError
+        }
     }
 }
 
