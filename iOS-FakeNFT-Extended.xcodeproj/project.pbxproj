@@ -20,6 +20,9 @@
 		5522B0803097DE0300249D13 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B07F3097DE0200249D13 /* User.swift */; };
 		5522B0823097DEE700249D13 /* UserByIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B0813097DEE400249D13 /* UserByIdRequest.swift */; };
 		5522B0843097DF4300249D13 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B0833097DF3900249D13 /* UserService.swift */; };
+		554E7B65309B70F100A40E1E /* WKWebViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B64309B70EF00A40E1E /* WKWebViewRepresentable.swift */; };
+		554E7B67309B712B00A40E1E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B66309B712200A40E1E /* WebView.swift */; };
+		554E7B69309B714B00A40E1E /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B68309B714300A40E1E /* WebViewModel.swift */; };
 		556313F630854E49003B4A85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F530854E49003B4A85 /* Config.xcconfig */; };
 		556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F730854EED003B4A85 /* Secrets.example.xcconfig */; };
 		557D6B03308A77B40095BF3C /* NftCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6B02308A77B00095BF3C /* NftCollection.swift */; };
@@ -110,6 +113,9 @@
 		5522B07F3097DE0200249D13 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5522B0813097DEE400249D13 /* UserByIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserByIdRequest.swift; sourceTree = "<group>"; };
 		5522B0833097DF3900249D13 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		554E7B64309B70EF00A40E1E /* WKWebViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WKWebViewRepresentable.swift; sourceTree = "<group>"; };
+		554E7B66309B712200A40E1E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		554E7B68309B714300A40E1E /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		556313F530854E49003B4A85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		556313F730854EED003B4A85 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		556313F93085576F003B4A85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -198,6 +204,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		554E7B63309B70D500A40E1E /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				554E7B68309B714300A40E1E /* WebViewModel.swift */,
+				554E7B66309B712200A40E1E /* WebView.swift */,
+				554E7B64309B70EF00A40E1E /* WKWebViewRepresentable.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		556313F430854E05003B4A85 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,6 +440,7 @@
 		ABC5E1B32C31FC03002B4068 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				554E7B63309B70D500A40E1E /* WebView */,
 				557D6B04308A7C2F0095BF3C /* Catalog */,
 				ABC5E16D2C31F5AF002B4068 /* ContentView.swift */,
 				ABC5E1B42C31FC57002B4068 /* TabBarView.swift */,
@@ -620,6 +637,7 @@
 				ABC5E1B72C31FC70002B4068 /* ServicesAssembly.swift in Sources */,
 				ABC5E19D2C31F6A6002B4068 /* NftStorage.swift in Sources */,
 				ABC5E1E82C320610002B4068 /* NftDetailBridgeView.swift in Sources */,
+				554E7B67309B712B00A40E1E /* WebView.swift in Sources */,
 				ABC5E1E62C320585002B4068 /* LinePageControl.swift in Sources */,
 				55D4FF5530949F3F0079F9F9 /* CollectionViewModel.swift in Sources */,
 				557D6D6D308AAC510095BF3C /* CatalogView.swift in Sources */,
@@ -633,6 +651,7 @@
 				ABC5E16E2C31F5AF002B4068 /* ContentView.swift in Sources */,
 				55A1EE44308CCE61000BC2E5 /* CollectionService.swift in Sources */,
 				ABC5E1B92C31FD51002B4068 /* TestCatalogView.swift in Sources */,
+				554E7B69309B714B00A40E1E /* WebViewModel.swift in Sources */,
 				5522B0823097DEE700249D13 /* UserByIdRequest.swift in Sources */,
 				ABC5E1DF2C3204FB002B4068 /* LoadingView.swift in Sources */,
 				ABC5E1972C31F656002B4068 /* Colors.swift in Sources */,
@@ -653,6 +672,7 @@
 				55D4FFC23094CA870079F9F9 /* Nft+Mock.swift in Sources */,
 				557D6B07308A85210095BF3C /* CatalogCollectionCell.swift in Sources */,
 				55D4002F3095025A0079F9F9 /* CollectionByIdRequest.swift in Sources */,
+				554E7B65309B70F100A40E1E /* WKWebViewRepresentable.swift in Sources */,
 				5522B07C3097808A00249D13 /* UpdateOrderRequest.swift in Sources */,
 				ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */,
 				5522B009309760C500249D13 /* OrderService.swift in Sources */,

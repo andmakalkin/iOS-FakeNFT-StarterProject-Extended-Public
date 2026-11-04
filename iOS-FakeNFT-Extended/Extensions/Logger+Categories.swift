@@ -20,4 +20,9 @@ extension Logger {
         subsystem: subsystem,
         category: "Collection"
     )
+
+    static let webView = Logger(
+        subsystem: subsystem,
+        category: "WebView"
+    )
 }
