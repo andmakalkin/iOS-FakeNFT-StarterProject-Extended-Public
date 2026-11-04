@@ -4,40 +4,40 @@
 //
 //  Created by Albina Musugalieva.
 //
-
 import Foundation
-import Combine
+import Observation
 
-enum PaymentViewState {
+enum PaymentState {
     case loading
     case content([Currency])
     case empty
     case error(String)
 }
 
-@MainActor
-final class PaymentViewModel: ObservableObject {
-    @Published private(set) var state: PaymentViewState = .loading
-    @Published var selectedCurrencyId: String? = nil
-    @Published var showErrorAlert = false
-    @Published var errorMessage = ""
+@Observable
+final class PaymentViewModel {
+    var state: PaymentState = .loading
+    var selectedCurrencyId: String? = nil
+    var showErrorAlert = false
+    var errorMessage = ""
     
-    private let cartService: CartServiceProtocol
+    let cartService: CartServiceProtocol
     
     init(cartService: CartServiceProtocol) {
         self.cartService = cartService
     }
     
+    @MainActor
     func loadCurrencies() {
         state = .loading
         
-        let _ = Task {
+        Task {
             do {
-                let loadedCurrencies = try await cartService.fetchCurrencies()
-                if loadedCurrencies.isEmpty {
+                let currencies = try await cartService.fetchCurrencies()
+                if currencies.isEmpty {
                     state = .empty
                 } else {
-                    state = .content(loadedCurrencies)
+                    state = .content(currencies)
                 }
             } catch {
                 self.errorMessage = error.localizedDescription

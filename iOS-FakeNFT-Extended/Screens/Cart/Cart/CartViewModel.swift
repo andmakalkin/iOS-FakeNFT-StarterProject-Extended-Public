@@ -5,7 +5,7 @@
 //  Created by Albina Musugalieva.
 //
 import Foundation
-import Combine
+import Observation
 
 enum CartNftSortOption: String, CaseIterable {
     case price = "По цене"
@@ -22,16 +22,23 @@ enum CartViewState {
     case error(String)
 }
 
+@Observable
 @MainActor
-final class CartViewModel: ObservableObject {
-    @Published var state: CartViewState = .loading
-    @Published var cartNfts: [Nft] = []
-    @Published var showErrorAlert = false
-    @Published var errorMessage = ""
+final class CartViewModel {
+    var state: CartViewState = .loading
+    var cartNfts: [Nft] = []
+    var showErrorAlert = false
+    var errorMessage = ""
     
-    @Published var currentSortOption: CartNftSortOption {
-        didSet {
-            UserDefaults.standard.set(currentSortOption.rawValue, forKey: Self.sortKey)
+    private var _currentSortOption: CartNftSortOption = .name
+    
+    var currentSortOption: CartNftSortOption {
+        get {
+            _currentSortOption
+        }
+        set {
+            _currentSortOption = newValue
+            UserDefaults.standard.set(newValue.rawValue, forKey: Self.sortKey)
             applySort()
         }
     }
@@ -46,9 +53,9 @@ final class CartViewModel: ObservableObject {
         self.cartService = cartService
         if let savedRaw = UserDefaults.standard.string(forKey: Self.sortKey),
            let savedOption = CartNftSortOption(rawValue: savedRaw) {
-            self.currentSortOption = savedOption
+            self._currentSortOption = savedOption
         } else {
-            self.currentSortOption = .name
+            self._currentSortOption = .name
         }
     }
     

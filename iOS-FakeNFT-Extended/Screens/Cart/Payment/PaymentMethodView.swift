@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct PaymentMethodView: View {
-    @StateObject private var viewModel: PaymentViewModel
+    @State private var viewModel: PaymentViewModel
     @State private var isTermsActive = false
     
     var onBackAction: () -> Void
     var onPaySuccess: () -> Void
     
     init(cartService: CartServiceProtocol, onBackAction: @escaping () -> Void, onPaySuccess: @escaping () -> Void) {
-        _viewModel = StateObject(wrappedValue: PaymentViewModel(cartService: cartService))
+        _viewModel = State(wrappedValue: PaymentViewModel(cartService: cartService))
         self.onBackAction = onBackAction
         self.onPaySuccess = onPaySuccess
     }
@@ -26,27 +26,30 @@ struct PaymentMethodView: View {
     ]
     
     var body: some View {
-          NavigationView {
+        NavigationView {
             VStack(spacing: 0) {
-                 HStack {
+                HStack {
                     Button {
                         onBackAction()
                     } label: {
                         Image(systemName: "chevron.backward")
-                            .foregroundColor(.ypBlack)
+                            .foregroundStyle(.ypBlack)
                             .font(.system(size: 17, weight: .regular))
                     }
                     Spacer()
                     Text("Выберите способ оплаты")
                         .font(AppFont.bold17)
-                        .foregroundColor(.ypBlack)
+                        .foregroundStyle(.ypBlack)
                     Spacer()
                     Image(systemName: "chevron.backward").opacity(0)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
+                .background(Color.ypWhite)
                 
                 ZStack {
+                    Color.ypWhite.ignoresSafeArea()
+                    
                     switch viewModel.state {
                     case .loading:
                         ProgressView()
@@ -74,38 +77,36 @@ struct PaymentMethodView: View {
                     case .empty:
                         Text("Нет доступных валют")
                             .font(AppFont.bold17)
-                            .foregroundColor(.ypBlack)
+                            .foregroundStyle(.ypBlack)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                         
                     case .error:
                         Color.clear
                     }
                 }
-                
+                .onAppear {
+                    viewModel.loadCurrencies() 
+                }
                 Spacer()
                 
-                VStack(spacing: 12) {
-                    VStack(spacing: 0) {
+                VStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 4) {
                         Text("Совершая покупку, вы соглашаетесь с условиями")
                             .font(AppFont.regular13)
-                            .foregroundColor(Color.ypBlack)
+                            .foregroundStyle(.ypBlack)
                         
-                        if let termsUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse") {
+                        if let termsUrl = URL(string: "https://yandex.ru") {
                             NavigationLink(
                                 destination: TermsWebView(url: termsUrl, title: "Пользовательское соглашение"),
                                 isActive: $isTermsActive
                             ) {
                                 Text("Пользовательского соглашения")
                                     .font(AppFont.regular13)
-                                    .foregroundColor(Color.ypUniversalBlue)
+                                    .foregroundStyle(.ypUniversalBlue)
                             }
-                        } else {
-                            Text("Пользовательского соглашения")
-                                .font(AppFont.regular13)
-                                .foregroundColor(Color.ypLightGrey)
                         }
                     }
-                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 16)
                     .padding(.top, 16)
                     
@@ -114,30 +115,32 @@ struct PaymentMethodView: View {
                     } label: {
                         Text("Оплатить")
                             .font(AppFont.bold17)
-                            .foregroundColor(.ypWhite)
+                            .foregroundStyle(.ypWhite)
                             .frame(maxWidth: .infinity)
-                            .frame(height: 44)
-                            .background(Color.ypBlack)
+                            .frame(height: 60)
+                            .background(.ypBlack)
                             .cornerRadius(16)
                     }
                     .padding(.horizontal, 16)
-                    .padding(.bottom, 24)
+                    .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20) 
                     .disabled(viewModel.selectedCurrencyId == nil)
                     .opacity(viewModel.selectedCurrencyId == nil ? 0.5 : 1.0)
                 }
-                .background(Color.ypLightGrey.cornerRadius(12))
+                .background(Color.ypLightGrey)
+                .clipShape(
+                    UnevenRoundedRectangle(
+                        topLeadingRadius: 12,
+                        bottomLeadingRadius: 0,
+                        bottomTrailingRadius: 0,
+                        topTrailingRadius: 12
+                    )
+                )
+
             }
             .background(Color.ypWhite)
             .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
-        .onAppear {
-            viewModel.loadCurrencies()
-        }
-        .alert("Ошибка загрузки", isPresented: $viewModel.showErrorAlert) {
-            Button("Ок") { }
-        } message: {
-            Text(viewModel.errorMessage)
-        }
     }
 }
+

@@ -20,12 +20,10 @@ struct CryptoCurrencyCell: View {
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(6)
                             default:
                                 Image(currency.id, bundle: .main)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(6)
                             }
                         }
                         .frame(width: 36, height: 36)

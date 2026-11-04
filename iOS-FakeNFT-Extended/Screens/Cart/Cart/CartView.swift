@@ -4,10 +4,11 @@
 //
 //  Created by Albina Musugalieva.
 //
+
 import SwiftUI
 
 struct CartView: View {
-    @StateObject private var viewModel = CartViewModel(cartService: MockCartService())
+    @State private var viewModel = CartViewModel(cartService: MockCartService())
     
     @State private var isSortSheetPresented = false
     @State private var isDeleteOverlayPresented = false
@@ -50,14 +51,14 @@ struct CartView: View {
                                         self.isDeleteOverlayPresented = true
                                     }
                                 }
-                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                .listRowInsets(EdgeInsets(.zero))
                                 .listRowSeparator(.hidden)
                                 .listRowBackground(Color.ypWhite)
                                 .padding(.bottom, 8)
                             }
                         }
                         .listStyle(.plain)
-                        .background(Color.ypWhite)
+                        .background(.ypWhite)
                         .scrollContentBackground(.hidden)
                         
                         if viewModel.state.isLoading {
@@ -65,52 +66,65 @@ struct CartView: View {
                                 .progressViewStyle(CircularProgressViewStyle(tint: .ypBlack))
                                 .scaleEffect(1.5)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.ypWhite.opacity(0.4))
+                                .background(.ypWhite.opacity(0.4))
                         }
                         
                         if viewModel.state.isEmpty {
                             EmptyCartView()
                                 .frame(maxHeight: .infinity)
-                                .background(Color.ypWhite)
+                                .background(.ypWhite)
                         }
                     }
                     
-                    VStack(spacing: 0) {
-                        Divider()
-                        HStack(spacing: 12) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("\(viewModel.totalCount) NFT")
-                                    .font(AppFont.regular15)
-                                    .foregroundColor(Color.ypBlack)
-                                
-                                Text(viewModel.totalPrice.ethFormatted)
-                                    .font(AppFont.bold17)
-                                    .foregroundColor(Color.ypUniversalGreen)
-                                    .lineLimit(1)
-                            }
-                            Spacer()
+                    HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("\(viewModel.totalCount) NFT")
+                                .font(AppFont.regular15)
+                                .foregroundStyle(.ypBlack)
                             
-                            Button {
-                                isPaymentActive = true
-                            } label: {
-                                Text("К оплате")
-                                    .font(AppFont.bold17)
-                                    .foregroundColor(Color.ypWhite)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 44)
-                                    .background(Color.ypBlack)
-                                    .cornerRadius(16)
-                            }
+                            Text(viewModel.totalPrice.ethFormatted)
+                                .font(AppFont.bold17)
+                                .foregroundStyle(.ypUniversalGreen)
+                                .lineLimit(1)
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 16)
+                        Spacer()
+                        
+                        Button {
+                            isPaymentActive = true
+                        } label: {
+                            Text("К оплате")
+                                .font(AppFont.bold17)
+                                .foregroundStyle(.ypWhite)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 44)
+                                .background(.ypBlack)
+                                .cornerRadius(16)
+                        }
+                        .disabled(viewModel.cartNfts.isEmpty || viewModel.state.isLoading)
+                        .opacity((viewModel.cartNfts.isEmpty || viewModel.state.isLoading) ? 0.5 : 1.0)
                     }
-                    .background(Color.ypLightGrey)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 16)
+                    .background(
+                        UnevenRoundedRectangle(
+                            topLeadingRadius: 12,
+                            bottomLeadingRadius: 0,
+                            bottomTrailingRadius: 0,
+                            topTrailingRadius: 12
+                        )
+                        .fill(.ypLightGrey)
+                    )
                 }
             }
-            .background(Color.ypWhite)
+            .background(.ypWhite)
             .navigationBarTitle("")
+            .alert("Ошибка загрузки", isPresented: $viewModel.showErrorAlert) {
+                Button("Ок", role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage)
+            }
         }
+        .navigationViewStyle(.stack)
         .onAppear {
             viewModel.loadCartData()
         }
@@ -124,7 +138,7 @@ struct CartView: View {
         }
         .fullScreenCover(isPresented: $isSuccessActive) {
             PaymentSuccessView {
-                isSuccessActive = false 
+                isSuccessActive = false
             }
         }
         .fullScreenCover(isPresented: $isDeleteOverlayPresented) {
@@ -150,7 +164,7 @@ struct EmptyCartView: View {
     var body: some View {
         Text("Корзина пуста")
             .font(AppFont.bold17)
-            .foregroundColor(.primary)
+            .foregroundStyle(.primary)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }
