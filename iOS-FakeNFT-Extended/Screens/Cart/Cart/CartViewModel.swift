@@ -103,13 +103,23 @@ final class CartViewModel {
     func deleteNft(id: String) {
         state = .loading
         
-        let _ = Task {
+        Task {
             do {
-                try await Task.sleep(nanoseconds: 300_000_000)
-                self.cartNfts = self.cartNfts.filter { $0.id != id }
-                state = cartNfts.isEmpty ? .empty : .content
+                try await cartService.deleteNftFromCart(id: id)
+                
+                let updatedNfts = self.cartNfts.filter { $0.id != id }
+                
+                await MainActor.run {
+                    self.cartNfts = updatedNfts
+                    self.state = updatedNfts.isEmpty ? .empty : .content
+                    
+                }
             } catch {
-                state = .content
+                await MainActor.run {
+                    self.state = .content
+                    self.errorMessage = error.localizedDescription
+                    self.showErrorAlert = true
+                }
             }
         }
     }

@@ -7,7 +7,10 @@
 import Foundation
 
 struct CartRequest: NetworkRequest {
+    var httpMethod: HttpMethod = .get
+    var dto: Encodable? = nil
+    
     var endpoint: URL? {
-        URL(string: "/api/v1/orders/1") 
+        URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1")
     }
 }

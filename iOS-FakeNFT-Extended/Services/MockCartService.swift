@@ -9,9 +9,11 @@ import Foundation
 // MARK: - МОКОВЫЙ СЕРВИС
 final class MockCartService: CartServiceProtocol, @unchecked Sendable {
     
+    private var currentOrderNfts = ["1", "2"]
+    
     func fetchCart() async throws -> Order {
         try await Task.sleep(nanoseconds: 600_000_000)
-        return Order(nfts: ["1", "2"], id: "cart_order_practicum")
+        return Order(nfts: currentOrderNfts, id: "cart_order_practicum")
     }
     
     func fetchNftById(id: String) async throws -> Nft {
@@ -52,5 +54,10 @@ final class MockCartService: CartServiceProtocol, @unchecked Sendable {
             guard let url = URL(string: "https://stub") else { return nil }
             return Currency(title: title, name: name, image: url, id: id)
         }
+    }
+    
+    func deleteNftFromCart(id: String) async throws {
+        try await Task.sleep(nanoseconds: 300_000_000)
+        currentOrderNfts.removeAll { $0 == id }
     }
 }

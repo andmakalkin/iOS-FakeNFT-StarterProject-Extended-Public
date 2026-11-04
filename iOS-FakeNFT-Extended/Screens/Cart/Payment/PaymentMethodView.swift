@@ -61,13 +61,20 @@ struct PaymentMethodView: View {
                         ScrollView {
                             LazyVGrid(columns: columns, spacing: 7) {
                                 ForEach(currencies) { currency in
-                                    CryptoCurrencyCell(
-                                        currency: currency,
-                                        isSelected: currency.id == viewModel.selectedCurrencyId
-                                    )
-                                    .onTapGesture {
+                                    let isSelected = currency.id == viewModel.selectedCurrencyId
+                                    
+                                    Button {
                                         viewModel.selectedCurrencyId = currency.id
+                                    } label: {
+                                        CryptoCurrencyCell(
+                                            currency: currency,
+                                            isSelected: isSelected
+                                        )
                                     }
+                                    .buttonStyle(.plain)
+                                    .accessibilityLabel(currency.title)
+                                    .accessibilityAddTraits(.isButton)
+                                    .accessibilityAddTraits(isSelected ? .isSelected : []) 
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -85,17 +92,19 @@ struct PaymentMethodView: View {
                     }
                 }
                 .onAppear {
-                    viewModel.loadCurrencies() 
+                    viewModel.loadCurrencies()
                 }
-                Spacer()
-                
+            }
+            .background(Color.ypWhite)
+            .navigationBarHidden(true)
+            .safeAreaInset(edge: .bottom) {
                 VStack(spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Совершая покупку, вы соглашаетесь с условиями")
                             .font(AppFont.regular13)
                             .foregroundStyle(.ypBlack)
                         
-                        if let termsUrl = URL(string: "https://yandex.ru") {
+                        if let termsUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse") {
                             NavigationLink(
                                 destination: TermsWebView(url: termsUrl, title: "Пользовательское соглашение"),
                                 isActive: $isTermsActive
@@ -122,7 +131,7 @@ struct PaymentMethodView: View {
                             .cornerRadius(16)
                     }
                     .padding(.horizontal, 16)
-                    .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 20) 
+                    .padding(.bottom, 16)
                     .disabled(viewModel.selectedCurrencyId == nil)
                     .opacity(viewModel.selectedCurrencyId == nil ? 0.5 : 1.0)
                 }
@@ -135,12 +144,8 @@ struct PaymentMethodView: View {
                         topTrailingRadius: 12
                     )
                 )
-
             }
-            .background(Color.ypWhite)
-            .navigationBarHidden(true)
         }
         .navigationViewStyle(.stack)
     }
 }
-
