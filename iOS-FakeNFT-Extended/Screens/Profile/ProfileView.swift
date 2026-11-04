@@ -109,6 +109,7 @@ struct ProfileView: View {
                 await viewModel.loadProfile()
                 viewModel.loadProfileImage()
             }
+            .disabled(viewModel.profileModel == nil)
         }
     }
 }

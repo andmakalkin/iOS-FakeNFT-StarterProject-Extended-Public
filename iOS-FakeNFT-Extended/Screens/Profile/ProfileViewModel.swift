@@ -12,7 +12,7 @@ import ProgressHUD
 @Observable
 final class ProfileViewModel {
     private let profileService: ProfileService
-    private var profileModel: Profile?
+    var profileModel: Profile?
 
     private var newProfileModel = ProfileModel.empty
     
