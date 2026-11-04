@@ -10,7 +10,7 @@ import SwiftUI
 struct MyNFTView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @State var viewModel = MyNFTViewModel(nftService: NftServiceImpl(networkClient: MockNetworkClient(), storage: NftStorageImpl()))
+    @State var viewModel: MyNFTViewModel
     
     @State private var isFiltersShow = false
     
@@ -81,5 +81,7 @@ struct MyNFTView: View {
 
 #Preview {
     let profile = Profile(name: "name", avatar: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg", description: "description", website: "", nfts: ["1","2"], rating: nil, id: "1")
-    MyNFTView(profile: profile)
+    let assembly = ServicesAssembly(networkClient: MockNetworkClient(), nftStorage: NftStorageImpl())
+    let model = MyNFTViewModel(nftService: assembly.nftService)
+    MyNFTView(viewModel: model, profile: profile)
 }

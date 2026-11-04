@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var viewModel = ProfileViewModel(profileService: ProfileServiceImpl(networkClient: MockNetworkClient()))
+    @State var viewModel: ProfileViewModel
+    var myNftViewModel: MyNFTViewModel
     var body: some View {
         NavigationStack {
             VStack {
@@ -97,7 +98,7 @@ struct ProfileView: View {
                 case .editProfile:
                     EditProfileView(viewModel: $viewModel)
                 case .myNFT:
-                    MyNFTView(profile: viewModel.getProfile)
+                    MyNFTView(viewModel: myNftViewModel, profile: viewModel.getProfile)
                 case .likedNFT:
                     EmptyView()
                 case .website:
@@ -113,5 +114,8 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    let assembly = ServicesAssembly(networkClient: MockNetworkClient(), nftStorage: NftStorageImpl())
+    let model = ProfileViewModel(profileService: assembly.profileService)
+    let nftModel = MyNFTViewModel(nftService: assembly.nftService)
+    ProfileView(viewModel: model, myNftViewModel: nftModel)
 }
