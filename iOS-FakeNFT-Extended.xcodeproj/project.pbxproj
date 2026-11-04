@@ -24,6 +24,7 @@
 		554E7B67309B712B00A40E1E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B66309B712200A40E1E /* WebView.swift */; };
 		554E7B69309B714B00A40E1E /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B68309B714300A40E1E /* WebViewModel.swift */; };
 		554E7B6C309B727600A40E1E /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B6B309B727400A40E1E /* AppRoute.swift */; };
+		554E7B6E309B72F100A40E1E /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554E7B6D309B72EF00A40E1E /* AppRouter.swift */; };
 		556313F630854E49003B4A85 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F530854E49003B4A85 /* Config.xcconfig */; };
 		556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 556313F730854EED003B4A85 /* Secrets.example.xcconfig */; };
 		557D6B03308A77B40095BF3C /* NftCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6B02308A77B00095BF3C /* NftCollection.swift */; };
@@ -118,6 +119,7 @@
 		554E7B66309B712200A40E1E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		554E7B68309B714300A40E1E /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 		554E7B6B309B727400A40E1E /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		554E7B6D309B72EF00A40E1E /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		556313F530854E49003B4A85 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		556313F730854EED003B4A85 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		556313F93085576F003B4A85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 		554E7B6A309B725700A40E1E /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				554E7B6D309B72EF00A40E1E /* AppRouter.swift */,
 				554E7B6B309B727400A40E1E /* AppRoute.swift */,
 			);
 			path = Navigation;
@@ -651,6 +654,7 @@
 				554E7B67309B712B00A40E1E /* WebView.swift in Sources */,
 				ABC5E1E62C320585002B4068 /* LinePageControl.swift in Sources */,
 				55D4FF5530949F3F0079F9F9 /* CollectionViewModel.swift in Sources */,
+				554E7B6E309B72F100A40E1E /* AppRouter.swift in Sources */,
 				557D6D6D308AAC510095BF3C /* CatalogView.swift in Sources */,
 				5522B00730975FC700249D13 /* OrderRequest.swift in Sources */,
 				ABC5E1DD2C3204DC002B4068 /* CellsReusingUtils.swift in Sources */,
