@@ -15,10 +15,17 @@ final class MyNFTViewModel {
     
     private var nfts: [MyNFTModel] = []
     
-    var currentFilter: MyNFTFilters = MyNFTFilters.rating
+    var currentFilter: MyNFTFilters {
+        didSet {
+            userDefaultsService.saveMyNFTFilter(currentFilter)
+        }
+    }
+    
+    private let userDefaultsService: UserDefaultsServiceProtocol = UserDefaultsService()
     
     init(nftService: NftService) {
         self.nftService = nftService
+        self.currentFilter = userDefaultsService.fetchMyNFTFilter() ?? .rating
     }
     
     var filtredNFTs: [MyNFTModel] {
@@ -36,10 +43,6 @@ final class MyNFTViewModel {
                 $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
             }
         }
-    }
-    
-    func load() {
-        
     }
     
     func loadNfts(ids: [String]) async {

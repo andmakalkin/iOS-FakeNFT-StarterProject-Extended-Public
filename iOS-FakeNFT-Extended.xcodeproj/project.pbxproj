@@ -30,6 +30,9 @@
 		84A4B8E43098C2EA009ACE4A /* MyNFTViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8E33098C2E0009ACE4A /* MyNFTViewModel.swift */; };
 		84A4B8E73098EF1A009ACE4A /* MyNFTFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8E63098EF14009ACE4A /* MyNFTFilters.swift */; };
 		84A4B8F7309B2826009ACE4A /* mockNFTs.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A4B8F6309B2826009ACE4A /* mockNFTs.json */; };
+		84A4B8F9309BAB91009ACE4A /* UserDefaultsService‎.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8F8309BAB83009ACE4A /* UserDefaultsService‎.swift */; };
+		84A4B8FE309BAC86009ACE4A /* CatalogSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8FD309BAC85009ACE4A /* CatalogSortOption.swift */; };
+		84A4B900309BAC9B009ACE4A /* CollectionsSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8FF309BAC9B009ACE4A /* CollectionsSortOption.swift */; };
 		ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */; };
 		ABC5E16E2C31F5AF002B4068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16D2C31F5AF002B4068 /* ContentView.swift */; };
 		ABC5E1702C31F5AF002B4068 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABC5E16F2C31F5AF002B4068 /* Assets.xcassets */; };
@@ -109,6 +112,9 @@
 		84A4B8E33098C2E0009ACE4A /* MyNFTViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNFTViewModel.swift; sourceTree = "<group>"; };
 		84A4B8E63098EF14009ACE4A /* MyNFTFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNFTFilters.swift; sourceTree = "<group>"; };
 		84A4B8F6309B2826009ACE4A /* mockNFTs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mockNFTs.json; sourceTree = "<group>"; };
+		84A4B8F8309BAB83009ACE4A /* UserDefaultsService‎.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaultsService‎.swift"; sourceTree = "<group>"; };
+		84A4B8FD309BAC85009ACE4A /* CatalogSortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSortOption.swift; sourceTree = "<group>"; };
+		84A4B8FF309BAC9B009ACE4A /* CollectionsSortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsSortOption.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_FakeNFT_ExtendedApp.swift; sourceTree = "<group>"; };
 		ABC5E16D2C31F5AF002B4068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -207,13 +213,6 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		55D6C69630865FDD00C92809 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		55D6C69730865FEC00C92809 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,12 +284,14 @@
 			path = MyNFTModel;
 			sourceTree = "<group>";
 		};
-		84A4B8E53098EF04009ACE4A /* MyNFTFilters */ = {
+		84A4B8FC309BAC76009ACE4A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				84A4B8FF309BAC9B009ACE4A /* CollectionsSortOption.swift */,
+				84A4B8FD309BAC85009ACE4A /* CatalogSortOption.swift */,
 				84A4B8E63098EF14009ACE4A /* MyNFTFilters.swift */,
 			);
-			path = MyNFTFilters;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		ABC5E15F2C31F5AF002B4068 = {
@@ -318,11 +319,11 @@
 		ABC5E16A2C31F5AF002B4068 /* iOS-FakeNFT-Extended */ = {
 			isa = PBXGroup;
 			children = (
+				84A4B8FC309BAC76009ACE4A /* Helpers */,
 				55D6C69530865FCD00C92809 /* App */,
 				556313F430854E05003B4A85 /* Configuration */,
 				55D6C69730865FEC00C92809 /* Extensions */,
 				ABC5E19A2C31F687002B4068 /* Foundation */,
-				55D6C69630865FDD00C92809 /* Helpers */,
 				ABC5E19E2C31F6C1002B4068 /* Models */,
 				ABC5E1712C31F5AF002B4068 /* Preview Content */,
 				55875CE730837A2A00A4381E /* Resources */,
@@ -386,7 +387,6 @@
 		ABC5E19E2C31F6C1002B4068 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				84A4B8E53098EF04009ACE4A /* MyNFTFilters */,
 				84A4B8DE30989253009ACE4A /* MyNFTModel */,
 				84A4B8C030925056009ACE4A /* ProfileModel */,
 				84A4B8B13090B87D009ACE4A /* ProfileDestination */,
@@ -418,6 +418,7 @@
 		ABC5E1A92C31FABA002B4068 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				84A4B8F8309BAB83009ACE4A /* UserDefaultsService‎.swift */,
 				84A4B8C3309349C0009ACE4A /* ProfileService.swift */,
 				ABC5E1AC2C31FB6C002B4068 /* Requests */,
 				ABC5E1AA2C31FACD002B4068 /* NftService.swift */,
@@ -638,6 +639,7 @@
 				ABC5E1DD2C3204DC002B4068 /* CellsReusingUtils.swift in Sources */,
 				84A4B8D930978435009ACE4A /* NFTCell.swift in Sources */,
 				ABC5E1B52C31FC57002B4068 /* TabBarView.swift in Sources */,
+				84A4B8FE309BAC86009ACE4A /* CatalogSortOption.swift in Sources */,
 				84A4B8C630934A3F009ACE4A /* ProfileRequest.swift in Sources */,
 				84A4B8E73098EF1A009ACE4A /* MyNFTFilters.swift in Sources */,
 				ABC5E1E42C32055B002B4068 /* ErrorView.swift in Sources */,
@@ -671,6 +673,8 @@
 				84A4B8E030989265009ACE4A /* MyNFTModel.swift in Sources */,
 				ABC5E1CD2C32040C002B4068 /* NftImageCollectionViewCell.swift in Sources */,
 				84A4B8C4309349C9009ACE4A /* ProfileService.swift in Sources */,
+				84A4B900309BAC9B009ACE4A /* CollectionsSortOption.swift in Sources */,
+				84A4B8F9309BAB91009ACE4A /* UserDefaultsService‎.swift in Sources */,
 				ABC5E1A82C31FA90002B4068 /* DateFormatters+Presets.swift in Sources */,
 				ABC5E1D12C32042C002B4068 /* NftDetailPresenter.swift in Sources */,
 				ABC5E1B02C31FB90002B4068 /* RequestConstants.swift in Sources */,
