@@ -79,13 +79,7 @@ final class MyNFTViewModel {
 
             ProgressHUD.dismiss()
 
-        } catch {
-            print("❌ Ошибка: \(error)")
-
-            print("Описание: \(error.localizedDescription)")
-
-            print("Тип ошибки: \(type(of: error))")
-            
+        } catch {            
             print(error.localizedDescription)
             ProgressHUD.dismiss()
         }
