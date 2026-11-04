@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct NFTCell: View {
     let nft: MyNFTModel
@@ -13,7 +14,10 @@ struct NFTCell: View {
     var body: some View {
         HStack(spacing: 20) {
             ZStack(alignment: .topTrailing) {
-                nft.image
+                KFImage(nft.image)
+                    .placeholder {
+                        ProgressView()
+                    }
                     .resizable()
                     .frame(width: 108, height: 108)
                     .mask {
@@ -64,7 +68,8 @@ struct NFTCell: View {
 }
 
 #Preview {
-    let nft = MyNFTModel(id: "1", image: Image(.nft1), name: "Lilo", rating: 3, author: "John Doe", price: 1.78, isLiked: false)
-    NFTCell(nft: nft)
+    let nft = Nft(createdAt: "", name: "Kitty", images: [URL(string: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg")!], rating: 5, description: "", price: 100, author: "pin", website: "", id: "1")
+    let model = MyNFTModel(nft: nft)
+    NFTCell(nft: model)
         .padding()
 }

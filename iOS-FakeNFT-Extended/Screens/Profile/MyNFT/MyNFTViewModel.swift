@@ -6,12 +6,20 @@
 //
 import Observation
 import SwiftUI
+import ProgressHUD
 
+@MainActor
 @Observable
 final class MyNFTViewModel {
-    private var nfts: [MyNFTModel] = [MyNFTModel(id: "1", image: Image(.nft1), name: "gfg", rating: 2, author: "2", price: 2, isLiked: false), MyNFTModel(id: "2", image: Image(.nft1), name: "sdf", rating: 2, author: "2", price: 20, isLiked: false)]
+    private let nftService: NftService
+    
+    private var nfts: [MyNFTModel] = []
     
     var currentFilter: MyNFTFilters?
+    
+    init(nftService: NftService) {
+        self.nftService = nftService
+    }
     
     var filtredNFTs: [MyNFTModel] {
         switch currentFilter {
@@ -29,6 +37,57 @@ final class MyNFTViewModel {
             }
         case nil:
             return nfts
+        }
+    }
+    
+    func load() {
+        
+    }
+    
+    func loadNfts(ids: [String]) async {
+        guard !ids.isEmpty else {
+            nfts = []
+            return
+        }
+
+        ProgressHUD.animate()
+
+        do {
+            nfts = try await withThrowingTaskGroup(
+                of: (Int, MyNFTModel).self
+            ) { group in
+
+                for (index, id) in ids.enumerated() {
+                    group.addTask {
+                        let nft = try await self.nftService.loadNft(id: id)
+                        let model = MyNFTModel(nft: nft)
+
+                        return (index, model)
+                    }
+                }
+
+                var result = [(Int, MyNFTModel)]()
+
+                for try await item in group {
+                    result.append(item)
+                }
+
+                return result
+                    .sorted { $0.0 < $1.0 }
+                    .map(\.1)
+            }
+
+            ProgressHUD.dismiss()
+
+        } catch {
+            print("❌ Ошибка: \(error)")
+
+            print("Описание: \(error.localizedDescription)")
+
+            print("Тип ошибки: \(type(of: error))")
+            
+            print(error.localizedDescription)
+            ProgressHUD.dismiss()
         }
     }
 }
