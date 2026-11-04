@@ -15,7 +15,7 @@ final class MyNFTViewModel {
     
     private var nfts: [MyNFTModel] = []
     
-    var currentFilter: MyNFTFilters?
+    var currentFilter: MyNFTFilters = MyNFTFilters.rating
     
     init(nftService: NftService) {
         self.nftService = nftService
@@ -35,8 +35,6 @@ final class MyNFTViewModel {
             return nfts.sorted {
                 $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
             }
-        case nil:
-            return nfts
         }
     }
     
