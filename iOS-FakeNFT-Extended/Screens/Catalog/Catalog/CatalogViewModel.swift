@@ -11,6 +11,7 @@ import OSLog
 @MainActor
 @Observable
 final class CatalogViewModel {
+
     // MARK: - State
 
     enum State {
@@ -66,7 +67,15 @@ final class CatalogViewModel {
     func handleSortByNftCount() async {
         await changeSortOption(to: .nftCount)
     }
+    
+    func loadInitialPageIfNeeded() async {
+        guard case .initial = state else {
+            return
+        }
 
+        await loadFirstPage()
+    }
+    
     func loadFirstPage() async {
         state = .loadingFirstPage
         nextPage = 1

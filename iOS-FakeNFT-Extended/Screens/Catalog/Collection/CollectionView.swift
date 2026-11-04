@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct CollectionView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(AppRouter.self) private var router
 
     @State private var viewModel: CollectionViewModel
 
@@ -74,7 +74,7 @@ struct CollectionView: View {
             isPresented: isErrorAlertPresented
         ) {
             Button("Error.cancel", role: .cancel) {
-                dismiss()
+                router.popCatalog()
             }
 
             Button("Error.repeat") {
@@ -84,7 +84,7 @@ struct CollectionView: View {
             }
         }
         .task {
-            await viewModel.loadCollection()
+            await viewModel.loadCollectionIfNeeded()
         }
     }
 
@@ -108,7 +108,7 @@ struct CollectionView: View {
                         .frame(minHeight: 28)
                         .padding(.bottom, 8)
 
-                    authorView(content.author)
+                    authorView(content.collection, author: content.author)
                         .frame(minHeight: 28)
 
                     if content.collection.description != nil {
@@ -162,17 +162,25 @@ struct CollectionView: View {
         }
     }
 
-    private func authorView(_ author: User?) -> some View {
+    private func authorView(_ collection: NftCollection, author: User?) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
 
-            Text(author?.name ?? "—")
-                .font(AppFont.regular15)
-                .tracking(-0.24)
-                .foregroundStyle(.ypUniversalBlue)
+            Button {
+                if let website = collection.website,
+                   let url = URL(string: website) {
+                    router.pushToCatalog(.webView(url))
+                }
+            } label: {
+                Text(author?.name ?? "—")
+                    .font(AppFont.regular15)
+                    .tracking(-0.24)
+                    .foregroundStyle(.ypUniversalBlue)
+            }
+            .buttonStyle(.plain)
 
             Spacer()
         }
@@ -214,7 +222,7 @@ struct CollectionView: View {
                             await viewModel.handleTapCart(nftId: nft.id)
                         }
                     },
-                    onTapNft: {},
+                    onTapNft: { router.showModal(.nft(nft.id)) },
                     isLiked: likedNftIds.contains(nft.id),
                     isInCart: cartNftIds.contains(nft.id),
                     title: nft.name,
@@ -228,7 +236,7 @@ struct CollectionView: View {
 
     private var backButton: some View {
         Button {
-            dismiss()
+            router.popCatalog()
         } label: {
             Image(.backward24)
                 .renderingMode(.template)
@@ -264,4 +272,5 @@ struct CollectionView: View {
             )
         )
     }
+    .environment(AppRouter())
 }

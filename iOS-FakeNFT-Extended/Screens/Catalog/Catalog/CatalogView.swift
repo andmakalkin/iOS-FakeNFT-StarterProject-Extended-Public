@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct CatalogView: View {
+    @Environment(AppRouter.self) private var router
+    
     @State private var viewModel: CatalogViewModel
     @State private var isSortDialogPresented = false
-
+    
     private var isErrorAlertPresented: Binding<Bool> {
         Binding(
             get: {
@@ -24,7 +26,7 @@ struct CatalogView: View {
             set: { _ in }
         )
     }
-
+    
     init(
         collectionService: CollectionServiceProtocol,
         userDefaultsService: UserDefaultsServiceProtocol
@@ -36,97 +38,100 @@ struct CatalogView: View {
             )
         )
     }
-
+    
     var body: some View {
-        NavigationStack {
-            ZStack {
-                List {
-                    ForEach(viewModel.collections) { collection in
+        ZStack {
+            List {
+                ForEach(viewModel.collections) { collection in
+                    Button {
+                        router.pushToCatalog(.collection(collection.id))
+                    } label: {
                         CatalogCollectionCell(
                             title: collection.name,
                             count: collection.nfts.count,
                             imageURL: collection.coverURL
                         )
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(.zero))
                     }
-
-                    paginationFooter
-                        .task {
-                            await viewModel.loadNextPage()
-                        }
+                    .buttonStyle(.plain)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(.zero))
                 }
-                .listStyle(.plain)
-                .scrollIndicators(.hidden)
-                .scrollContentBackground(.hidden)
-                .listRowSpacing(8)
-                .padding(.top, 20)
-                .padding(.horizontal, 16)
-
-                if case .loadingFirstPage = viewModel.state {
-                    ProgressView()
-                }
+                
+                paginationFooter
+                    .task {
+                        await viewModel.loadNextPage()
+                    }
             }
-            .background {
-                Color.ypWhite
-                    .ignoresSafeArea()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isSortDialogPresented = true
-                    } label: {
-                        Image(.sort42)
-                            .renderingMode(.template)
-                            .foregroundStyle(.ypBlack)
-                    }
-                }
-            }
-            .confirmationDialog(
-                "Catalog.sort.title",
-                isPresented: $isSortDialogPresented,
-                titleVisibility: .visible,
-                actions: {
-                    Button("Catalog.sort.byName") {
-                        Task {
-                            await viewModel.handleSortByName()
-                        }
-                    }
-
-                    Button("Catalog.sort.byNftCount") {
-                        Task {
-                            await viewModel.handleSortByNftCount()
-                        }
-                    }
-
-                    Button("Catalog.sort.close", role: .cancel) {}
-                }
-            )
-            .alert(
-                "Error.loadingData",
-                isPresented: isErrorAlertPresented
-            ) {
-                Button("Error.cancel", role: .cancel) {
-                    viewModel.dismissError()
-                }
-
-                Button("Error.repeat") {
-                    Task {
-                        await viewModel.retryLoading()
-                    }
-                }
-            }
-            .task {
-                await viewModel.loadFirstPage()
+            .listStyle(.plain)
+            .scrollIndicators(.hidden)
+            .scrollContentBackground(.hidden)
+            .listRowSpacing(8)
+            .padding(.top, 20)
+            .padding(.horizontal, 16)
+            
+            if case .loadingFirstPage = viewModel.state {
+                ProgressView()
             }
         }
+        .background {
+            Color.ypWhite
+                .ignoresSafeArea()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isSortDialogPresented = true
+                } label: {
+                    Image(.sort42)
+                        .renderingMode(.template)
+                        .foregroundStyle(.ypBlack)
+                }
+            }
+        }
+        .confirmationDialog(
+            "Catalog.sort.title",
+            isPresented: $isSortDialogPresented,
+            titleVisibility: .visible,
+            actions: {
+                Button("Catalog.sort.byName") {
+                    Task {
+                        await viewModel.handleSortByName()
+                    }
+                }
+                
+                Button("Catalog.sort.byNftCount") {
+                    Task {
+                        await viewModel.handleSortByNftCount()
+                    }
+                }
+                
+                Button("Catalog.sort.close", role: .cancel) {}
+            }
+        )
+        .alert(
+            "Error.loadingData",
+            isPresented: isErrorAlertPresented
+        ) {
+            Button("Error.cancel", role: .cancel) {
+                viewModel.dismissError()
+            }
+            
+            Button("Error.repeat") {
+                Task {
+                    await viewModel.retryLoading()
+                }
+            }
+        }
+        .task {
+            await viewModel.loadInitialPageIfNeeded()
+        }
     }
-
+    
     private var paginationFooter: some View {
         ZStack {
             Color.clear
-
+            
             if case .loadingNextPage = viewModel.state {
                 ProgressView()
             }
@@ -139,8 +144,13 @@ struct CatalogView: View {
 }
 
 #Preview {
-    CatalogView(
-        collectionService: CollectionService(networkClient: MockNetworkClient()),
-        userDefaultsService: UserDefaultsService()
-    )
+    NavigationStack {
+        CatalogView(
+            collectionService: CollectionService(
+                networkClient: MockNetworkClient()
+            ),
+            userDefaultsService: UserDefaultsService()
+        )
+    }
+    .environment(AppRouter())
 }

@@ -12,6 +12,7 @@ import OSLog
 @Observable
 
 final class CollectionViewModel {
+
     // MARK: - State
 
     enum State {
@@ -60,6 +61,14 @@ final class CollectionViewModel {
 
     // MARK: - Actions
 
+    func loadCollectionIfNeeded() async {
+        guard case .initial = state else {
+            return
+        }
+
+        await loadCollection()
+    }
+    
     func loadCollection() async {
         state = .loading
 
@@ -90,6 +99,8 @@ final class CollectionViewModel {
             state = .loaded(content)
 
         } catch is CancellationError {
+            state = .initial
+
             return
         } catch {
             Logger.collection.error(

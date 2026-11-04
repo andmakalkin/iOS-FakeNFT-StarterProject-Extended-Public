@@ -11,6 +11,7 @@ struct iOS_FakeNFT_ExtendedApp: App {
                         nftStorage: NftStorageImpl()
                     )
                 )
+                .environment(AppRouter())
         }
     }
 }
