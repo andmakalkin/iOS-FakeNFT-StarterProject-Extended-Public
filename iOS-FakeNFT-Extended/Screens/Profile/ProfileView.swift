@@ -56,7 +56,7 @@ struct ProfileView: View {
                         HStack {
                             HStack(spacing: 8) {
                                 Text("Мои NFT")
-                                Text("(112)")
+                                Text(viewModel.getNFTNumber)
                             }
                             .font(.system(size: 17, weight: .bold))
                             

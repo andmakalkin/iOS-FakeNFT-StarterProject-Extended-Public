@@ -52,6 +52,10 @@ final class ProfileViewModel {
     var getProfile: Profile {
         profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], rating: "", id: "")
     }
+    
+    var getNFTNumber: String {
+        "\(profileModel?.nfts.count ?? 0)"
+    }
 }
 
 extension ProfileViewModel {
@@ -97,7 +101,7 @@ extension ProfileViewModel {
             switch result {
             case .success(let value):
                 self.image = value.image
-                ProgressHUD.succeed()
+                ProgressHUD.dismiss()
             case .failure(let error):
                 print(error.localizedDescription)
                 ProgressHUD.dismiss()
