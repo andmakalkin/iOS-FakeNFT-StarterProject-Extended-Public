@@ -48,6 +48,10 @@ final class ProfileViewModel {
     var getWebsite: String {
         profileModel?.website ?? ""
     }
+    
+    var getProfile: Profile {
+        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], rating: "", id: "")
+    }
 }
 
 extension ProfileViewModel {

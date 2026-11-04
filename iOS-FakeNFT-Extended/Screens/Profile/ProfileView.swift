@@ -97,7 +97,7 @@ struct ProfileView: View {
                 case .editProfile:
                     EditProfileView(viewModel: $viewModel)
                 case .myNFT:
-                    EmptyView()
+                    MyNFTView(profile: viewModel.getProfile)
                 case .likedNFT:
                     EmptyView()
                 case .website:
