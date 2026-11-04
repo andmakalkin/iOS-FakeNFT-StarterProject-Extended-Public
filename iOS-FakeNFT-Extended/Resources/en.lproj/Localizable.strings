@@ -10,3 +10,4 @@
 "Catalog.sort.byName" = "По названию";
 "Catalog.sort.byNftCount" = "По количеству NFT";
 "Catalog.sort.close" = "Закрыть";
+"Collection.author" = "Автор коллекции:";

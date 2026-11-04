@@ -1,0 +1,188 @@
+//
+//  CollectionViewModel.swift
+//  iOS-FakeNFT-Extended
+//
+//  Created by Андрей Макалкин on 30.10.2026.
+//
+
+import Foundation
+import OSLog
+
+@MainActor
+@Observable
+
+final class CollectionViewModel {
+    // MARK: - State
+
+    enum State {
+        case initial
+        case loading
+        case loaded(Content)
+        case failed(Error)
+    }
+
+    struct Content {
+        let collection: NftCollection
+        let author: User?
+        let nfts: [Nft]
+        let cartNftIds: Set<String>
+        let likedNftIds: Set<String>
+    }
+
+    private(set) var state: State = .initial
+    private let collectionId: String
+
+    // MARK: - Dependencies
+
+    private let collectionService: CollectionServiceProtocol
+    private let nftService: NftService
+    private let orderService: OrderServiceProtocol
+    private let profileService: ProfileServiceProtocol
+    private let userService: UserServiceProtocol
+
+    // MARK: - Init
+
+    init(
+        collectionId: String,
+        collectionService: CollectionServiceProtocol,
+        nftService: NftService,
+        orderService: OrderServiceProtocol,
+        profileService: ProfileServiceProtocol,
+        userService: UserServiceProtocol
+    ) {
+        self.collectionId = collectionId
+        self.collectionService = collectionService
+        self.nftService = nftService
+        self.orderService = orderService
+        self.profileService = profileService
+        self.userService = userService
+    }
+
+    // MARK: - Actions
+
+    func loadCollection() async {
+        state = .loading
+
+        do {
+            let collection = try await collectionService.loadCollection(id: collectionId)
+
+            async let nfts = loadNfts(ids: collection.nfts)
+            async let order = orderService.loadOrder()
+            async let profile = profileService.loadProfile()
+            async let author: User? = {
+                guard let authorId = collection.author else {
+                    return nil
+                }
+
+                return try await userService.loadUser(id: authorId)
+            }()
+
+            let (loadedNfts, loadedOrder, loadedProfile, loadedAuthor) = try await (nfts, order, profile, author)
+
+            let content = Content(
+                collection: collection,
+                author: loadedAuthor,
+                nfts: loadedNfts,
+                cartNftIds: Set(loadedOrder.nfts),
+                likedNftIds: Set(loadedProfile.likes)
+            )
+
+            state = .loaded(content)
+
+        } catch is CancellationError {
+            return
+        } catch {
+            Logger.collection.error(
+                "Не удалось загрузить коллекцию \(self.collectionId, privacy: .public): \(String(describing: error), privacy: .public)"
+            )
+
+            state = .failed(error)
+        }
+    }
+
+    func handleTapLike(nftId: String) async {
+        do {
+            try await toggleLike(nftId: nftId)
+        } catch is CancellationError {
+            return
+        } catch {
+            Logger.collection.error(
+                "Не удалось изменить лайк NFT \(nftId, privacy: .public): \(String(describing: error), privacy: .public)"
+            )
+        }
+    }
+
+    func handleTapCart(nftId: String) async {
+        do {
+            try await toggleCart(nftId: nftId)
+        } catch is CancellationError {
+            return
+        } catch {
+            Logger.collection.error(
+                "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error))"
+            )
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func loadNfts(ids: [String]) async throws -> [Nft] {
+        try await withThrowingTaskGroup(
+            of: (Int, Nft).self
+        ) { group in
+            for (index, id) in ids.enumerated() {
+                group.addTask { [nftService] in
+                    let nft = try await nftService.loadNft(id: id)
+                    return (index, nft)
+                }
+            }
+
+            var loadedNfts = Array<Nft?>(
+                repeating: nil,
+                count: ids.count
+            )
+
+            for try await (index, nft) in group {
+                loadedNfts[index] = nft
+            }
+
+            return loadedNfts.compactMap { $0 }
+        }
+    }
+
+    private func toggleLike(nftId: String) async throws {
+        guard case .loaded = state else { return }
+
+        let updatedProfile = try await profileService.toggleLike(nftId: nftId)
+
+        guard case .loaded(let currentContent) = state else { return }
+
+        let updatedContent = Content(
+            collection: currentContent.collection,
+            author: currentContent.author,
+            nfts: currentContent.nfts,
+            cartNftIds: currentContent.cartNftIds,
+            likedNftIds: Set(updatedProfile.likes)
+        )
+
+        state = .loaded(updatedContent)
+    }
+
+    private func toggleCart(nftId: String) async throws {
+        guard case .loaded = state else { return }
+
+        let updatedOrder = try await orderService.toggleCart(nftId: nftId)
+
+        guard case .loaded(let currentContent) = state else { return }
+
+        let updatedContent = Content(
+            collection: currentContent.collection,
+            author: currentContent.author,
+            nfts: currentContent.nfts,
+            cartNftIds: Set(updatedOrder.nfts),
+            likedNftIds: currentContent.likedNftIds
+        )
+
+        state = .loaded(updatedContent)
+    }
+}

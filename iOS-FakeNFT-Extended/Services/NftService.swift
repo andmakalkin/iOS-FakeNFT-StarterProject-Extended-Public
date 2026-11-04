@@ -1,6 +1,6 @@
 import Foundation
 
-protocol NftService {
+protocol NftService: Sendable {
     func loadNft(id: String) async throws -> Nft
 }
 

@@ -11,33 +11,118 @@ actor MockNetworkClient: NetworkClient {
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
 
+    private var order = Order(
+        id: "1",
+        nfts: ["1", "3", "8"]
+    )
+
+    private var profile = Profile(
+        id: "1",
+        name: "Joaquin Phoenix",
+        nfts: ["2", "4", "7"],
+        likes: ["1", "5", "8"],
+        avatar: nil,
+        description: "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям.",
+        website: "https://yandex.ru/legal/practicum_termsofuse"
+    )
+
+    private let user = User(
+        id: "1",
+        name: "John Doe",
+        rating: 5,
+        nfts: [],
+        avatar: nil,
+        description: nil,
+        website: nil
+    )
+
     func send(request: NetworkRequest) async throws -> Data {
         guard let endpoint = request.endpoint else {
             throw NetworkClientError.incorrectRequest("Empty endpoint")
         }
 
-        guard endpoint.path == "/api/v1/collections" else {
-            throw NetworkClientError.incorrectRequest(
-                "Mock response not found for \(endpoint.path)"
+        let collectionsPath = "/api/v1/collections"
+        let nftPath = "/api/v1/nft"
+        let userPath = "/api/v1/users"
+        let orderPath = "/api/v1/orders/1"
+        let profilePath = "/api/v1/profile/1"
+
+        if endpoint.path == orderPath || endpoint.path == profilePath {
+            try await Task.sleep(for: .milliseconds(100))
+        } else {
+            try await Task.sleep(for: .seconds(1))
+        }
+
+        if endpoint.path == orderPath {
+            if request.httpMethod == .put {
+                let nfts = request.bodyParameters?
+                    .filter { $0.name == "nfts" }
+                    .compactMap(\.value)
+                    .filter { !$0.isEmpty } ?? []
+
+                order = Order(
+                    id: order.id,
+                    nfts: nfts
+                )
+            }
+
+            return try encoder.encode(order)
+        }
+
+        if endpoint.path == profilePath {
+            if request.httpMethod == .put,
+               let updateRequest = request as? UpdateProfileRequest {
+
+                profile = Profile(
+                    id: profile.id,
+                    name: updateRequest.name ?? profile.name,
+                    nfts: profile.nfts,
+                    likes: updateRequest.likes ?? profile.likes,
+                    avatar: updateRequest.avatar ?? profile.avatar,
+                    description: updateRequest.description ?? profile.description,
+                    website: updateRequest.website ?? profile.website
+                )
+            }
+
+            return try encoder.encode(profile)
+        }
+
+        if endpoint.path == collectionsPath {
+            let collections = try loadCollections()
+
+            return try makeCollectionsPage(
+                from: collections,
+                endpoint: endpoint
             )
         }
 
-        try await Task.sleep(for: .seconds(1))
+        if endpoint.path.hasPrefix("\(collectionsPath)/") {
+            let collections = try loadCollections()
 
-        guard let fileURL = Bundle.main.url(
-            forResource: "mockCollections",
-            withExtension: "json"
-        ) else {
-            throw NetworkClientError.incorrectRequest(
-                "mockCollections.json not found"
+            return try makeCollectionById(
+                from: collections,
+                endpoint: endpoint
             )
         }
 
-        let data = try Data(contentsOf: fileURL)
+        if endpoint.path.hasPrefix("\(nftPath)/") {
+            let nfts = try loadNfts()
 
-        return try makeCollectionsPage(
-            from: data,
-            endpoint: endpoint
+            return try makeNftById(
+                from: nfts,
+                endpoint: endpoint
+            )
+        }
+
+        if endpoint.path.hasPrefix("\(userPath)/") {
+            return try makeUserById(
+                user: user,
+                endpoint: endpoint
+            )
+        }
+
+        throw NetworkClientError.incorrectRequest(
+            "Mock response not found for \(endpoint.path)"
         )
     }
 
@@ -45,7 +130,6 @@ actor MockNetworkClient: NetworkClient {
         request: NetworkRequest
     ) async throws -> T {
         let data = try await send(request: request)
-
         return try await parse(data: data)
     }
 
@@ -61,21 +145,54 @@ actor MockNetworkClient: NetworkClient {
         }
     }
 
-    private func makeCollectionsPage(
-        from data: Data,
-        endpoint: URL
-    ) throws -> Data {
-        let collections: [NftCollection]
+    private func loadCollections() throws -> [NftCollection] {
+        guard let fileURL = Bundle.main.url(
+            forResource: "mockCollections",
+            withExtension: "json"
+        ) else {
+            throw NetworkClientError.incorrectRequest(
+                "mockCollections.json not found"
+            )
+        }
+
+        let data = try Data(contentsOf: fileURL)
 
         do {
-            collections = try decoder.decode(
+            return try decoder.decode(
                 [NftCollection].self,
                 from: data
             )
         } catch {
             throw NetworkClientError.parsingError
         }
+    }
 
+    private func loadNfts() throws -> [Nft] {
+        guard let fileURL = Bundle.main.url(
+            forResource: "mockNfts",
+            withExtension: "json"
+        ) else {
+            throw NetworkClientError.incorrectRequest(
+                "mockNfts.json not found"
+            )
+        }
+
+        let data = try Data(contentsOf: fileURL)
+
+        do {
+            return try decoder.decode(
+                [Nft].self,
+                from: data
+            )
+        } catch {
+            throw NetworkClientError.parsingError
+        }
+    }
+
+    private func makeCollectionsPage(
+        from collections: [NftCollection],
+        endpoint: URL
+    ) throws -> Data {
         guard let components = URLComponents(
             url: endpoint,
             resolvingAgainstBaseURL: false
@@ -121,6 +238,49 @@ actor MockNetworkClient: NetworkClient {
         )
 
         return try encoder.encode(pageCollections)
+    }
+
+    private func makeCollectionById(
+        from collections: [NftCollection],
+        endpoint: URL
+    ) throws -> Data {
+        let id = endpoint.lastPathComponent
+
+        guard let collection = collections.first(
+            where: { $0.id == id }
+        ) else {
+            throw NetworkClientError.httpStatusCode(404)
+        }
+
+        return try encoder.encode(collection)
+    }
+
+    private func makeNftById(
+        from nfts: [Nft],
+        endpoint: URL
+    ) throws -> Data {
+        let id = endpoint.lastPathComponent
+
+        guard let nft = nfts.first(
+            where: { $0.id == id }
+        ) else {
+            throw NetworkClientError.httpStatusCode(404)
+        }
+
+        return try encoder.encode(nft)
+    }
+
+    private func makeUserById(
+        user: User,
+        endpoint: URL
+    ) throws -> Data {
+        let id = endpoint.lastPathComponent
+
+        guard user.id == id else {
+            throw NetworkClientError.httpStatusCode(404)
+        }
+
+        return try encoder.encode(user)
     }
 
     private func queryValue(

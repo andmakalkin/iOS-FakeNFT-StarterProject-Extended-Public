@@ -9,6 +9,7 @@ import Foundation
 
 protocol CollectionServiceProtocol: Sendable {
     func loadCollections(page: Int, sortBy: CollectionsSortOption) async throws -> [NftCollection]
+    func loadCollection(id: String) async throws -> NftCollection
 }
 
 actor CollectionService: CollectionServiceProtocol {
@@ -26,6 +27,12 @@ actor CollectionService: CollectionServiceProtocol {
             size: Self.pageSize,
             sortBy: sortBy
         )
+
+        return try await networkClient.send(request: request)
+    }
+
+    func loadCollection(id: String) async throws -> NftCollection {
+        let request = CollectionByIdRequest(id: id)
 
         return try await networkClient.send(request: request)
     }
