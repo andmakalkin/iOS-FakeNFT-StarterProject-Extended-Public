@@ -37,7 +37,7 @@ struct MyNFTView: View {
 
                     }
                     Text("Мои NFT")
-                        .font(.system(size: 17, weight: .bold))
+                        .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
                 }
                 .padding(EdgeInsets(top: 9, leading: 9, bottom: 9, trailing: 9))
@@ -56,7 +56,7 @@ struct MyNFTView: View {
             
             if viewModel.filtredNFTs.isEmpty {
                 Text("У Вас ещё нет NFT")
-                    .font(.system(size: 17, weight: .bold))
+                    .font(AppFont.bold17)
                     .foregroundStyle(.ypBlack)
             }
         }

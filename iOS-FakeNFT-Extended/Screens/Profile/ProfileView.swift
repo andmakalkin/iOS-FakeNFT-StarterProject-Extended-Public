@@ -29,7 +29,7 @@ struct ProfileView: View {
                             .frame(width: 70, height: 70)
                             .clipShape(Circle())
                         Text(viewModel.getName)
-                            .font(.system(size: 22, weight: .bold))
+                            .font(AppFont.bold22)
                             .tint(.ypBlack)
                         Spacer()
                         
@@ -37,7 +37,7 @@ struct ProfileView: View {
                     .frame(height: 70)
                     HStack {
                         Text(viewModel.getDescription)
-                            .font(.system(size: 13))
+                            .font(AppFont.regular13)
                         Spacer()
                     }
                 }
@@ -58,7 +58,7 @@ struct ProfileView: View {
                                 Text("Мои NFT")
                                 Text(viewModel.getNFTNumber)
                             }
-                            .font(.system(size: 17, weight: .bold))
+                            .font(AppFont.bold17)
                             
                             Spacer()
                             
@@ -76,7 +76,7 @@ struct ProfileView: View {
                                 Text("Избранные NFT")
                                 Text("(11)")
                             }
-                            .font(.system(size: 17, weight: .bold))
+                            .font(AppFont.bold17)
                             
                             Spacer()
                             
