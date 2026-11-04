@@ -39,8 +39,7 @@ struct CatalogRootView: View {
                 collectionService: services.collectionService,
                 nftService: services.nftService,
                 orderService: services.orderService,
-                profileService: services.profileService,
-                userService: services.userService
+                profileService: services.profileService
             )
             .toolbar(.hidden, for: .tabBar)
             

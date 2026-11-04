@@ -31,8 +31,7 @@ struct CollectionView: View {
         collectionService: CollectionServiceProtocol,
         nftService: NftService,
         orderService: OrderServiceProtocol,
-        profileService: ProfileServiceProtocol,
-        userService: UserServiceProtocol
+        profileService: ProfileServiceProtocol
     ) {
         _viewModel = State(
             initialValue: CollectionViewModel(
@@ -40,8 +39,7 @@ struct CollectionView: View {
                 collectionService: collectionService,
                 nftService: nftService,
                 orderService: orderService,
-                profileService: profileService,
-                userService: userService
+                profileService: profileService
             )
         )
     }
@@ -108,7 +106,7 @@ struct CollectionView: View {
                         .frame(minHeight: 28)
                         .padding(.bottom, 8)
 
-                    authorView(content.collection, author: content.author)
+                    authorView(content.collection)
                         .frame(minHeight: 28)
 
                     if content.collection.description != nil {
@@ -162,7 +160,7 @@ struct CollectionView: View {
         }
     }
 
-    private func authorView(_ collection: NftCollection, author: User?) -> some View {
+    private func authorView(_ collection: NftCollection) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
@@ -175,7 +173,7 @@ struct CollectionView: View {
                     router.pushToCatalog(.webView(url))
                 }
             } label: {
-                Text(author?.name ?? "—")
+                Text(collection.author ?? "—")
                     .font(AppFont.regular15)
                     .tracking(-0.24)
                     .foregroundStyle(.ypUniversalBlue)
@@ -265,9 +263,6 @@ struct CollectionView: View {
                 networkClient: networkClient
             ),
             profileService: ProfileService(
-                networkClient: networkClient
-            ),
-            userService: UserService(
                 networkClient: networkClient
             )
         )
