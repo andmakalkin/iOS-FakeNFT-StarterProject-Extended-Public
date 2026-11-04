@@ -54,7 +54,7 @@ final class ProfileViewModel {
     }
     
     var getNFTNumber: String {
-        "\(profileModel?.nfts.count ?? 0)"
+        "(\(profileModel?.nfts.count ?? 0))"
     }
 }
 
