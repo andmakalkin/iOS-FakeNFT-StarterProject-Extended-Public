@@ -2,7 +2,7 @@
       {
         "createdAt": "2025-01-15",
         "name": "Space NFT",
-        "images": ["https://example.com/nft1.png"],
+        "images": ["https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Archie/1.png"],
         "rating": 5,
         "description": "Space collection",
         "price": 120.5,
@@ -13,7 +13,7 @@
       {
         "createdAt": "2025-02-10",
         "name": "Crypto Art",
-        "images": ["https://example.com/nft2.png"],
+        "images": ["https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Biscuit/1.png"],
         "rating": 4,
         "description": "Digital art",
         "price": 85.0,
@@ -24,7 +24,7 @@
       {
         "createdAt": "2025-03-20",
         "name": "Digital World",
-        "images": ["https://example.com/nft3.png"],
+        "images": ["https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Daisy/1.png"],
         "rating": 3,
         "description": "Digital world",
         "price": 200.0,
