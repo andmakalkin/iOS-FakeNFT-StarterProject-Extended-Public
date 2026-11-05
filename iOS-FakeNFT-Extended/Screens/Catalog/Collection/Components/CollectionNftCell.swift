@@ -66,7 +66,11 @@ struct CollectionNftCell: View {
 
             HStack(spacing: 2) {
                 ForEach(1...5, id: \.self) { value in
-                    Image(value <= rating ? .starActive12 : .starNoActive12)
+                    let isActive = value <= rating
+
+                    Image(isActive ? .starActive12 : .starNoActive12)
+                        .renderingMode(isActive ? .original : .template)
+                        .foregroundStyle(.ypLightGrey)
                 }
 
                 Spacer()

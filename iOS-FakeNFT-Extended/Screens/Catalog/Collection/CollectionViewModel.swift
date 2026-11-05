@@ -28,9 +28,20 @@ final class CollectionViewModel {
         let cartNftIds: Set<String>
         let likedNftIds: Set<String>
     }
+    
+    struct ActionNotification: Identifiable {
+        let id = UUID()
+        let error: ActionError
+    }
+    
+    enum ActionError {
+        case like
+        case cart
+    }
 
     private let collectionId: String
     private(set) var state: State = .initial
+    private(set) var actionNotification: ActionNotification?
     private(set) var updatingLikedNftIds: Set<String> = []
     private(set) var updatingCartNftIds: Set<String> = []
 
@@ -118,6 +129,8 @@ final class CollectionViewModel {
             Logger.collection.error(
                 "Не удалось изменить лайк NFT \(nftId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
+
+            actionNotification = ActionNotification(error: .like)
         }
     }
 
@@ -138,7 +151,14 @@ final class CollectionViewModel {
             Logger.collection.error(
                 "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error))"
             )
+
+            actionNotification = ActionNotification(error: .cart)
         }
+    }
+
+    func dismissActionNotification(id: UUID) {
+        guard actionNotification?.id == id else { return }
+        actionNotification = nil
     }
 
     // MARK: - Helpers

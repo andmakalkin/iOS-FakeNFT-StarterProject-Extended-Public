@@ -60,6 +60,13 @@ struct CollectionView: View {
                 EmptyView()
             }
         }
+        .overlay(alignment: .bottom) {
+            actionNotificationOverlay
+        }
+        .animation(
+            .easeInOut(duration: 0.3),
+            value: viewModel.actionNotification?.id
+        )
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -244,6 +251,60 @@ struct CollectionView: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+    
+    @ViewBuilder
+    private var actionNotificationOverlay: some View {
+        if let notification = viewModel.actionNotification {
+            actionError(for: notification.error)
+                .transition(
+                    .opacity.combined(with: .scale(scale: 0.9))
+                )
+                .padding([.bottom, .horizontal], 16)
+                .allowsHitTesting(false)
+                .task(id: notification.id) {
+                    do {
+                        try await Task.sleep(for: .seconds(3))
+                        viewModel.dismissActionNotification(id: notification.id)
+                    } catch {
+                        return
+                    }
+                }
+        }
+    }
+    
+    private func actionError(
+        for error: CollectionViewModel.ActionError
+    ) -> some View {
+        let message: LocalizedStringKey
+        let image: Image
+        
+        switch error {
+        case .like:
+            message = "Collection.error.like"
+            image = Image(.favoritesActive40)
+            
+        case .cart:
+            message = "Collection.error.cart"
+            image = Image(.cartAdd40)
+        }
+        
+        return HStack(spacing: 8) {
+            Text(message)
+                .font(AppFont.regular17)
+                .padding(.leading, 8)
+
+            image
+                .renderingMode(.template)
+        }
+        .contentTransition(.opacity)
+        .foregroundStyle(.ypWhite)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.ypBlack)
+        }
     }
 }
 
