@@ -41,39 +41,21 @@ struct CatalogView: View {
     
     var body: some View {
         ZStack {
-            List {
-                ForEach(viewModel.collections) { collection in
-                    Button {
-                        router.pushToCatalog(.collection(collection.id))
-                    } label: {
-                        CatalogCollectionCell(
-                            title: collection.name,
-                            count: collection.uniqueNftCount,
-                            imageURL: collection.coverURL
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(.zero))
-                }
-                
-                paginationFooter
-                    .task {
-                        await viewModel.loadNextPage()
-                    }
-            }
-            .listStyle(.plain)
-            .scrollIndicators(.hidden)
-            .scrollContentBackground(.hidden)
-            .listRowSpacing(8)
-            .padding(.top, 20)
-            .padding(.horizontal, 16)
-            
-            if case .loadingFirstPage = viewModel.state {
+            switch viewModel.state {
+            case .initial, .loadingFirstPage:
                 ProgressView()
+
+            case .loaded, .loadingNextPage, .failedNextPage:
+                catalogList
+
+            case .failedFirstPage:
+                EmptyView()
+
+            case .failedFirstPageDismissed:
+                firstPageErrorView
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background {
             Color.ypWhite
                 .ignoresSafeArea()
@@ -125,6 +107,56 @@ struct CatalogView: View {
         }
         .task {
             await viewModel.loadInitialPageIfNeeded()
+        }
+    }
+    
+    private var catalogList: some View {
+        List {
+            ForEach(viewModel.collections) { collection in
+                Button {
+                    router.pushToCatalog(.collection(collection.id))
+                } label: {
+                    CatalogCollectionCell(
+                        title: collection.name,
+                        count: collection.uniqueNftCount,
+                        imageURL: collection.coverURL
+                    )
+                }
+                .buttonStyle(.plain)
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(.zero))
+            }
+            
+            paginationFooter
+                .task {
+                    await viewModel.loadNextPage()
+                }
+        }
+        .listStyle(.plain)
+        .scrollIndicators(.hidden)
+        .scrollContentBackground(.hidden)
+        .listRowSpacing(8)
+        .padding(.top, 20)
+        .padding(.horizontal, 16)
+    }
+    
+    private var firstPageErrorView: some View {
+        VStack(spacing: 8) {
+            Text("Error.loadingData")
+                .font(AppFont.regular17)
+                .foregroundStyle(.ypBlack)
+            
+            Button {
+                Task {
+                    await viewModel.retryLoading()
+                }
+            } label: {
+                Text("Error.repeat")
+                    .font(AppFont.regular20)
+                    .foregroundStyle(.ypUniversalBlue)
+            }
+            .buttonStyle(.plain)
         }
     }
     

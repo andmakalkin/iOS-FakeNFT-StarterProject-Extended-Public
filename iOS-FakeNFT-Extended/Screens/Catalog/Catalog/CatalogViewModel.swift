@@ -21,6 +21,7 @@ final class CatalogViewModel {
         case loaded
         case failedFirstPage(Error)
         case failedNextPage(Error)
+        case failedFirstPageDismissed
     }
 
     private(set) var state: State = .initial
@@ -176,7 +177,7 @@ final class CatalogViewModel {
 
     func retryLoading() async {
         switch state {
-        case .failedFirstPage:
+        case .failedFirstPage, .failedFirstPageDismissed:
             await loadFirstPage()
 
         case .failedNextPage:
@@ -190,7 +191,7 @@ final class CatalogViewModel {
     func dismissError() {
         switch state {
         case .failedFirstPage:
-            state = .initial
+            state = .failedFirstPageDismissed
 
         case .failedNextPage:
             state = .loaded
