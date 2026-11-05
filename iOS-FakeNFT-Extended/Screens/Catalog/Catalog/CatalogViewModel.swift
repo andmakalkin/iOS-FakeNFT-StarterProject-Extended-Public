@@ -27,7 +27,6 @@ final class CatalogViewModel {
     private(set) var collections: [NftCollection] = []
 
     private var sortOption: CatalogSortOption
-
     private var nextPage = 1
     private var hasMorePages = true
     private var requestID = UUID()
@@ -49,12 +48,13 @@ final class CatalogViewModel {
     }
 
     // MARK: - Computed Properties
+
     private var networkSortOption: CollectionsSortOption {
         switch sortOption {
         case .name:
-                .nameAscending
+            .nameAscending
         case .nftCount:
-                .nftCountDescending
+            .nftCountDescending
         }
     }
 
@@ -67,7 +67,7 @@ final class CatalogViewModel {
     func handleSortByNftCount() async {
         await changeSortOption(to: .nftCount)
     }
-    
+
     func loadInitialPageIfNeeded() async {
         guard case .initial = state else {
             return
@@ -75,35 +75,83 @@ final class CatalogViewModel {
 
         await loadFirstPage()
     }
-    
+
     func loadFirstPage() async {
         state = .loadingFirstPage
         nextPage = 1
         hasMorePages = true
 
         let requestedID = requestID
+        let requestedSortOption = networkSortOption
 
         do {
             let firstPage = try await collectionService.loadCollections(
                 page: 0,
-                sortBy: networkSortOption
+                sortBy: requestedSortOption
             )
 
             guard requestedID == requestID else {
                 return
             }
 
-            collections = firstPage
+            try Task.checkCancellation()
 
             guard !firstPage.isEmpty else {
+                collections = []
                 hasMorePages = false
                 state = .loaded
                 return
             }
 
+            if sortOption == .nftCount {
+                var allCollections = firstPage
+                var page = 1
+
+                while true {
+                    try Task.checkCancellation()
+
+                    let nextPage = try await collectionService.loadCollections(
+                        page: page,
+                        sortBy: requestedSortOption
+                    )
+
+                    guard requestedID == requestID else {
+                        return
+                    }
+
+                    try Task.checkCancellation()
+
+                    guard !nextPage.isEmpty else {
+                        break
+                    }
+
+                    allCollections.append(contentsOf: nextPage)
+                    page += 1
+                }
+
+                collections = allCollections.sorted {
+                    if $0.uniqueNftCount == $1.uniqueNftCount {
+                        return $0.name.localizedCaseInsensitiveCompare($1.name)
+                            == .orderedAscending
+                    }
+
+                    return $0.uniqueNftCount > $1.uniqueNftCount
+                }
+
+                hasMorePages = false
+            } else {
+                collections = firstPage
+            }
+
             state = .loaded
+
         } catch is CancellationError {
-            return
+            guard requestedID == requestID else {
+                return
+            }
+
+            state = .initial
+
         } catch {
             guard requestedID == requestID else {
                 return
@@ -118,7 +166,8 @@ final class CatalogViewModel {
     }
 
     func loadNextPage() async {
-        guard case .loaded = state else {
+        guard case .loaded = state,
+              sortOption == .name else {
             return
         }
 
@@ -129,8 +178,10 @@ final class CatalogViewModel {
         switch state {
         case .failedFirstPage:
             await loadFirstPage()
+
         case .failedNextPage:
             await performNextPageLoading()
+
         default:
             return
         }
@@ -140,8 +191,10 @@ final class CatalogViewModel {
         switch state {
         case .failedFirstPage:
             state = .initial
+
         case .failedNextPage:
             state = .loaded
+
         default:
             return
         }
@@ -150,7 +203,7 @@ final class CatalogViewModel {
     // MARK: - Helpers
 
     private func performNextPageLoading() async {
-        guard hasMorePages else {
+        guard hasMorePages, sortOption == .name else {
             return
         }
 
@@ -177,12 +230,14 @@ final class CatalogViewModel {
             collections += page
             nextPage += 1
             state = .loaded
+
         } catch is CancellationError {
             guard requestedID == requestID else {
                 return
             }
 
             state = .loaded
+
         } catch {
             guard requestedID == requestID else {
                 return

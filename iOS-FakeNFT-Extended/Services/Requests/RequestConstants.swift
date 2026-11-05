@@ -2,6 +2,7 @@ import Foundation
 
 enum RequestConstants {
     static let baseURL = "https://d5dn3j2ouj72b0ejucbl.apigw.yandexcloud.net"
+    static let webViewStub = "https://yandex.ru/legal/practicum_termsofuse"
 
     static let token: String = {
         guard let token = Bundle.main.object(

@@ -168,8 +168,7 @@ struct CollectionView: View {
                 .foregroundStyle(.ypBlack)
 
             Button {
-                if let website = collection.website,
-                   let url = URL(string: website) {
+                if let url = URL(string: RequestConstants.webViewStub) {
                     router.pushToCatalog(.webView(url))
                 }
             } label: {
