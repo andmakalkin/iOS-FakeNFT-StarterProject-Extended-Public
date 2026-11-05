@@ -7,7 +7,7 @@ struct iOS_FakeNFT_ExtendedApp: App {
             ContentView()
                 .environment(
                     ServicesAssembly(
-                        networkClient: MockNetworkClient(),
+                        networkClient: DefaultNetworkClient(),
                         nftStorage: NftStorageImpl()
                     )
                 )

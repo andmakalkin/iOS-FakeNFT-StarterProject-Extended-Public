@@ -34,6 +34,14 @@ struct WKWebViewRepresentable: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) { }
+
+    static func dismantleUIView(
+        _ uiView: WKWebView,
+        coordinator: Coordinator
+    ) {
+        uiView.navigationDelegate = nil
+        uiView.stopLoading()
+    }
 }
 
 // MARK: - Coordinator
@@ -52,6 +60,17 @@ extension WKWebViewRepresentable {
             self.onStartLoading = onStartLoading
             self.onFinishLoading = onFinishLoading
             self.onFailLoading = onFailLoading
+        }
+
+        private func handleFailure(_ error: Error) {
+            let nsError = error as NSError
+
+            guard nsError.domain != NSURLErrorDomain
+                || nsError.code != NSURLErrorCancelled else {
+                return
+            }
+
+            onFailLoading(error)
         }
 
         func webView(
@@ -73,7 +92,7 @@ extension WKWebViewRepresentable {
             didFail navigation: WKNavigation?,
             withError error: Error
         ) {
-            onFailLoading(error)
+            handleFailure(error)
         }
 
         func webView(
@@ -81,7 +100,7 @@ extension WKWebViewRepresentable {
             didFailProvisionalNavigation navigation: WKNavigation?,
             withError error: Error
         ) {
-            onFailLoading(error)
+            handleFailure(error)
         }
     }
 }

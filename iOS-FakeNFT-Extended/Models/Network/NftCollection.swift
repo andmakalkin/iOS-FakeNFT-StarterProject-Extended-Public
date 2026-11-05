@@ -27,4 +27,14 @@ extension NftCollection {
 
         return URL(string: cover)
     }
+    
+    var uniqueNfts: [String] {
+        var existingNftIds = Set<String>()
+
+        return nfts.filter { existingNftIds.insert($0).inserted }
+    }
+
+    var uniqueNftCount: Int {
+        uniqueNfts.count
+    }
 }

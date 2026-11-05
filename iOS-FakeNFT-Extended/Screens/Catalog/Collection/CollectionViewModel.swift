@@ -71,7 +71,7 @@ final class CollectionViewModel {
         do {
             let collection = try await collectionService.loadCollection(id: collectionId)
 
-            async let nfts = loadNfts(ids: collection.nfts)
+            async let nfts = loadNfts(ids: collection.uniqueNfts)
             async let order = orderService.loadOrder()
             async let profile = profileService.loadProfile()
 

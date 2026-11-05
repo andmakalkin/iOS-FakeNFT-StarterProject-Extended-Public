@@ -12,6 +12,7 @@ import OSLog
 @Observable
 final class WebViewModel {
     enum State {
+        case initial
         case loading
         case loaded
         case failed(Error)
@@ -37,5 +38,11 @@ final class WebViewModel {
 
     func retry() {
         state = .loading
+    }
+    
+    func dismissError() {
+        guard case .failed = state else { return }
+        
+        state = .initial
     }
 }

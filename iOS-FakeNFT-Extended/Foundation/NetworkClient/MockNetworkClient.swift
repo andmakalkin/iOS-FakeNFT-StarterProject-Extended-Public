@@ -305,12 +305,12 @@ actor MockNetworkClient: NetworkClient {
 
         case CollectionsSortOption.nftCountDescending.queryValue:
             return collections.sorted {
-                if $0.nfts.count == $1.nfts.count {
+                if $0.uniqueNftCount == $1.uniqueNftCount {
                     return $0.name.localizedCaseInsensitiveCompare($1.name)
                         == .orderedAscending
                 }
 
-                return $0.nfts.count > $1.nfts.count
+                return $0.uniqueNftCount > $1.uniqueNftCount
             }
 
         default:

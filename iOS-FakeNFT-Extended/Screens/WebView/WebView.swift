@@ -21,7 +21,11 @@ struct WebView: View {
 
                 return false
             },
-            set: { _ in }
+            set: { isPresented in
+                if !isPresented {
+                    viewModel.dismissError()
+                }
+            }
         )
     }
 
@@ -64,7 +68,7 @@ struct WebView: View {
                     }
                 }
 
-            case .failed:
+            case .initial, .failed:
                 EmptyView()
             }
         }

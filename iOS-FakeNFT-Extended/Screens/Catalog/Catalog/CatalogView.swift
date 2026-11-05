@@ -48,7 +48,7 @@ struct CatalogView: View {
                     } label: {
                         CatalogCollectionCell(
                             title: collection.name,
-                            count: collection.nfts.count,
+                            count: collection.uniqueNftCount,
                             imageURL: collection.coverURL
                         )
                     }
