@@ -16,7 +16,7 @@ struct CartFooterView: View {
             VStack(spacing: 0) {
                 Divider()
                 
-                HStack {
+                HStack(spacing: 12) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("\(count) NFT")
                             .font(AppFont.regular15)
@@ -24,7 +24,9 @@ struct CartFooterView: View {
                         Text(price.ethFormatted)
                             .font(AppFont.bold17)
                             .foregroundColor(Color.ypUniversalGreen)
+                            .lineLimit(1)
                     }
+                    .layoutPriority(1)
                     
                     Spacer()
                     
@@ -37,7 +39,6 @@ struct CartFooterView: View {
                             .background(Color.ypBlack)
                             .cornerRadius(16)
                     }
-                    .frame(width: 240)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
@@ -45,7 +46,6 @@ struct CartFooterView: View {
             }
             .background(Color.ypLightGrey)
             
-           
             Color.ypWhite
                 .frame(height: 1)
         }

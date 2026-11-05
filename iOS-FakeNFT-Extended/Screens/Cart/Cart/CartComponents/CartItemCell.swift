@@ -8,18 +8,34 @@ import SwiftUI
 
 struct CartItemCell: View {
     let nft: Nft
+    let onDeleteAction: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {
-            let imageName = nft.images.first?.absoluteString ?? ""
+            let imageString = nft.images.first?.absoluteString ?? ""
             
-            Image(imageName)
-                .resizable()
-                .scaledToFill()
+            if imageString.hasPrefix("http"), let imageUrl = nft.images.first {
+                AsyncImage(url: imageUrl) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .ypBlack))
+                }
                 .frame(width: 108, height: 108)
-                .clipped()
                 .cornerRadius(12)
+                .clipped()
                 .padding(.leading, 16)
+            } else {
+                Image(imageString)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 108, height: 108)
+                    .cornerRadius(12)
+                    .clipped()
+                    .padding(.leading, 16)
+            }
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(nft.name)
@@ -50,14 +66,15 @@ struct CartItemCell: View {
             
             Spacer()
             
-            Image(.cartDelete40)
-                .resizable()
-                .frame(width: 40, height: 40)
-                .padding(.trailing, 16)
+            Button(action: onDeleteAction) {
+                Image(.cartDelete40)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+            }
+            .buttonStyle(.plain)
+            .padding(.trailing, 16)
         }
         .frame(height: 140)
         .background(Color.ypWhite)
     }
 }
-
-
