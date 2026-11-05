@@ -11,6 +11,9 @@ import OSLog
 @MainActor
 @Observable
 final class WebViewModel {
+
+    // MARK: - State
+
     enum State {
         case initial
         case loading
@@ -18,7 +21,16 @@ final class WebViewModel {
         case failed(Error)
     }
 
+    let url: URL
     private(set) var state: State = .loading
+
+    // MARK: - Init
+
+    init(url: URL) {
+        self.url = url
+    }
+
+    // MARK: - Public Methods
 
     func didStartLoading() {
         state = .loading
@@ -39,10 +51,10 @@ final class WebViewModel {
     func retry() {
         state = .loading
     }
-    
+
     func dismissError() {
         guard case .failed = state else { return }
-        
+
         state = .initial
     }
 }

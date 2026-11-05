@@ -26,16 +26,6 @@ actor MockNetworkClient: NetworkClient {
         website: "https://yandex.ru/legal/practicum_termsofuse"
     )
 
-    private let user = User(
-        id: "1",
-        name: "John Doe",
-        rating: 5,
-        nfts: [],
-        avatar: nil,
-        description: nil,
-        website: nil
-    )
-
     func send(request: NetworkRequest) async throws -> Data {
         guard let endpoint = request.endpoint else {
             throw NetworkClientError.incorrectRequest("Empty endpoint")
@@ -43,7 +33,6 @@ actor MockNetworkClient: NetworkClient {
 
         let collectionsPath = "/api/v1/collections"
         let nftPath = "/api/v1/nft"
-        let userPath = "/api/v1/users"
         let orderPath = "/api/v1/orders/1"
         let profilePath = "/api/v1/profile/1"
 
@@ -114,13 +103,6 @@ actor MockNetworkClient: NetworkClient {
             )
         }
 
-        if endpoint.path.hasPrefix("\(userPath)/") {
-            return try makeUserById(
-                user: user,
-                endpoint: endpoint
-            )
-        }
-
         throw NetworkClientError.incorrectRequest(
             "Mock response not found for \(endpoint.path)"
         )
@@ -130,14 +112,14 @@ actor MockNetworkClient: NetworkClient {
         request: NetworkRequest
     ) async throws -> T {
         let data = try await send(request: request)
-        return try await parse(data: data)
+        return try parse(data: data)
     }
 
     // MARK: - Private
 
     private func parse<T: Decodable>(
         data: Data
-    ) async throws -> T {
+    ) throws -> T {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
@@ -268,19 +250,6 @@ actor MockNetworkClient: NetworkClient {
         }
 
         return try encoder.encode(nft)
-    }
-
-    private func makeUserById(
-        user: User,
-        endpoint: URL
-    ) throws -> Data {
-        let id = endpoint.lastPathComponent
-
-        guard user.id == id else {
-            throw NetworkClientError.httpStatusCode(404)
-        }
-
-        return try encoder.encode(user)
     }
 
     private func queryValue(

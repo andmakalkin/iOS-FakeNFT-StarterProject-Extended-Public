@@ -9,10 +9,10 @@ import SwiftUI
 
 struct CatalogView: View {
     @Environment(AppRouter.self) private var router
-    
+
     @State private var viewModel: CatalogViewModel
     @State private var isSortDialogPresented = false
-    
+
     private var isErrorAlertPresented: Binding<Bool> {
         Binding(
             get: {
@@ -26,7 +26,7 @@ struct CatalogView: View {
             set: { _ in }
         )
     }
-    
+
     init(
         collectionService: CollectionServiceProtocol,
         userDefaultsService: UserDefaultsServiceProtocol
@@ -38,7 +38,7 @@ struct CatalogView: View {
             )
         )
     }
-    
+
     var body: some View {
         ZStack {
             switch viewModel.state {
@@ -75,22 +75,21 @@ struct CatalogView: View {
             "Catalog.sort.title",
             isPresented: $isSortDialogPresented,
             titleVisibility: .visible,
-            actions: {
-                Button("Catalog.sort.byName") {
-                    Task {
-                        await viewModel.handleSortByName()
-                    }
+        ) {
+            Button("Catalog.sort.byName") {
+                Task {
+                    await viewModel.handleSortByName()
                 }
-                
-                Button("Catalog.sort.byNftCount") {
-                    Task {
-                        await viewModel.handleSortByNftCount()
-                    }
-                }
-                
-                Button("Catalog.sort.close", role: .cancel) {}
             }
-        )
+
+            Button("Catalog.sort.byNftCount") {
+                Task {
+                    await viewModel.handleSortByNftCount()
+                }
+            }
+
+            Button("Catalog.sort.close", role: .cancel) {}
+        }
         .alert(
             "Error.loadingData",
             isPresented: isErrorAlertPresented
@@ -98,7 +97,7 @@ struct CatalogView: View {
             Button("Error.cancel", role: .cancel) {
                 viewModel.dismissError()
             }
-            
+
             Button("Error.repeat") {
                 Task {
                     await viewModel.retryLoading()
@@ -109,7 +108,7 @@ struct CatalogView: View {
             await viewModel.loadInitialPageIfNeeded()
         }
     }
-    
+
     private var catalogList: some View {
         List {
             ForEach(viewModel.collections) { collection in
@@ -127,7 +126,7 @@ struct CatalogView: View {
                 .listRowSeparator(.hidden)
                 .listRowInsets(EdgeInsets(.zero))
             }
-            
+
             paginationFooter
                 .task {
                     await viewModel.loadNextPage()
@@ -137,16 +136,16 @@ struct CatalogView: View {
         .scrollIndicators(.hidden)
         .scrollContentBackground(.hidden)
         .listRowSpacing(8)
-        .padding(.top, 20)
+        .contentMargins(.top, 20, for: .scrollContent)
         .padding(.horizontal, 16)
     }
-    
+
     private var firstPageErrorView: some View {
         VStack(spacing: 8) {
             Text("Error.loadingData")
                 .font(AppFont.regular17)
                 .foregroundStyle(.ypBlack)
-            
+
             Button {
                 Task {
                     await viewModel.retryLoading()
@@ -159,11 +158,11 @@ struct CatalogView: View {
             .buttonStyle(.plain)
         }
     }
-    
+
     private var paginationFooter: some View {
         ZStack {
             Color.clear
-            
+
             if case .loadingNextPage = viewModel.state {
                 ProgressView()
             }

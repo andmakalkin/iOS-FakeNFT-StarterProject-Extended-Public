@@ -15,7 +15,7 @@ struct CollectionNftCell: View {
 
     let isLiked: Bool
     let isInCart: Bool
-    
+
     let isLikeUpdating: Bool
     let isCartUpdating: Bool
 
@@ -78,7 +78,7 @@ struct CollectionNftCell: View {
             .frame(height: 12)
             .padding(.bottom, 4)
 
-            HStack(alignment: .center, spacing: 0) {
+            HStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(AppFont.bold17)

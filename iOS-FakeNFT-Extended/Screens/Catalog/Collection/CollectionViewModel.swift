@@ -10,8 +10,14 @@ import OSLog
 
 @MainActor
 @Observable
-
 final class CollectionViewModel {
+
+    // MARK: - Dependencies
+
+    private let collectionService: CollectionServiceProtocol
+    private let nftService: NftService
+    private let orderService: OrderServiceProtocol
+    private let profileService: ProfileServiceProtocol
 
     // MARK: - State
 
@@ -28,12 +34,12 @@ final class CollectionViewModel {
         let cartNftIds: Set<String>
         let likedNftIds: Set<String>
     }
-    
+
     struct ActionNotification: Identifiable {
         let id = UUID()
         let error: ActionError
     }
-    
+
     enum ActionError {
         case like
         case cart
@@ -44,13 +50,6 @@ final class CollectionViewModel {
     private(set) var actionNotification: ActionNotification?
     private(set) var updatingLikedNftIds: Set<String> = []
     private(set) var updatingCartNftIds: Set<String> = []
-
-    // MARK: - Dependencies
-
-    private let collectionService: CollectionServiceProtocol
-    private let nftService: NftService
-    private let orderService: OrderServiceProtocol
-    private let profileService: ProfileServiceProtocol
 
     // MARK: - Init
 
@@ -68,7 +67,7 @@ final class CollectionViewModel {
         self.profileService = profileService
     }
 
-    // MARK: - Actions
+    // MARK: - Public Methods
 
     func loadCollectionIfNeeded() async {
         guard case .initial = state else {
@@ -77,7 +76,7 @@ final class CollectionViewModel {
 
         await loadCollection()
     }
-    
+
     func loadCollection() async {
         state = .loading
 
@@ -104,12 +103,22 @@ final class CollectionViewModel {
 
             return
         } catch {
+            if Task.isCancelled || (error as? URLError)?.code == .cancelled {
+                state = .initial
+                return
+            }
+
             Logger.collection.error(
                 "Не удалось загрузить коллекцию \(self.collectionId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
 
             state = .failed(error)
         }
+    }
+
+    func dismissActionNotification(id: UUID) {
+        guard actionNotification?.id == id else { return }
+        actionNotification = nil
     }
 
     func handleTapLike(nftId: String) async {
@@ -136,32 +145,27 @@ final class CollectionViewModel {
 
     func handleTapCart(nftId: String) async {
         guard !updatingCartNftIds.contains(nftId) else { return }
-        
+
         updatingCartNftIds.insert(nftId)
-        
+
         defer {
             updatingCartNftIds.remove(nftId)
         }
-        
+
         do {
             try await toggleCart(nftId: nftId)
         } catch is CancellationError {
             return
         } catch {
             Logger.collection.error(
-                "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error))"
+                "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
 
             actionNotification = ActionNotification(error: .cart)
         }
     }
 
-    func dismissActionNotification(id: UUID) {
-        guard actionNotification?.id == id else { return }
-        actionNotification = nil
-    }
-
-    // MARK: - Helpers
+    // MARK: - Private Methods
 
     private func loadNfts(ids: [String]) async throws -> [Nft] {
         try await withThrowingTaskGroup(

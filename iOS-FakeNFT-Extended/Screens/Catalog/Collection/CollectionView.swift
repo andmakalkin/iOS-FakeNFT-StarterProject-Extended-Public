@@ -96,7 +96,7 @@ struct CollectionView: View {
     private func contentView(_ content: CollectionViewModel.Content) -> some View {
         ScrollView {
             VStack(spacing: 16) {
-                coverView(content.collection)
+                coverView(content.collection.coverURL)
                     .frame(maxWidth: .infinity)
                     .frame(height: 310)
                     .clipShape(
@@ -109,15 +109,18 @@ struct CollectionView: View {
                     )
 
                 VStack(alignment: .leading, spacing: 0) {
-                    titleView(content.collection)
+                    titleView(content.collection.name)
                         .frame(minHeight: 28)
                         .padding(.bottom, 8)
 
-                    authorView(content.collection)
-                        .frame(minHeight: 28)
+                    authorView(
+                        content.collection.author,
+                        url: URL(string: RequestConstants.webViewStub)
+                    )
+                    .frame(minHeight: 28)
 
-                    if content.collection.description != nil {
-                        descriptionView(content.collection)
+                    if let description = content.collection.description {
+                        descriptionView(description)
                     }
 
                     nftsView(
@@ -135,8 +138,8 @@ struct CollectionView: View {
         .scrollIndicators(.hidden)
     }
 
-    private func coverView(_ collection: NftCollection) -> some View {
-        KFImage(collection.coverURL)
+    private func coverView(_ url: URL?) -> some View {
+        KFImage(url)
             .placeholder {
                 ShimmerPlaceholderView()
             }
@@ -156,9 +159,9 @@ struct CollectionView: View {
             .scaledToFill()
     }
 
-    private func titleView(_ collection: NftCollection) -> some View {
+    private func titleView(_ title: String) -> some View {
         HStack(spacing: 0) {
-            Text(collection.name)
+            Text(title)
                 .font(AppFont.bold22)
                 .tracking(0.35)
                 .foregroundStyle(.ypBlack)
@@ -167,32 +170,37 @@ struct CollectionView: View {
         }
     }
 
-    private func authorView(_ collection: NftCollection) -> some View {
+    private func authorView(_ author: String?, url: URL?) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
 
-            Button {
-                if let url = URL(string: RequestConstants.webViewStub) {
-                    router.pushToCatalog(.webView(url))
+            if let author, !author.isEmpty, let url {
+                Button {
+                    router.showFullScreen(.webView(url))
+                } label: {
+                    Text(author)
+                        .font(AppFont.regular15)
+                        .tracking(-0.24)
+                        .foregroundStyle(.ypUniversalBlue)
                 }
-            } label: {
-                Text(collection.author ?? "—")
-                    .font(AppFont.regular15)
-                    .tracking(-0.24)
-                    .foregroundStyle(.ypUniversalBlue)
+                .buttonStyle(.plain)
+            } else {
+                Text(author.flatMap { $0.isEmpty ? nil : $0 } ?? "—")
+                    .font(AppFont.regular13)
+                    .tracking(-0.08)
+                    .foregroundStyle(.ypBlack)
             }
-            .buttonStyle(.plain)
 
             Spacer()
         }
     }
 
-    private func descriptionView(_ collection: NftCollection) -> some View {
+    private func descriptionView(_ description: String) -> some View {
         HStack(spacing: 0) {
-            Text(collection.description ?? "")
+            Text(description)
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
@@ -252,11 +260,11 @@ struct CollectionView: View {
         }
         .buttonStyle(.plain)
     }
-    
+
     @ViewBuilder
     private var actionNotificationOverlay: some View {
         if let notification = viewModel.actionNotification {
-            actionError(for: notification.error)
+            actionErrorView(for: notification.error)
                 .transition(
                     .opacity.combined(with: .scale(scale: 0.9))
                 )
@@ -272,23 +280,23 @@ struct CollectionView: View {
                 }
         }
     }
-    
-    private func actionError(
+
+    private func actionErrorView(
         for error: CollectionViewModel.ActionError
     ) -> some View {
         let message: LocalizedStringKey
         let image: Image
-        
+
         switch error {
         case .like:
             message = "Collection.error.like"
             image = Image(.favoritesActive40)
-            
+
         case .cart:
             message = "Collection.error.cart"
             image = Image(.cartAdd40)
         }
-        
+
         return HStack(spacing: 8) {
             Text(message)
                 .font(AppFont.regular17)

@@ -27,7 +27,7 @@ extension NftCollection {
 
         return URL(string: cover)
     }
-    
+
     var uniqueNfts: [String] {
         var existingNftIds = Set<String>()
 

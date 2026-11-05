@@ -5,23 +5,22 @@
 //  Created by Андрей Макалкин on 01.11.2026.
 //
 
-import Foundation
-
 protocol ProfileServiceProtocol: Sendable {
     func loadProfile() async throws -> Profile
     func toggleLike(nftId: String) async throws -> Profile
 }
 
 actor ProfileService: ProfileServiceProtocol {
+
+    // MARK: - Dependencies
+
+    private let networkClient: NetworkClient
+
     // MARK: - State
 
     private var cachedProfile: Profile?
     private var operationTail: Task<Void, Never>?
     private var operationGeneration = 0
-
-    // MARK: - Dependencies
-
-    private let networkClient: NetworkClient
 
     // MARK: - Init
 
@@ -29,7 +28,7 @@ actor ProfileService: ProfileServiceProtocol {
         self.networkClient = networkClient
     }
 
-    // MARK: - Actions
+    // MARK: - Public Methods
 
     func loadProfile() async throws -> Profile {
         try await performInQueue { service in
@@ -67,27 +66,15 @@ actor ProfileService: ProfileServiceProtocol {
 
     private func fetchProfile() async throws -> Profile {
         let request = ProfileRequest()
-
-        let profile: Profile = try await networkClient.send(
-            request: request
-        )
-
+        let profile: Profile = try await networkClient.send(request: request)
         cachedProfile = profile
 
         return profile
     }
 
-    private func updateLikes(
-        _ likes: [String]
-    ) async throws -> Profile {
-        let request = UpdateProfileRequest(
-            likes: likes
-        )
-
-        let updatedProfile: Profile = try await networkClient.send(
-            request: request
-        )
-
+    private func updateLikes(_ likes: [String]) async throws -> Profile {
+        let request = UpdateProfileRequest(likes: likes)
+        let updatedProfile: Profile = try await networkClient.send(request: request)
         cachedProfile = updatedProfile
 
         return updatedProfile

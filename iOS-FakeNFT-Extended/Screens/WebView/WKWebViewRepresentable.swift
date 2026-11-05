@@ -62,17 +62,6 @@ extension WKWebViewRepresentable {
             self.onFailLoading = onFailLoading
         }
 
-        private func handleFailure(_ error: Error) {
-            let nsError = error as NSError
-
-            guard nsError.domain != NSURLErrorDomain
-                || nsError.code != NSURLErrorCancelled else {
-                return
-            }
-
-            onFailLoading(error)
-        }
-
         func webView(
             _ webView: WKWebView,
             didStartProvisionalNavigation navigation: WKNavigation?
@@ -101,6 +90,17 @@ extension WKWebViewRepresentable {
             withError error: Error
         ) {
             handleFailure(error)
+        }
+
+        private func handleFailure(_ error: Error) {
+            let nsError = error as NSError
+
+            guard nsError.domain != NSURLErrorDomain
+                || nsError.code != NSURLErrorCancelled else {
+                return
+            }
+
+            onFailLoading(error)
         }
     }
 }

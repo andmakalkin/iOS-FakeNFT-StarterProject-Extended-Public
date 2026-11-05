@@ -12,6 +12,11 @@ import OSLog
 @Observable
 final class CatalogViewModel {
 
+    // MARK: - Dependencies
+
+    private let collectionService: CollectionServiceProtocol
+    private let userDefaultsService: UserDefaultsServiceProtocol
+
     // MARK: - State
 
     enum State {
@@ -31,11 +36,6 @@ final class CatalogViewModel {
     private var nextPage = 1
     private var hasMorePages = true
     private var requestID = UUID()
-
-    // MARK: - Dependencies
-
-    private let collectionService: CollectionServiceProtocol
-    private let userDefaultsService: UserDefaultsServiceProtocol
 
     // MARK: - Init
 
@@ -59,15 +59,7 @@ final class CatalogViewModel {
         }
     }
 
-    // MARK: - Actions
-
-    func handleSortByName() async {
-        await changeSortOption(to: .name)
-    }
-
-    func handleSortByNftCount() async {
-        await changeSortOption(to: .nftCount)
-    }
+    // MARK: - Public Methods
 
     func loadInitialPageIfNeeded() async {
         guard case .initial = state else {
@@ -77,7 +69,52 @@ final class CatalogViewModel {
         await loadFirstPage()
     }
 
-    func loadFirstPage() async {
+    func loadNextPage() async {
+        guard case .loaded = state,
+              sortOption == .name else {
+            return
+        }
+
+        await performNextPageLoading()
+    }
+
+    func retryLoading() async {
+        switch state {
+        case .failedFirstPage, .failedFirstPageDismissed:
+            await loadFirstPage()
+
+        case .failedNextPage:
+            await performNextPageLoading()
+
+        default:
+            return
+        }
+    }
+
+    func dismissError() {
+        switch state {
+        case .failedFirstPage:
+            state = .failedFirstPageDismissed
+
+        case .failedNextPage:
+            state = .loaded
+
+        default:
+            return
+        }
+    }
+
+    func handleSortByName() async {
+        await changeSortOption(to: .name)
+    }
+
+    func handleSortByNftCount() async {
+        await changeSortOption(to: .nftCount)
+    }
+
+    // MARK: - Private Methods
+
+    private func loadFirstPage() async {
         state = .loadingFirstPage
         nextPage = 1
         hasMorePages = true
@@ -158,6 +195,11 @@ final class CatalogViewModel {
                 return
             }
 
+            if Task.isCancelled || (error as? URLError)?.code == .cancelled {
+                state = .initial
+                return
+            }
+
             Logger.catalog.error(
                 "Не удалось загрузить первую страницу каталога: \(String(describing: error), privacy: .public)"
             )
@@ -165,43 +207,6 @@ final class CatalogViewModel {
             state = .failedFirstPage(error)
         }
     }
-
-    func loadNextPage() async {
-        guard case .loaded = state,
-              sortOption == .name else {
-            return
-        }
-
-        await performNextPageLoading()
-    }
-
-    func retryLoading() async {
-        switch state {
-        case .failedFirstPage, .failedFirstPageDismissed:
-            await loadFirstPage()
-
-        case .failedNextPage:
-            await performNextPageLoading()
-
-        default:
-            return
-        }
-    }
-
-    func dismissError() {
-        switch state {
-        case .failedFirstPage:
-            state = .failedFirstPageDismissed
-
-        case .failedNextPage:
-            state = .loaded
-
-        default:
-            return
-        }
-    }
-
-    // MARK: - Helpers
 
     private func performNextPageLoading() async {
         guard hasMorePages, sortOption == .name else {
@@ -222,6 +227,8 @@ final class CatalogViewModel {
                 return
             }
 
+            try Task.checkCancellation()
+
             guard !page.isEmpty else {
                 hasMorePages = false
                 state = .loaded
@@ -241,6 +248,11 @@ final class CatalogViewModel {
 
         } catch {
             guard requestedID == requestID else {
+                return
+            }
+
+            if Task.isCancelled || (error as? URLError)?.code == .cancelled {
+                state = .loaded
                 return
             }
 

@@ -37,13 +37,10 @@ struct WebView: View {
         return false
     }
 
-    private let url: URL
-
     init(url: URL) {
         _viewModel = State(
-            initialValue: WebViewModel()
+            initialValue: WebViewModel(url: url)
         )
-        self.url = url
     }
 
     var body: some View {
@@ -54,7 +51,7 @@ struct WebView: View {
             switch viewModel.state {
             case .loading, .loaded:
                 WKWebViewRepresentable(
-                    url: url,
+                    url: viewModel.url,
                     onStartLoading: viewModel.didStartLoading,
                     onFinishLoading: viewModel.didFinishLoading,
                     onFailLoading: viewModel.didFailLoading(with:)
@@ -102,7 +99,7 @@ struct WebView: View {
 
 #Preview {
     if let url = URL(
-        string: "https://yandex.ru/legal/practicum_termsofuse"
+        string: RequestConstants.webViewStub
     ) {
         NavigationStack {
             WebView(url: url)
