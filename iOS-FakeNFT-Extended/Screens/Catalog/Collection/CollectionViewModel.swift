@@ -29,8 +29,10 @@ final class CollectionViewModel {
         let likedNftIds: Set<String>
     }
 
-    private(set) var state: State = .initial
     private let collectionId: String
+    private(set) var state: State = .initial
+    private(set) var updatingLikedNftIds: Set<String> = []
+    private(set) var updatingCartNftIds: Set<String> = []
 
     // MARK: - Dependencies
 
@@ -100,6 +102,14 @@ final class CollectionViewModel {
     }
 
     func handleTapLike(nftId: String) async {
+        guard !updatingLikedNftIds.contains(nftId) else { return }
+
+        updatingLikedNftIds.insert(nftId)
+
+        defer {
+            updatingLikedNftIds.remove(nftId)
+        }
+
         do {
             try await toggleLike(nftId: nftId)
         } catch is CancellationError {
@@ -112,6 +122,14 @@ final class CollectionViewModel {
     }
 
     func handleTapCart(nftId: String) async {
+        guard !updatingCartNftIds.contains(nftId) else { return }
+        
+        updatingCartNftIds.insert(nftId)
+        
+        defer {
+            updatingCartNftIds.remove(nftId)
+        }
+        
         do {
             try await toggleCart(nftId: nftId)
         } catch is CancellationError {

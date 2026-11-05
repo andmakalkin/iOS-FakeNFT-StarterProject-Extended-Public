@@ -222,6 +222,8 @@ struct CollectionView: View {
                     onTapNft: { router.showModal(.nft(nft.id)) },
                     isLiked: likedNftIds.contains(nft.id),
                     isInCart: cartNftIds.contains(nft.id),
+                    isLikeUpdating: viewModel.updatingLikedNftIds.contains(nft.id),
+                    isCartUpdating: viewModel.updatingCartNftIds.contains(nft.id),
                     title: nft.name,
                     rating: nft.rating,
                     price: nft.price,
