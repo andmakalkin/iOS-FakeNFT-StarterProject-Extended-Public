@@ -71,7 +71,7 @@ struct CartView: View {
                                 .background(.ypWhite.opacity(0.4))
                         }
                         
-                        if viewModel.state.isEmpty || viewModel.cartNfts.isEmpty {
+                        if viewModel.state.isEmpty {
                             EmptyCartView()
                                 .frame(maxHeight: .infinity)
                                 .background(.ypWhite)

@@ -42,7 +42,7 @@ struct CartDeleteConfirmationView: View {
                         .clipped()
                 }
                 
-                Text("Вы уверены, что хотите\nудалить предмет из корзины?")
+                Text("Вы уверены, что хотите\nудалить объект из корзины?")
                     .font(AppFont.regular13)
                     .foregroundColor(Color.ypBlack)
                     .multilineTextAlignment(.center)

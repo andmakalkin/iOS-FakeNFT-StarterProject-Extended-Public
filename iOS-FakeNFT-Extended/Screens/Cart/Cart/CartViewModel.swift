@@ -77,10 +77,16 @@ final class CartViewModel {
                 applySort()
                 state = .content
             } catch {
-                self.cartNfts = []
-                self.state = .empty
-                self.showErrorAlert = false
-                self.errorMessage = ""
+                let errorDescription = error.localizedDescription
+                if error is DecodingError || errorDescription.contains("decoding") || errorDescription.contains("0") {
+                    self.cartNfts = []
+                    self.state = .empty
+                    self.showErrorAlert = false
+                } else {
+                    self.errorMessage = errorDescription
+                    self.showErrorAlert = true
+                    self.state = .error(errorDescription)
+                }
             }
         }
     }
