@@ -59,7 +59,7 @@ struct EditProfileView: View {
                 
                 HStack {
                     Text("Имя")
-                        .font(.system(size: 22, weight: .bold))
+                        .font(AppFont.bold22)
                         .tint(.ypBlack)
                     Spacer()
                 }
@@ -75,7 +75,7 @@ struct EditProfileView: View {
                 
                 HStack {
                     Text("Описание")
-                        .font(.system(size: 22, weight: .bold))
+                        .font(AppFont.bold22)
                         .tint(.ypBlack)
                     Spacer()
                 }
@@ -93,7 +93,7 @@ struct EditProfileView: View {
                 
                 HStack {
                     Text("Сайт")
-                        .font(.system(size: 22, weight: .bold))
+                        .font(AppFont.bold22)
                         .tint(.ypBlack)
                     Spacer()
                 }
@@ -125,7 +125,7 @@ struct EditProfileView: View {
                             .fill(.ypBlack)
                             .frame(height: 60)
                         Text("Сохранить")
-                            .font(.system(size: 17, weight: .bold))
+                            .font(AppFont.bold17)
                             .tint(.ypWhite)
                     }
                     
@@ -134,7 +134,7 @@ struct EditProfileView: View {
             }
         }
         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-        .navigationBarBackButtonHidden()
+        
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button {

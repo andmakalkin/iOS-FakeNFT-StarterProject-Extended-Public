@@ -12,7 +12,7 @@ import ProgressHUD
 @Observable
 final class ProfileViewModel {
     private let profileService: ProfileService
-    private var profileModel: Profile?
+    var profileModel: Profile?
 
     private var newProfileModel = ProfileModel.empty
     
@@ -47,6 +47,14 @@ final class ProfileViewModel {
 
     var getWebsite: String {
         profileModel?.website ?? ""
+    }
+    
+    var getProfile: Profile {
+        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], rating: "", id: "")
+    }
+    
+    var getNFTNumber: String {
+        "(\(profileModel?.nfts.count ?? 0))"
     }
 }
 
@@ -93,7 +101,7 @@ extension ProfileViewModel {
             switch result {
             case .success(let value):
                 self.image = value.image
-                ProgressHUD.succeed()
+                ProgressHUD.dismiss()
             case .failure(let error):
                 print(error.localizedDescription)
                 ProgressHUD.dismiss()
