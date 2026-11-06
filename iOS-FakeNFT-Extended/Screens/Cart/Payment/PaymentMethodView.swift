@@ -10,12 +10,14 @@ import SwiftUI
 struct PaymentMethodView: View {
     @State private var viewModel: PaymentViewModel
     @State private var isTermsActive = false
+    var cartViewModel: CartViewModel
     
     var onBackAction: () -> Void
     var onPaySuccess: () -> Void
     
-    init(cartService: CartServiceProtocol, onBackAction: @escaping () -> Void, onPaySuccess: @escaping () -> Void) {
+    init(cartService: CartServiceProtocol,cartViewModel: CartViewModel, onBackAction: @escaping () -> Void, onPaySuccess: @escaping () -> Void) {
         _viewModel = State(wrappedValue: PaymentViewModel(cartService: cartService))
+        self.cartViewModel = cartViewModel
         self.onBackAction = onBackAction
         self.onPaySuccess = onPaySuccess
     }
@@ -121,6 +123,7 @@ struct PaymentMethodView: View {
                     
                     Button {
                         viewModel.pay {
+                            
                             onPaySuccess()
                         }
                     } label: {

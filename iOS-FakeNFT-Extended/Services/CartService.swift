@@ -11,12 +11,10 @@ protocol CartServiceProtocol: Sendable {
     func fetchNftById(id: String) async throws -> Nft
     func fetchCurrencies() async throws -> [Currency]
     func deleteNftFromCart(id: String) async throws
-    func payOrder(nfts: [String]) async throws
-    func clearCartOnServer() async throws
+    func payOrder(currencyId: String, nfts: [String]) async throws
 }
 
 final class CartService: CartServiceProtocol, @unchecked Sendable {
-    
     private let networkClient: NetworkClient
     
     init(networkClient: NetworkClient) {
@@ -24,79 +22,68 @@ final class CartService: CartServiceProtocol, @unchecked Sendable {
     }
     
     func fetchCart() async throws -> Order {
-        let request = CartRequest()
-        return try await networkClient.send(request: request)
+        try await networkClient.send(request: CartRequest())
     }
     
     func fetchNftById(id: String) async throws -> Nft {
-        let request = NFTRequest(id: id)
-        return try await networkClient.send(request: request)
+        try await networkClient.send(request: NFTRequest(id: id))
     }
     
     func fetchCurrencies() async throws -> [Currency] {
-        let request = CurrenciesRequest()
-        return try await networkClient.send(request: request)
+        try await networkClient.send(request: CurrenciesRequest())
     }
     
     func deleteNftFromCart(id: String) async throws {
-        let currentOrder = try await fetchCart()
-        let updatedNfts = currentOrder.nfts.filter { $0 != id }
+        let currentCart = try await fetchCart()
+        let updatedNfts = currentCart.nfts.filter { $0 != id }
         
-        guard let url = URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1") else {
-            throw NSError(domain: "CartService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Неверный URL"])
+        let deleteRequest = CartDeleteRequest(nfts: updatedNfts)
+        guard let urlRequest = deleteRequest.createURLRequest() else {
+            throw NetworkClientError.incorrectRequest("Empty endpoint")
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue(RequestConstants.token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
-        
-        let bodyString = updatedNfts.map { "nfts=\($0)" }.joined(separator: "&")
-        request.httpBody = bodyString.data(using: .utf8)
-        
-        let (_, response) = try await URLSession.shared.data(for: request)
-        
+        let (_, response) = try await URLSession.shared.data(for: urlRequest)
         guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw NSError(domain: "CartService", code: -2, userInfo: [NSLocalizedDescriptionKey: "Не удалось удалить NFT на сервере"])
+            throw NetworkClientError.parsingError
         }
     }
     
-    func payOrder(nfts: [String]) async throws {
-        guard let url = URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1") else {
-            throw NSError(domain: "CartService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Неверный URL"])
+    func payOrder(currencyId: String, nfts: [String]) async throws {
+        let paymentRequest = OrderPaymentRequest(currencyId: currencyId)
+        guard let urlPaymentRequest = paymentRequest.createURLRequest() else {
+            throw NetworkClientError.incorrectRequest("Empty endpoint")
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue(RequestConstants.token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
-        
-        let bodyString = nfts.map { "nfts=\($0)" }.joined(separator: "&")
-        request.httpBody = bodyString.data(using: .utf8)
-        
-        let (_, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw NSError(domain: "CartService", code: -2, userInfo: [NSLocalizedDescriptionKey: "Ошибка при отправке платежа"])
-        }
-    }
-    
-    func clearCartOnServer() async throws {
-        guard let url = URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1") else {
-            throw NSError(domain: "CartService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Неверный URL"])
+        let (paymentData, paymentResponse) = try await URLSession.shared.data(for: urlPaymentRequest)
+        guard let httpResponse = paymentResponse as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkClientError.urlSessionError
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue(RequestConstants.token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
+        struct PaymentResult: Codable { let success: Bool; let id: String }
+        let paymentResult = try JSONDecoder().decode(PaymentResult.self, from: paymentData)
+        guard paymentResult.success else {
+            throw NetworkClientError.urlSessionError
+        }
         
-        request.httpBody = "".data(using: .utf8)
+        let finalizeRequest = OrderFinalizeRequest(nfts: nfts)
+        guard let urlFinalizeRequest = finalizeRequest.createURLRequest() else {
+            throw NetworkClientError.incorrectRequest("Empty endpoint")
+        }
         
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let (_, orderResponse) = try await URLSession.shared.data(for: urlFinalizeRequest)
+        guard let httpOrderResponse = orderResponse as? HTTPURLResponse, (200...299).contains(httpOrderResponse.statusCode) else {
+            throw NetworkClientError.urlSessionError
+        }
         
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw NSError(domain: "CartService", code: -2, userInfo: [NSLocalizedDescriptionKey: "Не удалось очистить корзину на сервере"])
+        // Корзина автоматически не очищается после оплаты, поэтому делаем это принудительно
+        let clearRequest = CartClearRequest()
+        guard let urlClearRequest = clearRequest.createURLRequest() else {
+            throw NetworkClientError.incorrectRequest("Empty endpoint")
+        }
+        
+        let (_, clearResponse) = try await URLSession.shared.data(for: urlClearRequest)
+        guard let httpClearResponse = clearResponse as? HTTPURLResponse, (200...299).contains(httpClearResponse.statusCode) else {
+            throw NetworkClientError.urlSessionError
         }
     }
 }

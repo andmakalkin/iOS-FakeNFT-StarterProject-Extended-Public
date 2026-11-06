@@ -29,6 +29,7 @@ final class CartViewModel {
     var cartNfts: [Nft] = []
     var showErrorAlert = false
     var errorMessage = ""
+    var isOrderCompleted = false
     
     private var _currentSortOption: CartNftSortOption = .name
     
@@ -60,6 +61,11 @@ final class CartViewModel {
     }
     
     func loadCartData() {
+        if isOrderCompleted {
+            self.cartNfts = []
+            self.state = .empty
+            return
+        }
         state = .loading
         
         Task {
@@ -77,16 +83,12 @@ final class CartViewModel {
                 applySort()
                 state = .content
             } catch {
+                
                 let errorDescription = error.localizedDescription
-                if error is DecodingError || errorDescription.contains("decoding") || errorDescription.contains("0") {
-                    self.cartNfts = []
-                    self.state = .empty
-                    self.showErrorAlert = false
-                } else {
-                    self.errorMessage = errorDescription
-                    self.showErrorAlert = true
-                    self.state = .error(errorDescription)
-                }
+                
+                self.errorMessage = errorDescription
+                self.showErrorAlert = true
+                self.state = .error(errorDescription)
             }
         }
     }

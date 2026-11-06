@@ -20,7 +20,6 @@ final class PaymentViewModel {
     var selectedCurrencyId: String? = nil
     var showErrorAlert = false
     var errorMessage = ""
-    
     var isPaymentProcessing = false
     
     let cartService: CartServiceProtocol
@@ -32,7 +31,6 @@ final class PaymentViewModel {
     @MainActor
     func loadCurrencies() {
         state = .loading
-        
         Task {
             do {
                 let currencies = try await cartService.fetchCurrencies()
@@ -51,25 +49,21 @@ final class PaymentViewModel {
     
     @MainActor
     func pay(onSuccess: @escaping () -> Void) {
-        guard selectedCurrencyId != nil else { return }
-        
+        guard let currencyId = selectedCurrencyId else { return }
         isPaymentProcessing = true
         
         Task {
             do {
                 let currentOrder = try await cartService.fetchCart()
-                
                 guard !currentOrder.nfts.isEmpty else {
                     throw NSError(domain: "PaymentError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Корзина пуста"])
                 }
                 
-                try await cartService.payOrder(nfts: currentOrder.nfts)
                 
-                try await cartService.clearCartOnServer()
+                try await cartService.payOrder(currencyId: currencyId, nfts: currentOrder.nfts)
                 
                 isPaymentProcessing = false
                 onSuccess()
-                
             } catch {
                 isPaymentProcessing = false
                 self.errorMessage = error.localizedDescription

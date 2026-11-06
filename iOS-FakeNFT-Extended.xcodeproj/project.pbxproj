@@ -57,6 +57,10 @@
 		B1034647309B670B005C47DD /* CartItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1034643309B670B005C47DD /* CartItemCell.swift */; };
 		B103464C309B6F03005C47DD /* Secrets.example.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B103464B309B6F03005C47DD /* Secrets.example.xcconfig */; };
 		B15B3D2E309CF24600143353 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B15B3D2D309CF24600143353 /* Secrets.xcconfig */; };
+		B186359E309E4EF4004981E6 /* CartDeleteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B186359D309E4EF2004981E6 /* CartDeleteRequest.swift */; };
+		B18635A0309E4F16004981E6 /* OrderPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B186359F309E4F15004981E6 /* OrderPaymentRequest.swift */; };
+		B18635A2309E4F33004981E6 /* OrderFinalizeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18635A1309E4F32004981E6 /* OrderFinalizeRequest.swift */; };
+		B18635A4309E4F59004981E6 /* CartClearRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18635A3309E4F4E004981E6 /* CartClearRequest.swift */; };
 		B1D3DAD6308E7D6E00D5CE07 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D3DAD5308E7D6700D5CE07 /* Order.swift */; };
 		B1D3DADE308E7EE100D5CE07 /* MockCartService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D3DADD308E7EDF00D5CE07 /* MockCartService.swift */; };
 		B1D3DAE2308E859000D5CE07 /* CartRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D3DAE1308E858500D5CE07 /* CartRequest.swift */; };
@@ -134,6 +138,10 @@
 		B1034643309B670B005C47DD /* CartItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemCell.swift; sourceTree = "<group>"; };
 		B103464B309B6F03005C47DD /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		B15B3D2D309CF24600143353 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		B186359D309E4EF2004981E6 /* CartDeleteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDeleteRequest.swift; sourceTree = "<group>"; };
+		B186359F309E4F15004981E6 /* OrderPaymentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPaymentRequest.swift; sourceTree = "<group>"; };
+		B18635A1309E4F32004981E6 /* OrderFinalizeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFinalizeRequest.swift; sourceTree = "<group>"; };
+		B18635A3309E4F4E004981E6 /* CartClearRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartClearRequest.swift; sourceTree = "<group>"; };
 		B1D3DAD5308E7D6700D5CE07 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		B1D3DADD308E7EDF00D5CE07 /* MockCartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCartService.swift; sourceTree = "<group>"; };
 		B1D3DAE1308E858500D5CE07 /* CartRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartRequest.swift; sourceTree = "<group>"; };
@@ -348,6 +356,10 @@
 		ABC5E1AC2C31FB6C002B4068 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
+				B18635A3309E4F4E004981E6 /* CartClearRequest.swift */,
+				B18635A1309E4F32004981E6 /* OrderFinalizeRequest.swift */,
+				B186359F309E4F15004981E6 /* OrderPaymentRequest.swift */,
+				B186359D309E4EF2004981E6 /* CartDeleteRequest.swift */,
 				B1D3DAE1308E858500D5CE07 /* CartRequest.swift */,
 				ABC5E1B12C31FBD4002B4068 /* ExampleRequest.swift */,
 				ABC5E1AD2C31FB7F002B4068 /* NftByIdRequest.swift */,
@@ -638,10 +650,13 @@
 				B1034635309B6159005C47DD /* CartViewModel.swift in Sources */,
 				ABC5E1A42C31F800002B4068 /* NetworkClient.swift in Sources */,
 				ABC5E1D32C320438002B4068 /* NftDetailAssembly.swift in Sources */,
+				B18635A2309E4F33004981E6 /* OrderFinalizeRequest.swift in Sources */,
+				B18635A0309E4F16004981E6 /* OrderPaymentRequest.swift in Sources */,
 				ABC5E1A12C31F6D7002B4068 /* Nft.swift in Sources */,
 				B1034647309B670B005C47DD /* CartItemCell.swift in Sources */,
 				B103457730993490005C47DD /* CurrenciesRequest.swift in Sources */,
 				ABC5E1AE2C31FB7F002B4068 /* NftByIdRequest.swift in Sources */,
+				B186359E309E4EF4004981E6 /* CartDeleteRequest.swift in Sources */,
 				ABC5E1DB2C3204CE002B4068 /* UIView+Constraints.swift in Sources */,
 				ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */,
 				ABC5E1CB2C3203FC002B4068 /* NftDetailCellModel.swift in Sources */,
@@ -654,6 +669,7 @@
 				B103456F309931B7005C47DD /* Currency.swift in Sources */,
 				ABC5E1D12C32042C002B4068 /* NftDetailPresenter.swift in Sources */,
 				B1D3DAE4308E8BBC00D5CE07 /* CartService.swift in Sources */,
+				B18635A4309E4F59004981E6 /* CartClearRequest.swift in Sources */,
 				ABC5E1B02C31FB90002B4068 /* RequestConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
