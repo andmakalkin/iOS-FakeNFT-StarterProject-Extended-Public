@@ -30,18 +30,9 @@ final class MyNFTViewModel {
     
     var filtredNFTs: [MyNFTModel] {
         switch currentFilter {
-        case .price:
-            return nfts.sorted {
-                $0.price > $1.price
-            }
-        case .rating:
-            return nfts.sorted {
-                $0.rating > $1.rating
-            }
-        case .name:
-            return nfts.sorted {
-                $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-            }
+        case .price: nfts.sorted { $0.price > $1.price }
+        case .rating: nfts.sorted { $0.rating > $1.rating }
+        case .name: nfts.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         }
     }
     

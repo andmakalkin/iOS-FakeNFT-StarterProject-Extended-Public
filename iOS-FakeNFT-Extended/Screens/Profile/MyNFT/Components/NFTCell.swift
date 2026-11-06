@@ -14,7 +14,7 @@ struct NFTCell: View {
     var body: some View {
         HStack(spacing: 20) {
             ZStack(alignment: .topTrailing) {
-                KFImage(nft.image)
+                KFImage(nft.imageURL)
                     .placeholder {
                         ProgressView()
                     }
