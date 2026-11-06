@@ -11,7 +11,7 @@ import ProgressHUD
 
 @Observable
 final class ProfileViewModel {
-    private let profileService: ProfileService
+    let assembly: ServicesAssembly
     var profileModel: Profile?
 
     private var newProfileModel = ProfileModel.empty
@@ -20,13 +20,13 @@ final class ProfileViewModel {
     
     var image: UIImage = UIImage(resource: .profilePhotoDefault70)
     
-    init(profileService: ProfileService) {
-        self.profileService = profileService
+    init(assembly: ServicesAssembly) {
+        self.assembly = assembly
     }
     
     func loadProfile() async {
         do {
-            profileModel = try await profileService.loadProfile(id: "1")
+            profileModel = try await assembly.profileService.loadProfile(id: "1")
         } catch {
             print(error.localizedDescription)
         }
@@ -80,7 +80,7 @@ extension ProfileViewModel {
         }
 
         do {
-            let updatedProfile = try await profileService.updateProfile(
+            let updatedProfile = try await assembly.profileService.updateProfile(
                 name: updatedName,
                 avatar: updatedAvatar,
                 description: updatedDescription,

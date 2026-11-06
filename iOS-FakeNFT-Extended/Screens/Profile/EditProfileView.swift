@@ -169,6 +169,8 @@ struct EditProfileView: View {
 }
 
 #Preview {
-    @Previewable @State var vm = ProfileViewModel(profileService: ProfileServiceImpl(networkClient: MockNetworkClient()))
-    EditProfileView(viewModel: $vm)
+    let client = DefaultNetworkClient()
+    let assembly = ServicesAssembly(networkClient: client, nftStorage: NftStorageImpl())
+    @State var model = ProfileViewModel(assembly: assembly)
+    EditProfileView(viewModel: $model)
 }

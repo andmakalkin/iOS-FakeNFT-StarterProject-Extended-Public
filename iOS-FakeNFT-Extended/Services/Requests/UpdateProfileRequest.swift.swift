@@ -57,7 +57,9 @@ struct UpdateProfileRequest: NetworkRequest {
 
         if let likes {
             parameters.append(
-                URLQueryItem(name: "likes", value: likes.joined(separator: ","))
+                contentsOf: likes.map {
+                    URLQueryItem(name: "likes", value: $0)
+                }
             )
         }
 

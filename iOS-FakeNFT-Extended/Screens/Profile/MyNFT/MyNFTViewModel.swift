@@ -11,7 +11,8 @@ import ProgressHUD
 @MainActor
 @Observable
 final class MyNFTViewModel {
-    private let nftService: NftService
+    private let assembly: ServicesAssembly
+    private var profileModel: Profile?
     
     private var nfts: [MyNFTModel] = []
     
@@ -23,8 +24,9 @@ final class MyNFTViewModel {
     
     private let userDefaultsService: UserDefaultsServiceProtocol = UserDefaultsService()
     
-    init(nftService: NftService) {
-        self.nftService = nftService
+    init(assembly: ServicesAssembly, profileModel: Profile) {
+        self.assembly = assembly
+        self.profileModel = profileModel
         self.currentFilter = userDefaultsService.fetchMyNFTFilter() ?? .rating
     }
     
@@ -51,8 +53,12 @@ final class MyNFTViewModel {
 
                 for (index, id) in ids.enumerated() {
                     group.addTask {
-                        let nft = try await self.nftService.loadNft(id: id)
-                        let model = MyNFTModel(nft: nft)
+                        let nft = try await self.assembly.nftService.loadNft(id: id)
+                        let isLiked = await MainActor.run {
+                            self.profileModel?.likes.contains(nft.id) ?? false
+                        }
+
+                        let model = MyNFTModel(nft: nft, isLiked: isLiked)
 
                         return (index, model)
                     }
@@ -74,6 +80,36 @@ final class MyNFTViewModel {
         } catch {            
             print(error.localizedDescription)
             ProgressHUD.dismiss()
+        }
+    }
+    
+    func toggleLike(nftId: String) async {
+        guard let currentProfile = profileModel else { return }
+
+        var updatedLikes = currentProfile.likes
+
+        if updatedLikes.contains(nftId) {
+            updatedLikes.removeAll { $0 == nftId }
+        } else {
+            updatedLikes.append(nftId)
+        }
+
+        do {
+            let updatedProfile = try await assembly.profileService.updateProfile(
+                name: nil,
+                avatar: nil,
+                description: nil,
+                website: nil,
+                likes: updatedLikes
+            )
+
+            profileModel = updatedProfile
+
+            if let index = nfts.firstIndex(where: { $0.id == nftId }) {
+                nfts[index].isLiked = updatedProfile.likes.contains(nftId)
+            }
+        } catch {
+            print(error)
         }
     }
 }
