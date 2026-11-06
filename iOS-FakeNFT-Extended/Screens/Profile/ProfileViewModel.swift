@@ -65,31 +65,33 @@ extension ProfileViewModel {
         description: String,
         website: String
     ) async {
+        guard let currentProfile = profileModel else { return }
+
+        let updatedName = name == currentProfile.name ? nil : name
+        let updatedAvatar = avatar == currentProfile.avatar ? nil : avatar
+        let updatedDescription = description == currentProfile.description ? nil : description
+        let updatedWebsite = website == currentProfile.website ? nil : website
+
+        guard updatedName != nil ||
+              updatedAvatar != nil ||
+              updatedDescription != nil ||
+              updatedWebsite != nil else {
+            return
+        }
+
         do {
-            try await profileService.updateProfile(
-                name: name,
-                avatar: avatar,
-                description: description,
-                website: website,
-                nfts: [],
-                likes: [],
-                id: "1"
+            let updatedProfile = try await profileService.updateProfile(
+                name: updatedName,
+                avatar: updatedAvatar,
+                description: updatedDescription,
+                website: updatedWebsite,
+                likes: nil
             )
-            
-            if let currentProfile = profileModel {
-                profileModel = Profile(
-                    name: name,
-                    avatar: avatar,
-                    description: description,
-                    website: website,
-                    nfts: currentProfile.nfts,
-                    likes: currentProfile.likes,
-                    rating: currentProfile.rating,
-                    id: currentProfile.id
-                )
-            }
+
+            profileModel = updatedProfile
+
         } catch {
-            print(error.localizedDescription)
+            print(error)
         }
     }
     

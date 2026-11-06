@@ -47,6 +47,7 @@ struct ProfileView: View {
                 HStack {
                     NavigationLink(value: ProfileDestination.website) {
                         Text(viewModel.getWebsite)
+                            .font(AppFont.regular15)
                     }
                     Spacer()
                 }

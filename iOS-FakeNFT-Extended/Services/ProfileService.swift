@@ -11,14 +11,12 @@ protocol ProfileService {
     func loadProfile(id: String) async throws -> Profile
 
     func updateProfile(
-        name: String,
-        avatar: String,
-        description: String,
-        website: String,
-        nfts: [String],
-        likes: [String],
-        id: String
-    ) async throws
+        name: String?,
+        avatar: String?,
+        description: String?,
+        website: String?,
+        likes: [String]?
+    ) async throws -> Profile
 }
 
 @MainActor
@@ -36,24 +34,25 @@ final class ProfileServiceImpl: ProfileService {
     }
 
     func updateProfile(
-        name: String,
-        avatar: String,
-        description: String,
-        website: String,
-        nfts: [String],
-        likes: [String],
-        id: String
-    ) async throws {
+        name: String? = nil,
+        avatar: String? = nil,
+        description: String? = nil,
+        website: String? = nil,
+        likes: [String]? = nil
+    ) async throws -> Profile {
+
         let request = UpdateProfileRequest(
             name: name,
-            avatar: avatar,
             description: description,
+            avatar: avatar,
             website: website,
-            nfts: nfts,
-            likes: likes,
-            id: id
+            likes: likes
         )
 
-        let _: Profile = try await networkClient.send(request: request)
+        let updatedProfile: Profile = try await networkClient.send(
+            request: request
+        )
+
+        return updatedProfile
     }
 }
