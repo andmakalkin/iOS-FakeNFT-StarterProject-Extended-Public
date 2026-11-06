@@ -50,7 +50,7 @@ final class ProfileViewModel {
     }
     
     var getProfile: Profile {
-        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], rating: "", id: "")
+        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], likes: [], rating: "", id: "")
     }
     
     var getNFTNumber: String {
@@ -70,7 +70,10 @@ extension ProfileViewModel {
                 name: name,
                 avatar: avatar,
                 description: description,
-                website: website
+                website: website,
+                nfts: [],
+                likes: [],
+                id: "1"
             )
             
             if let currentProfile = profileModel {
@@ -80,6 +83,7 @@ extension ProfileViewModel {
                     description: description,
                     website: website,
                     nfts: currentProfile.nfts,
+                    likes: currentProfile.likes,
                     rating: currentProfile.rating,
                     id: currentProfile.id
                 )

@@ -11,6 +11,6 @@ struct ProfileRequest: NetworkRequest {
     let userId: String
     
     var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/api/v1/users/\(userId)")
+        URL(string: "\(RequestConstants.baseURL)/api/v1/profile/\(userId)")
     }
 }

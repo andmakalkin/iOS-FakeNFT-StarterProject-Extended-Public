@@ -115,7 +115,8 @@ struct ProfileView: View {
 }
 
 #Preview {
-    let assembly = ServicesAssembly(networkClient: MockNetworkClient(), nftStorage: NftStorageImpl())
+    let client = DefaultNetworkClient()
+    let assembly = ServicesAssembly(networkClient: client, nftStorage: NftStorageImpl())
     let model = ProfileViewModel(profileService: assembly.profileService)
     let nftModel = MyNFTViewModel(nftService: assembly.nftService)
     ProfileView(viewModel: model, myNftViewModel: nftModel)

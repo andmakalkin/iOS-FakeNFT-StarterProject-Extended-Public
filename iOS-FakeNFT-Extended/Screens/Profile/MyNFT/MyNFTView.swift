@@ -80,7 +80,7 @@ struct MyNFTView: View {
 }
 
 #Preview {
-    let profile = Profile(name: "name", avatar: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg", description: "description", website: "", nfts: ["1","2"], rating: nil, id: "1")
+    let profile = Profile(name: "name", avatar: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg", description: "description", website: "", nfts: ["1","2"], likes: [], rating: nil, id: "1")
     let assembly = ServicesAssembly(networkClient: MockNetworkClient(), nftStorage: NftStorageImpl())
     let model = MyNFTViewModel(nftService: assembly.nftService)
     MyNFTView(viewModel: model, profile: profile)
