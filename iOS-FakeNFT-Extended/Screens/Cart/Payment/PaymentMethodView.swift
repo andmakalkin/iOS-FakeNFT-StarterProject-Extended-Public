@@ -10,12 +10,14 @@ import SwiftUI
 struct PaymentMethodView: View {
     @State private var viewModel: PaymentViewModel
     @State private var isTermsActive = false
+    var cartViewModel: CartViewModel
     
     var onBackAction: () -> Void
     var onPaySuccess: () -> Void
     
-    init(cartService: CartServiceProtocol, onBackAction: @escaping () -> Void, onPaySuccess: @escaping () -> Void) {
+    init(cartService: CartServiceProtocol,cartViewModel: CartViewModel, onBackAction: @escaping () -> Void, onPaySuccess: @escaping () -> Void) {
         _viewModel = State(wrappedValue: PaymentViewModel(cartService: cartService))
+        self.cartViewModel = cartViewModel
         self.onBackAction = onBackAction
         self.onPaySuccess = onPaySuccess
     }
@@ -74,7 +76,7 @@ struct PaymentMethodView: View {
                                     .buttonStyle(.plain)
                                     .accessibilityLabel(currency.title)
                                     .accessibilityAddTraits(.isButton)
-                                    .accessibilityAddTraits(isSelected ? .isSelected : []) 
+                                    .accessibilityAddTraits(isSelected ? .isSelected : [])
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -120,20 +122,30 @@ struct PaymentMethodView: View {
                     .padding(.top, 16)
                     
                     Button {
-                        onPaySuccess()
+                        viewModel.pay {
+                            
+                            onPaySuccess()
+                        }
                     } label: {
-                        Text("Оплатить")
-                            .font(AppFont.bold17)
-                            .foregroundStyle(.ypWhite)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .background(.ypBlack)
-                            .cornerRadius(16)
+                        ZStack {
+                            if viewModel.isPaymentProcessing {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .ypWhite))
+                            } else {
+                                Text("Оплатить")
+                                    .font(AppFont.bold17)
+                                    .foregroundStyle(.ypWhite)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 60)
+                        .background(.ypBlack)
+                        .cornerRadius(16)
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 16)
-                    .disabled(viewModel.selectedCurrencyId == nil)
-                    .opacity(viewModel.selectedCurrencyId == nil ? 0.5 : 1.0)
+                    .disabled(viewModel.selectedCurrencyId == nil || viewModel.isPaymentProcessing)
+                    .opacity((viewModel.selectedCurrencyId == nil || viewModel.isPaymentProcessing) ? 0.5 : 1.0)
                 }
                 .background(Color.ypLightGrey)
                 .clipShape(
@@ -144,6 +156,18 @@ struct PaymentMethodView: View {
                         topTrailingRadius: 12
                     )
                 )
+            }
+            .alert("Не удалось произвести оплату", isPresented: $viewModel.showErrorAlert) {
+                Button("Отмена", role: .cancel) { }
+                Button("Повторить") {
+                    if case .error = viewModel.state {
+                        viewModel.loadCurrencies()
+                    } else {
+                        viewModel.pay { onPaySuccess() }
+                    }
+                }
+            } message: {
+                Text(viewModel.errorMessage)
             }
         }
         .navigationViewStyle(.stack)

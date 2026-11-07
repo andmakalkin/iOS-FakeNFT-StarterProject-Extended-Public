@@ -62,12 +62,13 @@ final class CartViewModel {
     func loadCartData() {
         state = .loading
         
-        let _ = Task {
+        Task {
             do {
                 let cartOrder = try await cartService.fetchCart()
                 let nftIds = cartOrder.nfts
                 
                 if nftIds.isEmpty {
+                    self.cartNfts = []
                     state = .empty
                     return
                 }
@@ -76,9 +77,10 @@ final class CartViewModel {
                 applySort()
                 state = .content
             } catch {
-                self.errorMessage = error.localizedDescription
+                let errorDescription = error.localizedDescription
+                self.errorMessage = errorDescription
                 self.showErrorAlert = true
-                state = .error(error.localizedDescription)
+                self.state = .error(errorDescription)
             }
         }
     }
@@ -109,17 +111,12 @@ final class CartViewModel {
                 
                 let updatedNfts = self.cartNfts.filter { $0.id != id }
                 
-                await MainActor.run {
-                    self.cartNfts = updatedNfts
-                    self.state = updatedNfts.isEmpty ? .empty : .content
-                    
-                }
+                self.cartNfts = updatedNfts
+                self.state = updatedNfts.isEmpty ? .empty : .content
             } catch {
-                await MainActor.run {
-                    self.state = .content
-                    self.errorMessage = error.localizedDescription
-                    self.showErrorAlert = true
-                }
+                self.state = .content
+                self.errorMessage = error.localizedDescription
+                self.showErrorAlert = true
             }
         }
     }

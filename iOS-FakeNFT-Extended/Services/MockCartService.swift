@@ -60,4 +60,9 @@ final class MockCartService: CartServiceProtocol, @unchecked Sendable {
         try await Task.sleep(nanoseconds: 300_000_000)
         currentOrderNfts.removeAll { $0 == id }
     }
+    
+    func payOrder(currencyId: String, nfts: [String]) async throws {
+        try await Task.sleep(nanoseconds: 300_000_000)
+    }
+    
 }
