@@ -10,6 +10,7 @@ import Kingfisher
 
 struct NFTCell: View {
     let nft: MyNFTModel
+    let onLikeTap: () -> Void
     
     var body: some View {
         HStack(spacing: 20) {
@@ -23,7 +24,9 @@ struct NFTCell: View {
                     .mask {
                         RoundedRectangle(cornerRadius: 12)
                     }
-                Image(nft.isLiked ? .favoritesActive40 : .favoritesNoActive40)
+                Button(action: onLikeTap) {
+                    Image(nft.isLiked ? .favoritesActive40 : .favoritesNoActive40)
+                }
             }
             HStack {
                 VStack(spacing: 4) {
@@ -70,6 +73,8 @@ struct NFTCell: View {
 #Preview {
     let nft = Nft(createdAt: "", name: "Kitty", images: [URL(string: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg")!], rating: 5, description: "", price: 100, author: "pin", website: "", id: "1")
     let model = MyNFTModel(nft: nft)
-    NFTCell(nft: model)
+    NFTCell(nft: model) {
+        
+    }
         .padding()
 }

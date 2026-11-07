@@ -14,19 +14,19 @@ struct MyNFTModel: Identifiable {
     let rating: Int
     let author: String
     let price: Double
-    let isLiked: Bool
+    var isLiked: Bool
     
     var formattedPrice: String {
         String(format: "%.2f", price)
     }
-    
-    init(nft: Nft) {
+
+    init(nft: Nft, isLiked: Bool = false) {
         self.id = nft.id
         self.imageURL = nft.images.first
         self.name = nft.name
         self.rating = nft.rating
         self.author = nft.author
         self.price = nft.price
-        self.isLiked = false
+        self.isLiked = isLiked
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var viewModel: ProfileViewModel
-    var myNftViewModel: MyNFTViewModel
     var body: some View {
         NavigationStack {
             VStack {
@@ -47,6 +46,7 @@ struct ProfileView: View {
                 HStack {
                     NavigationLink(value: ProfileDestination.website) {
                         Text(viewModel.getWebsite)
+                            .font(AppFont.regular15)
                     }
                     Spacer()
                 }
@@ -75,7 +75,7 @@ struct ProfileView: View {
                         HStack {
                             HStack(spacing: 8) {
                                 Text("Избранные NFT")
-                                Text("(11)")
+                                Text(viewModel.getFavNFTNumber)
                             }
                             .font(AppFont.bold17)
                             
@@ -98,9 +98,9 @@ struct ProfileView: View {
                 case .editProfile:
                     EditProfileView(viewModel: $viewModel)
                 case .myNFT:
-                    MyNFTView(viewModel: myNftViewModel, profile: viewModel.getProfile)
+                    MyNFTView(viewModel: MyNFTViewModel(assembly: viewModel.assembly, profileModel: viewModel.getProfile), profile: viewModel.getProfile)
                 case .likedNFT:
-                    EmptyView()
+                    FavoritesNFTView(viewModel: FavoritesNFTViewModel(assembly: viewModel.assembly, profileModel: viewModel.getProfile))
                 case .website:
                     WebView(url: URL(string: viewModel.website)!)
                 }
@@ -115,8 +115,8 @@ struct ProfileView: View {
 }
 
 #Preview {
-    let assembly = ServicesAssembly(networkClient: MockNetworkClient(), nftStorage: NftStorageImpl())
-    let model = ProfileViewModel(profileService: assembly.profileService)
-    let nftModel = MyNFTViewModel(nftService: assembly.nftService)
-    ProfileView(viewModel: model, myNftViewModel: nftModel)
+    let client = DefaultNetworkClient()
+    let assembly = ServicesAssembly(networkClient: client, nftStorage: NftStorageImpl())
+    let model = ProfileViewModel(assembly: assembly)
+    ProfileView(viewModel: model)
 }
