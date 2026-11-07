@@ -34,6 +34,7 @@ struct FavoriteNFTCell: View {
                     Text(nft.name)
                         .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
+                        .lineLimit(1)
                     Spacer()
                 }
                 HStack(spacing: 2) {
@@ -48,6 +49,7 @@ struct FavoriteNFTCell: View {
                     Text("\(nft.formattedPrice) ETH")
                         .font(AppFont.regular15)
                         .foregroundStyle(.ypBlack)
+                        .lineLimit(1)
                     Spacer()
                 }
             }

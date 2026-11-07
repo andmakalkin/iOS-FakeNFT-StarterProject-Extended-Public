@@ -35,6 +35,8 @@
 		84A4B900309BAC9B009ACE4A /* CollectionsSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8FF309BAC9B009ACE4A /* CollectionsSortOption.swift */; };
 		84A64355309E131500E8760B /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 84A64354309E131500E8760B /* Secrets.xcconfig */; };
 		84A6436B309F1DA400E8760B /* FavoriteNFTCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6436A309F1DA400E8760B /* FavoriteNFTCell.swift */; };
+		84A6436F309F201300E8760B /* FavoritesNFTView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A6436E309F201300E8760B /* FavoritesNFTView.swift */; };
+		84A64371309F213400E8760B /* FavoritesNFTViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A64370309F212C00E8760B /* FavoritesNFTViewModel.swift */; };
 		ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */; };
 		ABC5E16E2C31F5AF002B4068 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16D2C31F5AF002B4068 /* ContentView.swift */; };
 		ABC5E1702C31F5AF002B4068 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABC5E16F2C31F5AF002B4068 /* Assets.xcassets */; };
@@ -119,6 +121,8 @@
 		84A4B8FF309BAC9B009ACE4A /* CollectionsSortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsSortOption.swift; sourceTree = "<group>"; };
 		84A64354309E131500E8760B /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		84A6436A309F1DA400E8760B /* FavoriteNFTCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNFTCell.swift; sourceTree = "<group>"; };
+		84A6436E309F201300E8760B /* FavoritesNFTView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesNFTView.swift; sourceTree = "<group>"; };
+		84A64370309F212C00E8760B /* FavoritesNFTViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesNFTViewModel.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_FakeNFT_ExtendedApp.swift; sourceTree = "<group>"; };
 		ABC5E16D2C31F5AF002B4068 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -303,7 +307,9 @@
 		84A64366309F1CBE00E8760B /* FavoritesNFT */ = {
 			isa = PBXGroup;
 			children = (
+				84A64370309F212C00E8760B /* FavoritesNFTViewModel.swift */,
 				84A64367309F1D0300E8760B /* Components */,
+				84A6436E309F201300E8760B /* FavoritesNFTView.swift */,
 			);
 			path = FavoritesNFT;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				ABC5E1992C31F666002B4068 /* Fonts.swift in Sources */,
 				ABC5E1CF2C32041D002B4068 /* NftDetailViewController.swift in Sources */,
 				ABC5E1B72C31FC70002B4068 /* ServicesAssembly.swift in Sources */,
+				84A6436F309F201300E8760B /* FavoritesNFTView.swift in Sources */,
 				84A4B8B73091DE9F009ACE4A /* EditProfileView.swift in Sources */,
 				ABC5E19D2C31F6A6002B4068 /* NftStorage.swift in Sources */,
 				ABC5E1E82C320610002B4068 /* NftDetailBridgeView.swift in Sources */,
@@ -674,6 +681,7 @@
 				ABC5E1B92C31FD51002B4068 /* TestCatalogView.swift in Sources */,
 				ABC5E1DF2C3204FB002B4068 /* LoadingView.swift in Sources */,
 				84A4B8C830939F2C009ACE4A /* Profile.swift in Sources */,
+				84A64371309F213400E8760B /* FavoritesNFTViewModel.swift in Sources */,
 				84A4B8B33090B895009ACE4A /* ProfileDestination.swift in Sources */,
 				ABC5E1972C31F656002B4068 /* Colors.swift in Sources */,
 				84A4B8CC3093A27C009ACE4A /* MockNetworkClient.swift in Sources */,

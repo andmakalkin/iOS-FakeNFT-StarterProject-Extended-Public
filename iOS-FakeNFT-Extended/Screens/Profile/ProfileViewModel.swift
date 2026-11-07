@@ -56,6 +56,10 @@ final class ProfileViewModel {
     var getNFTNumber: String {
         "(\(profileModel?.nfts.count ?? 0))"
     }
+    
+    var getFavNFTNumber: String {
+        "(\(profileModel?.likes.count ?? 0))"
+    }
 }
 
 extension ProfileViewModel {

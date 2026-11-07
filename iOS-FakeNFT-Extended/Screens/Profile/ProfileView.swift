@@ -75,7 +75,7 @@ struct ProfileView: View {
                         HStack {
                             HStack(spacing: 8) {
                                 Text("Избранные NFT")
-                                Text("(11)")
+                                Text(viewModel.getFavNFTNumber)
                             }
                             .font(AppFont.bold17)
                             
@@ -100,7 +100,7 @@ struct ProfileView: View {
                 case .myNFT:
                     MyNFTView(viewModel: MyNFTViewModel(assembly: viewModel.assembly, profileModel: viewModel.getProfile), profile: viewModel.getProfile)
                 case .likedNFT:
-                    EmptyView()
+                    FavoritesNFTView(viewModel: FavoritesNFTViewModel(assembly: viewModel.assembly, profileModel: viewModel.getProfile))
                 case .website:
                     WebView(url: URL(string: viewModel.website)!)
                 }
