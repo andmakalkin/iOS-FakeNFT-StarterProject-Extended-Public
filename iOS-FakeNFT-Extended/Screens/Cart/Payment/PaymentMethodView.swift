@@ -157,7 +157,7 @@ struct PaymentMethodView: View {
                     )
                 )
             }
-            .alert("Не удалось произвести операцию", isPresented: $viewModel.showErrorAlert) {
+            .alert("Не удалось произвести оплату", isPresented: $viewModel.showErrorAlert) {
                 Button("Отмена", role: .cancel) { }
                 Button("Повторить") {
                     if case .error = viewModel.state {
