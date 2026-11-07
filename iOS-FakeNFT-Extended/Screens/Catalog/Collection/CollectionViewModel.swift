@@ -10,8 +10,15 @@ import OSLog
 
 @MainActor
 @Observable
-
 final class CollectionViewModel {
+
+    // MARK: - Dependencies
+
+    private let collectionService: CollectionServiceProtocol
+    private let nftService: NftService
+    private let orderService: OrderServiceProtocol
+    private let profileService: ProfileServiceProtocol
+
     // MARK: - State
 
     enum State {
@@ -23,22 +30,26 @@ final class CollectionViewModel {
 
     struct Content {
         let collection: NftCollection
-        let author: User?
         let nfts: [Nft]
         let cartNftIds: Set<String>
         let likedNftIds: Set<String>
     }
 
-    private(set) var state: State = .initial
+    struct ActionNotification: Identifiable {
+        let id = UUID()
+        let error: ActionError
+    }
+
+    enum ActionError {
+        case like
+        case cart
+    }
+
     private let collectionId: String
-
-    // MARK: - Dependencies
-
-    private let collectionService: CollectionServiceProtocol
-    private let nftService: NftService
-    private let orderService: OrderServiceProtocol
-    private let profileService: ProfileServiceProtocol
-    private let userService: UserServiceProtocol
+    private(set) var state: State = .initial
+    private(set) var actionNotification: ActionNotification?
+    private(set) var updatingLikedNftIds: Set<String> = []
+    private(set) var updatingCartNftIds: Set<String> = []
 
     // MARK: - Init
 
@@ -47,18 +58,24 @@ final class CollectionViewModel {
         collectionService: CollectionServiceProtocol,
         nftService: NftService,
         orderService: OrderServiceProtocol,
-        profileService: ProfileServiceProtocol,
-        userService: UserServiceProtocol
+        profileService: ProfileServiceProtocol
     ) {
         self.collectionId = collectionId
         self.collectionService = collectionService
         self.nftService = nftService
         self.orderService = orderService
         self.profileService = profileService
-        self.userService = userService
     }
 
-    // MARK: - Actions
+    // MARK: - Public Methods
+
+    func loadCollectionIfNeeded() async {
+        guard case .initial = state else {
+            return
+        }
+
+        await loadCollection()
+    }
 
     func loadCollection() async {
         state = .loading
@@ -66,22 +83,14 @@ final class CollectionViewModel {
         do {
             let collection = try await collectionService.loadCollection(id: collectionId)
 
-            async let nfts = loadNfts(ids: collection.nfts)
+            async let nfts = loadNfts(ids: collection.uniqueNfts)
             async let order = orderService.loadOrder()
             async let profile = profileService.loadProfile()
-            async let author: User? = {
-                guard let authorId = collection.author else {
-                    return nil
-                }
 
-                return try await userService.loadUser(id: authorId)
-            }()
-
-            let (loadedNfts, loadedOrder, loadedProfile, loadedAuthor) = try await (nfts, order, profile, author)
+            let (loadedNfts, loadedOrder, loadedProfile) = try await (nfts, order, profile)
 
             let content = Content(
                 collection: collection,
-                author: loadedAuthor,
                 nfts: loadedNfts,
                 cartNftIds: Set(loadedOrder.nfts),
                 likedNftIds: Set(loadedProfile.likes)
@@ -90,8 +99,15 @@ final class CollectionViewModel {
             state = .loaded(content)
 
         } catch is CancellationError {
+            state = .initial
+
             return
         } catch {
+            if Task.isCancelled || (error as? URLError)?.code == .cancelled {
+                state = .initial
+                return
+            }
+
             Logger.collection.error(
                 "Не удалось загрузить коллекцию \(self.collectionId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
@@ -100,7 +116,20 @@ final class CollectionViewModel {
         }
     }
 
+    func dismissActionNotification(id: UUID) {
+        guard actionNotification?.id == id else { return }
+        actionNotification = nil
+    }
+
     func handleTapLike(nftId: String) async {
+        guard !updatingLikedNftIds.contains(nftId) else { return }
+
+        updatingLikedNftIds.insert(nftId)
+
+        defer {
+            updatingLikedNftIds.remove(nftId)
+        }
+
         do {
             try await toggleLike(nftId: nftId)
         } catch is CancellationError {
@@ -109,22 +138,34 @@ final class CollectionViewModel {
             Logger.collection.error(
                 "Не удалось изменить лайк NFT \(nftId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
+
+            actionNotification = ActionNotification(error: .like)
         }
     }
 
     func handleTapCart(nftId: String) async {
+        guard !updatingCartNftIds.contains(nftId) else { return }
+
+        updatingCartNftIds.insert(nftId)
+
+        defer {
+            updatingCartNftIds.remove(nftId)
+        }
+
         do {
             try await toggleCart(nftId: nftId)
         } catch is CancellationError {
             return
         } catch {
             Logger.collection.error(
-                "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error))"
+                "Не удалось изменить корзину NFT \(nftId, privacy: .public): \(String(describing: error), privacy: .public)"
             )
+
+            actionNotification = ActionNotification(error: .cart)
         }
     }
 
-    // MARK: - Helpers
+    // MARK: - Private Methods
 
     private func loadNfts(ids: [String]) async throws -> [Nft] {
         try await withThrowingTaskGroup(
@@ -159,7 +200,6 @@ final class CollectionViewModel {
 
         let updatedContent = Content(
             collection: currentContent.collection,
-            author: currentContent.author,
             nfts: currentContent.nfts,
             cartNftIds: currentContent.cartNftIds,
             likedNftIds: Set(updatedProfile.likes)
@@ -177,7 +217,6 @@ final class CollectionViewModel {
 
         let updatedContent = Content(
             collection: currentContent.collection,
-            author: currentContent.author,
             nfts: currentContent.nfts,
             cartNftIds: Set(updatedOrder.nfts),
             likedNftIds: currentContent.likedNftIds

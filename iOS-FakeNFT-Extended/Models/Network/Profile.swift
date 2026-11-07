@@ -5,8 +5,6 @@
 //  Created by Андрей Макалкин on 01.11.2026.
 //
 
-import Foundation
-
 struct Profile: Codable, Identifiable, Sendable {
     let id: String
     let name: String

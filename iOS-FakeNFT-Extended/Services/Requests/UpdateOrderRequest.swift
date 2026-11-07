@@ -21,7 +21,7 @@ struct UpdateOrderRequest: NetworkRequest {
     var bodyParameters: [URLQueryItem]? {
         if nfts.isEmpty {
             return [
-                URLQueryItem(name: "nfts", value: "")
+                URLQueryItem(name: "nfts", value: "null")
             ]
         }
 

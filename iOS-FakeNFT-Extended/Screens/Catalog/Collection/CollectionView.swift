@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct CollectionView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(AppRouter.self) private var router
 
     @State private var viewModel: CollectionViewModel
 
@@ -31,8 +31,7 @@ struct CollectionView: View {
         collectionService: CollectionServiceProtocol,
         nftService: NftService,
         orderService: OrderServiceProtocol,
-        profileService: ProfileServiceProtocol,
-        userService: UserServiceProtocol
+        profileService: ProfileServiceProtocol
     ) {
         _viewModel = State(
             initialValue: CollectionViewModel(
@@ -40,8 +39,7 @@ struct CollectionView: View {
                 collectionService: collectionService,
                 nftService: nftService,
                 orderService: orderService,
-                profileService: profileService,
-                userService: userService
+                profileService: profileService
             )
         )
     }
@@ -62,6 +60,13 @@ struct CollectionView: View {
                 EmptyView()
             }
         }
+        .overlay(alignment: .bottom) {
+            actionNotificationOverlay
+        }
+        .animation(
+            .easeInOut(duration: 0.3),
+            value: viewModel.actionNotification?.id
+        )
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -74,7 +79,7 @@ struct CollectionView: View {
             isPresented: isErrorAlertPresented
         ) {
             Button("Error.cancel", role: .cancel) {
-                dismiss()
+                router.popCatalog()
             }
 
             Button("Error.repeat") {
@@ -84,14 +89,14 @@ struct CollectionView: View {
             }
         }
         .task {
-            await viewModel.loadCollection()
+            await viewModel.loadCollectionIfNeeded()
         }
     }
 
     private func contentView(_ content: CollectionViewModel.Content) -> some View {
         ScrollView {
             VStack(spacing: 16) {
-                coverView(content.collection)
+                coverView(content.collection.coverURL)
                     .frame(maxWidth: .infinity)
                     .frame(height: 310)
                     .clipShape(
@@ -104,15 +109,18 @@ struct CollectionView: View {
                     )
 
                 VStack(alignment: .leading, spacing: 0) {
-                    titleView(content.collection)
+                    titleView(content.collection.name)
                         .frame(minHeight: 28)
                         .padding(.bottom, 8)
 
-                    authorView(content.author)
-                        .frame(minHeight: 28)
+                    authorView(
+                        content.collection.author,
+                        url: URL(string: RequestConstants.webViewStub)
+                    )
+                    .frame(minHeight: 28)
 
-                    if content.collection.description != nil {
-                        descriptionView(content.collection)
+                    if let description = content.collection.description {
+                        descriptionView(description)
                     }
 
                     nftsView(
@@ -130,8 +138,8 @@ struct CollectionView: View {
         .scrollIndicators(.hidden)
     }
 
-    private func coverView(_ collection: NftCollection) -> some View {
-        KFImage(collection.coverURL)
+    private func coverView(_ url: URL?) -> some View {
+        KFImage(url)
             .placeholder {
                 ShimmerPlaceholderView()
             }
@@ -151,9 +159,9 @@ struct CollectionView: View {
             .scaledToFill()
     }
 
-    private func titleView(_ collection: NftCollection) -> some View {
+    private func titleView(_ title: String) -> some View {
         HStack(spacing: 0) {
-            Text(collection.name)
+            Text(title)
                 .font(AppFont.bold22)
                 .tracking(0.35)
                 .foregroundStyle(.ypBlack)
@@ -162,25 +170,37 @@ struct CollectionView: View {
         }
     }
 
-    private func authorView(_ author: User?) -> some View {
+    private func authorView(_ author: String?, url: URL?) -> some View {
         HStack(spacing: 4) {
             Text("Collection.author")
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
 
-            Text(author?.name ?? "—")
-                .font(AppFont.regular15)
-                .tracking(-0.24)
-                .foregroundStyle(.ypUniversalBlue)
+            if let author, !author.isEmpty, let url {
+                Button {
+                    router.showFullScreen(.webView(url))
+                } label: {
+                    Text(author)
+                        .font(AppFont.regular15)
+                        .tracking(-0.24)
+                        .foregroundStyle(.ypUniversalBlue)
+                }
+                .buttonStyle(.plain)
+            } else {
+                Text(author.flatMap { $0.isEmpty ? nil : $0 } ?? "—")
+                    .font(AppFont.regular13)
+                    .tracking(-0.08)
+                    .foregroundStyle(.ypBlack)
+            }
 
             Spacer()
         }
     }
 
-    private func descriptionView(_ collection: NftCollection) -> some View {
+    private func descriptionView(_ description: String) -> some View {
         HStack(spacing: 0) {
-            Text(collection.description ?? "")
+            Text(description)
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
@@ -214,9 +234,11 @@ struct CollectionView: View {
                             await viewModel.handleTapCart(nftId: nft.id)
                         }
                     },
-                    onTapNft: {},
+                    onTapNft: { router.showModal(.nft(nft.id)) },
                     isLiked: likedNftIds.contains(nft.id),
                     isInCart: cartNftIds.contains(nft.id),
+                    isLikeUpdating: viewModel.updatingLikedNftIds.contains(nft.id),
+                    isCartUpdating: viewModel.updatingCartNftIds.contains(nft.id),
                     title: nft.name,
                     rating: nft.rating,
                     price: nft.price,
@@ -228,7 +250,7 @@ struct CollectionView: View {
 
     private var backButton: some View {
         Button {
-            dismiss()
+            router.popCatalog()
         } label: {
             Image(.backward24)
                 .renderingMode(.template)
@@ -237,6 +259,60 @@ struct CollectionView: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private var actionNotificationOverlay: some View {
+        if let notification = viewModel.actionNotification {
+            actionErrorView(for: notification.error)
+                .transition(
+                    .opacity.combined(with: .scale(scale: 0.9))
+                )
+                .padding([.bottom, .horizontal], 16)
+                .allowsHitTesting(false)
+                .task(id: notification.id) {
+                    do {
+                        try await Task.sleep(for: .seconds(3))
+                        viewModel.dismissActionNotification(id: notification.id)
+                    } catch {
+                        return
+                    }
+                }
+        }
+    }
+
+    private func actionErrorView(
+        for error: CollectionViewModel.ActionError
+    ) -> some View {
+        let message: LocalizedStringKey
+        let image: Image
+
+        switch error {
+        case .like:
+            message = "Collection.error.like"
+            image = Image(.favoritesActive40)
+
+        case .cart:
+            message = "Collection.error.cart"
+            image = Image(.cartAdd40)
+        }
+
+        return HStack(spacing: 8) {
+            Text(message)
+                .font(AppFont.regular17)
+                .padding(.leading, 8)
+
+            image
+                .renderingMode(.template)
+        }
+        .contentTransition(.opacity)
+        .foregroundStyle(.ypWhite)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.ypBlack)
+        }
     }
 }
 
@@ -258,10 +334,8 @@ struct CollectionView: View {
             ),
             profileService: ProfileService(
                 networkClient: networkClient
-            ),
-            userService: UserService(
-                networkClient: networkClient
             )
         )
     }
+    .environment(AppRouter())
 }

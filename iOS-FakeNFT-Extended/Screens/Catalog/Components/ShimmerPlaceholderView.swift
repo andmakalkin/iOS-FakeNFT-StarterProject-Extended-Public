@@ -42,7 +42,6 @@ struct ShimmerPlaceholderView: View {
     }
 }
 
-
 #Preview {
     ZStack {
         Color.ypWhite.ignoresSafeArea()

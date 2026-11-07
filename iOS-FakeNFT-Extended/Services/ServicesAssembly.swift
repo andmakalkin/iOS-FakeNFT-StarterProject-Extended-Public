@@ -7,7 +7,6 @@ final class ServicesAssembly {
     let collectionService: CollectionServiceProtocol
     let orderService: OrderServiceProtocol
     let profileService: ProfileServiceProtocol
-    let userService: UserServiceProtocol
 
     private let networkClient: NetworkClient
     private let nftStorage: NftStorage
@@ -30,10 +29,6 @@ final class ServicesAssembly {
         )
 
         self.profileService = ProfileService(
-            networkClient: networkClient
-        )
-
-        self.userService = UserService(
             networkClient: networkClient
         )
     }

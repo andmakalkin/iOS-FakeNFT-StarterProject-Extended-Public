@@ -5,23 +5,22 @@
 //  Created by Андрей Макалкин on 01.11.2026.
 //
 
-import Foundation
-
 protocol OrderServiceProtocol: Sendable {
     func loadOrder() async throws -> Order
     func toggleCart(nftId: String) async throws -> Order
 }
 
 actor OrderService: OrderServiceProtocol {
+
+    // MARK: - Dependencies
+
+    private let networkClient: NetworkClient
+
     // MARK: - State
 
     private var cachedOrder: Order?
     private var operationTail: Task<Void, Never>?
     private var operationGeneration = 0
-
-    // MARK: - Dependencies
-
-    private let networkClient: NetworkClient
 
     // MARK: - Init
 
@@ -29,7 +28,7 @@ actor OrderService: OrderServiceProtocol {
         self.networkClient = networkClient
     }
 
-    // MARK: - Actions
+    // MARK: - Public Methods
 
     func loadOrder() async throws -> Order {
         try await performInQueue { service in
@@ -67,27 +66,15 @@ actor OrderService: OrderServiceProtocol {
 
     private func fetchOrder() async throws -> Order {
         let request = OrderRequest()
-
-        let order: Order = try await networkClient.send(
-            request: request
-        )
-
+        let order: Order = try await networkClient.send(request: request)
         cachedOrder = order
 
         return order
     }
 
-    private func updateOrder(
-        _ nfts: [String]
-    ) async throws -> Order {
-        let request = UpdateOrderRequest(
-            nfts: nfts
-        )
-
-        let updatedOrder: Order = try await networkClient.send(
-            request: request
-        )
-
+    private func updateOrder(_ nfts: [String]) async throws -> Order {
+        let request = UpdateOrderRequest(nfts: nfts)
+        let updatedOrder: Order = try await networkClient.send(request: request)
         cachedOrder = updatedOrder
 
         return updatedOrder

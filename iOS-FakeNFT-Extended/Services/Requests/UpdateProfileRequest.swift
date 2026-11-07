@@ -66,7 +66,7 @@ struct UpdateProfileRequest: NetworkRequest {
         if let likes {
             if likes.isEmpty {
                 parameters.append(
-                    URLQueryItem(name: "likes", value: "")
+                    URLQueryItem(name: "likes", value: "null")
                 )
             } else {
                 parameters.append(

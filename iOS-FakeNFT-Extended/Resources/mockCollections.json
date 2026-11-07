@@ -17,7 +17,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Peach.png",
     "description": "Персиковый — как облака над закатным солнцем в океане. В этой коллекции совмещены трогательная нежность и живая игривость сказочных зефирных зверей.",
-    "author": "1",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -34,7 +34,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Blue.png",
     "description": "Collection description",
-    "author": "2",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -53,7 +53,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Brown.png",
     "description": "Collection description",
-    "author": "3",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -68,7 +68,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Beige.png",
     "description": "Collection description",
-    "author": "4",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -91,7 +91,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Gray.png",
     "description": "Collection description",
-    "author": "5",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -104,7 +104,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Green.png",
     "description": "Collection description",
-    "author": "6",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -124,7 +124,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Pink.png",
     "description": "Collection description",
-    "author": "7",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -140,7 +140,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/White.png",
     "description": "Collection description",
-    "author": "8",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -166,7 +166,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://code.s3.yandex.net/Mobile/iOS/NFT/Обложки_коллекций/Yellow.png",
     "description": "Collection description",
-    "author": "9",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -184,7 +184,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "10",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -198,7 +198,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "11",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -222,7 +222,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "12",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -234,7 +234,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "13",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -255,7 +255,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "14",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -272,7 +272,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "15",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -297,7 +297,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "16",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -316,7 +316,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "17",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -338,7 +338,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "18",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -365,7 +365,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "19",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -380,7 +380,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "20",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -409,7 +409,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "21",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -425,7 +425,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "22",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -456,7 +456,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "23",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -476,7 +476,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "24",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -504,7 +504,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "25",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -517,7 +517,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "26",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -547,7 +547,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "27",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -565,7 +565,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "28",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -588,7 +588,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "29",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   },
   {
@@ -602,7 +602,7 @@
     "createdAt": "2023-04-20T02:22:27Z",
     "cover": "https://example.com",
     "description": "Collection description",
-    "author": "30",
+    "author": "John Doe",
     "website": "https://yandex.ru/legal/practicum_termsofuse"
   }
 ]

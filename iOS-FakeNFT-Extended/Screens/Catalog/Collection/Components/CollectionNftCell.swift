@@ -16,6 +16,9 @@ struct CollectionNftCell: View {
     let isLiked: Bool
     let isInCart: Bool
 
+    let isLikeUpdating: Bool
+    let isCartUpdating: Bool
+
     let title: String
     let rating: Int
     let price: Double
@@ -50,17 +53,24 @@ struct CollectionNftCell: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
 
                 Button {
+                    guard !isLikeUpdating else { return }
                     onTapLike()
                 } label: {
                     Image(isLiked ? .favoritesActive40 : .favoritesNoActive40)
                 }
                 .buttonStyle(.plain)
+                .opacity(isLikeUpdating ? 0.5 : 1)
+                .animation(.easeInOut(duration: 0.2), value: isLikeUpdating)
             }
             .padding(.bottom, 8)
 
             HStack(spacing: 2) {
                 ForEach(1...5, id: \.self) { value in
-                    Image(value <= rating ? .starActive12 : .starNoActive12)
+                    let isActive = value <= rating
+
+                    Image(isActive ? .starActive12 : .starNoActive12)
+                        .renderingMode(isActive ? .original : .template)
+                        .foregroundStyle(.ypLightGrey)
                 }
 
                 Spacer()
@@ -68,7 +78,7 @@ struct CollectionNftCell: View {
             .frame(height: 12)
             .padding(.bottom, 4)
 
-            HStack(alignment: .center, spacing: 0) {
+            HStack(spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(AppFont.bold17)
@@ -88,6 +98,7 @@ struct CollectionNftCell: View {
                 Spacer()
 
                 Button {
+                    guard !isCartUpdating else { return }
                     onTapCart()
                 } label: {
                     Image(isInCart ? .cartDelete40 : .cartAdd40)
@@ -95,6 +106,8 @@ struct CollectionNftCell: View {
                         .foregroundStyle(.ypBlack)
                 }
                 .buttonStyle(.plain)
+                .opacity(isCartUpdating ? 0.5 : 1)
+                .animation(.easeInOut(duration: 0.2), value: isCartUpdating)
             }
         }
         .contentShape(Rectangle())
@@ -111,6 +124,8 @@ struct CollectionNftCell: View {
         onTapNft: {},
         isLiked: true,
         isInCart: true,
+        isLikeUpdating: false,
+        isCartUpdating: false,
         title: "Archie",
         rating: 3,
         price: 1.78,

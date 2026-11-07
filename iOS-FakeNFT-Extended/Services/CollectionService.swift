@@ -5,8 +5,6 @@
 //  Created by Андрей Макалкин on 24.10.2026.
 //
 
-import Foundation
-
 protocol CollectionServiceProtocol: Sendable {
     func loadCollections(page: Int, sortBy: CollectionsSortOption) async throws -> [NftCollection]
     func loadCollection(id: String) async throws -> NftCollection

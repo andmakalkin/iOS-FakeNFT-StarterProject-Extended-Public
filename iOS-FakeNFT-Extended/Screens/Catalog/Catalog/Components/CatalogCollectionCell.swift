@@ -35,7 +35,6 @@ struct CatalogCollectionCell: View {
                 .scaledToFill()
                 .frame(maxWidth: .infinity)
                 .frame(height: 140, alignment: .top)
-                .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
             HStack(spacing: 4) {

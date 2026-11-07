@@ -11,3 +11,5 @@
 "Catalog.sort.byNftCount" = "По количеству NFT";
 "Catalog.sort.close" = "Закрыть";
 "Collection.author" = "Автор коллекции:";
+"Collection.error.like" = "Не удалось изменить избранное";
+"Collection.error.cart" = "Не удалось обновить корзину";
