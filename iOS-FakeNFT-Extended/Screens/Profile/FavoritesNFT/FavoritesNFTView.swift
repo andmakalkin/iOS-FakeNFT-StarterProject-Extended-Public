@@ -53,6 +53,12 @@ struct FavoritesNFTView: View {
                 Spacer()
             }
             .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+            
+            if viewModel.nfts.isEmpty {
+                Text("У Вас ещё нет избранных NFT")
+                    .font(AppFont.bold17)
+                    .foregroundStyle(.ypBlack)
+            }
         }
         .navigationBarBackButtonHidden()
         .task {
