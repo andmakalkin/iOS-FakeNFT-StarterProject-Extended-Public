@@ -41,12 +41,14 @@ final class ProfileServiceImpl: ProfileService {
         likes: [String]? = nil
     ) async throws -> Profile {
 
+        let updatedLikes = likes?.isEmpty == true ? ["null"] : likes
+
         let request = UpdateProfileRequest(
             name: name,
             description: description,
             avatar: avatar,
             website: website,
-            likes: likes
+            likes: updatedLikes
         )
 
         let updatedProfile: Profile = try await networkClient.send(
