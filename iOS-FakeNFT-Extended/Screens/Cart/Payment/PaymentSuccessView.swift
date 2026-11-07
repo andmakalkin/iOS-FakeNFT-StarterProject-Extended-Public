@@ -30,7 +30,6 @@ struct PaymentSuccessView: View {
             Button {
                 cartViewModel.cartNfts = []
                 cartViewModel.state = .empty
-                cartViewModel.isOrderCompleted = true
                 onReturnToCart()
             } label: {
                 Text("Вернуться в корзину")
