@@ -157,10 +157,14 @@ struct PaymentMethodView: View {
                     )
                 )
             }
-            .alert("Не удалось произвести оплату", isPresented: $viewModel.showErrorAlert) {
-                Button("Отмена") { }
+            .alert("Не удалось произвести операцию", isPresented: $viewModel.showErrorAlert) {
+                Button("Отмена", role: .cancel) { }
                 Button("Повторить") {
-                    viewModel.pay { onPaySuccess() }
+                    if case .error = viewModel.state {
+                        viewModel.loadCurrencies()
+                    } else {
+                        viewModel.pay { onPaySuccess() }
+                    }
                 }
             } message: {
                 Text(viewModel.errorMessage)

@@ -62,12 +62,12 @@ final class PaymentViewModel {
         
         Task {
             do {
-                let currentOrder = try await cartService.fetchCart()
-                guard !currentOrder.nfts.isEmpty || currentStep != .initial else {
-                    throw NSError(domain: "PaymentError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Корзина пуста"])
-                }
-                
                 if currentStep == .initial {
+                    let currentOrder = try await cartService.fetchCart()
+                    guard !currentOrder.nfts.isEmpty else {
+                        throw NSError(domain: "PaymentError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Корзина пуста"])
+                    }
+                    
                     let paymentRequest = OrderPaymentRequest(currencyId: currencyId)
                     guard let urlPaymentRequest = paymentRequest.createURLRequest() else { return }
                     
@@ -86,6 +86,8 @@ final class PaymentViewModel {
                 }
                 
                 if currentStep == .paymentSent {
+                    let currentOrder = try await cartService.fetchCart()
+                    
                     let finalizeRequest = OrderFinalizeRequest(nfts: currentOrder.nfts)
                     guard let urlFinalizeRequest = finalizeRequest.createURLRequest() else { return }
                     
