@@ -52,7 +52,7 @@ struct FavoritesNFTView: View {
                 
                 Spacer()
             }
-            .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+            .padding(EdgeInsets(top: 2, leading: 0, bottom: 20, trailing: 0))
             
             Text("У Вас ещё нет избранных NFT")
                 .font(AppFont.bold17)

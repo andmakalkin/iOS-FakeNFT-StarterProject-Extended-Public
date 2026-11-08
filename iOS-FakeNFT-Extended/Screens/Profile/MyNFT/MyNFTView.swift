@@ -40,7 +40,7 @@ struct MyNFTView: View {
                         .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
                 }
-                .padding(EdgeInsets(top: 9, leading: 9, bottom: 9, trailing: 9))
+                .padding(EdgeInsets(top: 2, leading: 9, bottom: 9, trailing: 9))
                 
                 ScrollView {
                     LazyVStack(spacing: 32) {
