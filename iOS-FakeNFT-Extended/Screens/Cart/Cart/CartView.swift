@@ -133,13 +133,17 @@ struct CartView: View {
             viewModel.loadCartData()
         }
         .fullScreenCover(isPresented: $isPaymentActive) {
-            PaymentMethodView(cartService: viewModel.cartService, cartViewModel: viewModel) {
-                isPaymentActive = false
-            } onPaySuccess: {
-                isPaymentActive = false
-                isSuccessActive = true
-            }
-        }
+                    PaymentMethodView(
+                        cartService: viewModel.cartService,
+                        onBackAction: {
+                            isPaymentActive = false
+                        },
+                        onPaySuccess: {
+                            isPaymentActive = false
+                            isSuccessActive = true
+                        }
+                    )
+                }
         .fullScreenCover(isPresented: $isSuccessActive) {
             PaymentSuccessView(cartViewModel: viewModel) {
                 isSuccessActive = false
