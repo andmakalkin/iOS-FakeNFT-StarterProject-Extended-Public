@@ -30,6 +30,7 @@ struct EditProfileView: View {
                         Image(uiImage: viewModel.image)
                             .resizable()
                             .frame(width: 70, height: 70)
+                            .clipShape(Circle())
                         Image(.addProfilePhoto22)
                     }
                 })
@@ -134,7 +135,7 @@ struct EditProfileView: View {
             }
         }
         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-        
+        .navigationBarBackButtonHidden()
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -169,6 +170,8 @@ struct EditProfileView: View {
 }
 
 #Preview {
-    @Previewable @State var vm = ProfileViewModel(profileService: ProfileServiceImpl(networkClient: MockNetworkClient()))
-    EditProfileView(viewModel: $vm)
+    let client = DefaultNetworkClient()
+    let assembly = ServicesAssembly(networkClient: client, nftStorage: NftStorageImpl())
+    @State var model = ProfileViewModel(assembly: assembly)
+    EditProfileView(viewModel: $model)
 }

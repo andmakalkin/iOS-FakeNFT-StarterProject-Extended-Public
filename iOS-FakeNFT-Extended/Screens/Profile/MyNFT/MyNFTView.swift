@@ -40,25 +40,29 @@ struct MyNFTView: View {
                         .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
                 }
-                .padding(EdgeInsets(top: 9, leading: 9, bottom: 9, trailing: 9))
+                .padding(EdgeInsets(top: 2, leading: 9, bottom: 9, trailing: 9))
                 
                 ScrollView {
                     LazyVStack(spacing: 32) {
                         ForEach(viewModel.filtredNFTs) { nft in
-                            NFTCell(nft: nft)
+                            NFTCell(nft: nft) {
+                                Task {
+                                    await viewModel.toggleLike(nftId: nft.id)
+                                }
+                            }
                         }
                     }
                 }
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                .scrollIndicators(.hidden)
                 
                 Spacer()
             }
             
-            if viewModel.filtredNFTs.isEmpty {
-                Text("У Вас ещё нет NFT")
-                    .font(AppFont.bold17)
-                    .foregroundStyle(.ypBlack)
-            }
+            Text("У Вас ещё нет NFT")
+                .font(AppFont.bold17)
+                .foregroundStyle(.ypBlack)
+                .opacity((viewModel.filtredNFTs.isEmpty && !viewModel.isLoading) ? 1 : 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden()
@@ -80,8 +84,8 @@ struct MyNFTView: View {
 }
 
 #Preview {
-    let profile = Profile(name: "name", avatar: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg", description: "description", website: "", nfts: ["1","2"], rating: nil, id: "1")
+    let profile = Profile(name: "name", avatar: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg", description: "description", website: "", nfts: ["1","2"], likes: [], rating: nil, id: "1")
     let assembly = ServicesAssembly(networkClient: MockNetworkClient(), nftStorage: NftStorageImpl())
-    let model = MyNFTViewModel(nftService: assembly.nftService)
+    let model = MyNFTViewModel(assembly: assembly, profileModel: profile)
     MyNFTView(viewModel: model, profile: profile)
 }

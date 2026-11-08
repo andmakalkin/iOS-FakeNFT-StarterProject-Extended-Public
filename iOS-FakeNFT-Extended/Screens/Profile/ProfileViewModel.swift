@@ -9,9 +9,10 @@ import SwiftUI
 import Kingfisher
 import ProgressHUD
 
+@MainActor
 @Observable
 final class ProfileViewModel {
-    private let profileService: ProfileService
+    let assembly: ServicesAssembly
     var profileModel: Profile?
 
     private var newProfileModel = ProfileModel.empty
@@ -20,13 +21,13 @@ final class ProfileViewModel {
     
     var image: UIImage = UIImage(resource: .profilePhotoDefault70)
     
-    init(profileService: ProfileService) {
-        self.profileService = profileService
+    init(assembly: ServicesAssembly) {
+        self.assembly = assembly
     }
     
     func loadProfile() async {
         do {
-            profileModel = try await profileService.loadProfile(id: "1")
+            profileModel = try await assembly.profileService.loadProfile(id: "1")
         } catch {
             print(error.localizedDescription)
         }
@@ -50,11 +51,15 @@ final class ProfileViewModel {
     }
     
     var getProfile: Profile {
-        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], rating: "", id: "")
+        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], likes: [], rating: "", id: "")
     }
     
     var getNFTNumber: String {
         "(\(profileModel?.nfts.count ?? 0))"
+    }
+    
+    var getFavNFTNumber: String {
+        "(\(profileModel?.likes.count ?? 0))"
     }
 }
 
@@ -65,27 +70,33 @@ extension ProfileViewModel {
         description: String,
         website: String
     ) async {
+        guard let currentProfile = profileModel else { return }
+
+        let updatedName = name == currentProfile.name ? nil : name
+        let updatedAvatar = avatar == currentProfile.avatar ? nil : avatar
+        let updatedDescription = description == currentProfile.description ? nil : description
+        let updatedWebsite = website == currentProfile.website ? nil : website
+
+        guard updatedName != nil ||
+              updatedAvatar != nil ||
+              updatedDescription != nil ||
+              updatedWebsite != nil else {
+            return
+        }
+
         do {
-            try await profileService.updateProfile(
-                name: name,
-                avatar: avatar,
-                description: description,
-                website: website
+            let updatedProfile = try await assembly.profileService.updateProfile(
+                name: updatedName,
+                avatar: updatedAvatar,
+                description: updatedDescription,
+                website: updatedWebsite,
+                likes: nil
             )
-            
-            if let currentProfile = profileModel {
-                profileModel = Profile(
-                    name: name,
-                    avatar: avatar,
-                    description: description,
-                    website: website,
-                    nfts: currentProfile.nfts,
-                    rating: currentProfile.rating,
-                    id: currentProfile.id
-                )
-            }
+
+            profileModel = updatedProfile
+
         } catch {
-            print(error.localizedDescription)
+            print(error)
         }
     }
     

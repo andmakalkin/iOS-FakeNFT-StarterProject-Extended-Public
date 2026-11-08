@@ -136,6 +136,7 @@ actor MockNetworkClient: NetworkClient {
             description: update.description,
             website: update.website,
             nfts: profile.nfts,
+            likes: profile.likes,
             rating: profile.rating,
             id: profile.id
         )
