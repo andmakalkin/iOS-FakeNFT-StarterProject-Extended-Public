@@ -8,18 +8,11 @@
 import SwiftUI
 
 struct ProfileRootView: View {
+    
+    @Environment(ServicesAssembly.self)
+    private var services
 
     var body: some View {
-        ProfileView(viewModel: makeViewModel())
-    }
-
-    private func makeViewModel() -> ProfileViewModel {
-        let client = DefaultNetworkClient()
-        let assembly = ServicesAssembly(
-            networkClient: client,
-            nftStorage: NftStorageImpl()
-        )
-
-        return ProfileViewModel(assembly: assembly)
+        ProfileView(viewModel: ProfileViewModel(assembly: services))
     }
 }
