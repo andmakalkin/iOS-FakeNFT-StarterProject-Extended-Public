@@ -14,8 +14,6 @@ import ProgressHUD
 final class ProfileViewModel {
     let assembly: ServicesAssembly
     var profileModel: Profile?
-
-    private var newProfileModel = ProfileModel.empty
     
     let website = "https://www.pinterest.com"
     
