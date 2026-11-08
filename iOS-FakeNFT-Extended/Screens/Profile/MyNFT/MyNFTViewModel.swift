@@ -22,6 +22,8 @@ final class MyNFTViewModel {
         }
     }
     
+    var isLoading = false
+    
     private let userDefaultsService: UserDefaultsServiceProtocol = UserDefaultsService()
     
     init(assembly: ServicesAssembly, profileModel: Profile) {
@@ -43,9 +45,14 @@ final class MyNFTViewModel {
             nfts = []
             return
         }
-
+        
+        isLoading = true
         ProgressHUD.animate()
 
+        defer {
+            isLoading = false
+            ProgressHUD.dismiss()
+        }
         do {
             nfts = try await withThrowingTaskGroup(
                 of: (Int, MyNFTModel).self
@@ -74,12 +81,8 @@ final class MyNFTViewModel {
                     .sorted { $0.0 < $1.0 }
                     .map(\.1)
             }
-
-            ProgressHUD.dismiss()
-
         } catch {            
             print(error.localizedDescription)
-            ProgressHUD.dismiss()
         }
     }
     

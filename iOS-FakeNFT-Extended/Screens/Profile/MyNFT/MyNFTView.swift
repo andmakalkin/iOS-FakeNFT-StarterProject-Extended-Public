@@ -58,7 +58,7 @@ struct MyNFTView: View {
                 Spacer()
             }
             
-            if viewModel.filtredNFTs.isEmpty {
+            if viewModel.filtredNFTs.isEmpty && !viewModel.isLoading {
                 Text("У Вас ещё нет NFT")
                     .font(AppFont.bold17)
                     .foregroundStyle(.ypBlack)

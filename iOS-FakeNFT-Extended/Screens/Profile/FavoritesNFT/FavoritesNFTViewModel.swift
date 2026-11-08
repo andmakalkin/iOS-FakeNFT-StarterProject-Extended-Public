@@ -17,6 +17,8 @@ final class FavoritesNFTViewModel {
     
     var nfts: [MyNFTModel] = []
     
+    var isLoading = false
+    
     init(assembly: ServicesAssembly, profileModel: Profile) {
         self.assembly = assembly
         self.profileModel = profileModel
@@ -30,7 +32,13 @@ final class FavoritesNFTViewModel {
             return
         }
 
+        isLoading = true
         ProgressHUD.animate()
+        
+        defer {
+            isLoading = false
+            ProgressHUD.dismiss()
+        }
 
         do {
             nfts = try await withThrowingTaskGroup(
@@ -56,12 +64,8 @@ final class FavoritesNFTViewModel {
                     .sorted { $0.0 < $1.0 }
                     .map(\.1)
             }
-
-            ProgressHUD.dismiss()
-
         } catch {
             print(error.localizedDescription)
-            ProgressHUD.dismiss()
         }
     }
     
