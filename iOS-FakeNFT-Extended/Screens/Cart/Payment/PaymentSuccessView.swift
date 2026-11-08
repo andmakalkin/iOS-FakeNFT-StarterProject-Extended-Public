@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PaymentSuccessView: View {
-    var onReturnToCatalog: () -> Void
+    var cartViewModel: CartViewModel
+    var onReturnToCart: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
@@ -27,7 +28,9 @@ struct PaymentSuccessView: View {
             Spacer()
             
             Button {
-                onReturnToCatalog()
+                cartViewModel.cartNfts = []
+                cartViewModel.state = .empty
+                onReturnToCart()
             } label: {
                 Text("Вернуться в корзину")
                     .font(AppFont.bold17)

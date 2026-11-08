@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CartView: View {
-    @State private var viewModel = CartViewModel(cartService: MockCartService())
+    @State private var viewModel = CartViewModel(cartService: CartService(networkClient: DefaultNetworkClient()))
     
     @State private var isSortSheetPresented = false
     @State private var isDeleteOverlayPresented = false
@@ -26,19 +26,21 @@ struct CartView: View {
                 Color.ypWhite.ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            isSortSheetPresented = true
-                        }) {
-                            Image(.sort42)
-                                .resizable()
-                                .frame(width: 42, height: 42)
+                    if !viewModel.cartNfts.isEmpty && !viewModel.state.isEmpty {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                isSortSheetPresented = true
+                            }) {
+                                Image(.sort42)
+                                    .resizable()
+                                    .frame(width: 42, height: 42)
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
                     
                     ZStack {
                         List {
@@ -76,44 +78,46 @@ struct CartView: View {
                         }
                     }
                     
-                    HStack(spacing: 12) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text("\(viewModel.totalCount) NFT")
-                                .font(AppFont.regular15)
-                                .foregroundStyle(.ypBlack)
+                    if !viewModel.cartNfts.isEmpty && !viewModel.state.isEmpty && !viewModel.state.isLoading {
+                        HStack(spacing: 12) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("\(viewModel.totalCount) NFT")
+                                    .font(AppFont.regular15)
+                                    .foregroundStyle(.ypBlack)
+                                
+                                Text(viewModel.totalPrice.ethFormatted)
+                                    .font(AppFont.bold17)
+                                    .foregroundStyle(.ypUniversalGreen)
+                                    .lineLimit(1)
+                            }
+                            Spacer()
                             
-                            Text(viewModel.totalPrice.ethFormatted)
-                                .font(AppFont.bold17)
-                                .foregroundStyle(.ypUniversalGreen)
-                                .lineLimit(1)
+                            Button {
+                                isPaymentActive = true
+                            } label: {
+                                Text("К оплате")
+                                    .font(AppFont.bold17)
+                                    .foregroundStyle(.ypWhite)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 44)
+                                    .background(.ypBlack)
+                                    .cornerRadius(16)
+                            }
+                            .disabled(viewModel.cartNfts.isEmpty || viewModel.state.isLoading)
+                            .opacity((viewModel.cartNfts.isEmpty || viewModel.state.isLoading) ? 0.5 : 1.0)
                         }
-                        Spacer()
-                        
-                        Button {
-                            isPaymentActive = true
-                        } label: {
-                            Text("К оплате")
-                                .font(AppFont.bold17)
-                                .foregroundStyle(.ypWhite)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 44)
-                                .background(.ypBlack)
-                                .cornerRadius(16)
-                        }
-                        .disabled(viewModel.cartNfts.isEmpty || viewModel.state.isLoading)
-                        .opacity((viewModel.cartNfts.isEmpty || viewModel.state.isLoading) ? 0.5 : 1.0)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 16)
-                    .background(
-                        UnevenRoundedRectangle(
-                            topLeadingRadius: 12,
-                            bottomLeadingRadius: 0,
-                            bottomTrailingRadius: 0,
-                            topTrailingRadius: 12
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 16)
+                        .background(
+                            UnevenRoundedRectangle(
+                                topLeadingRadius: 12,
+                                bottomLeadingRadius: 0,
+                                bottomTrailingRadius: 0,
+                                topTrailingRadius: 12
+                            )
+                            .fill(.ypLightGrey)
                         )
-                        .fill(.ypLightGrey)
-                    )
+                    }
                 }
             }
             .background(.ypWhite)
@@ -129,24 +133,34 @@ struct CartView: View {
             viewModel.loadCartData()
         }
         .fullScreenCover(isPresented: $isPaymentActive) {
-            PaymentMethodView(cartService: viewModel.cartService) {
-                isPaymentActive = false
-            } onPaySuccess: {
-                isPaymentActive = false
-                isSuccessActive = true
-            }
-        }
+                    PaymentMethodView(
+                        cartService: viewModel.cartService,
+                        onBackAction: {
+                            isPaymentActive = false
+                        },
+                        onPaySuccess: {
+                            isPaymentActive = false
+                            isSuccessActive = true
+                        }
+                    )
+                }
         .fullScreenCover(isPresented: $isSuccessActive) {
-            PaymentSuccessView {
+            PaymentSuccessView(cartViewModel: viewModel) {
                 isSuccessActive = false
             }
         }
-        .fullScreenCover(isPresented: $isDeleteOverlayPresented) {
+        
+        .fullScreenCover(item: $nftModelToDelete) { nft in
             CartDeleteConfirmationView(
-                imageString: deleteOverlayImageString,
-                isPresented: $isDeleteOverlayPresented,
+                imageString: nft.images.first?.absoluteString ?? "",
+                isPresented: Binding(
+                    get: { nftModelToDelete != nil },
+                    set: { if !$0 { nftModelToDelete = nil } }
+                ),
                 onDeleteAction: {
-                    viewModel.deleteNft(id: deleteOverlayId)
+                    let idToDelete = nft.id
+                    nftModelToDelete = nil
+                    viewModel.deleteNft(id: idToDelete)
                 }
             )
             .presentationBackground(.clear)
