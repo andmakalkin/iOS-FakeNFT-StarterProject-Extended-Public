@@ -20,7 +20,7 @@
 		84A4B8C4309349C9009ACE4A /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8C3309349C0009ACE4A /* ProfileService.swift */; };
 		84A4B8C630934A3F009ACE4A /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8C530934A36009ACE4A /* ProfileRequest.swift */; };
 		84A4B8C830939F2C009ACE4A /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8C730939F29009ACE4A /* Profile.swift */; };
-		84A4B8CA3093A0A4009ACE4A /* UpdateProfileRequest.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift.swift */; };
+		84A4B8CA3093A0A4009ACE4A /* UpdateProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift */; };
 		84A4B8CC3093A27C009ACE4A /* MockNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8CB3093A27B009ACE4A /* MockNetworkClient.swift */; };
 		84A4B8CF3093AAAC009ACE4A /* mockProfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 84A4B8CD3093A345009ACE4A /* mockProfile.json */; };
 		84A4B8D13093B0AA009ACE4A /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8D03093B0A5009ACE4A /* WebView.swift */; };
@@ -106,7 +106,7 @@
 		84A4B8C3309349C0009ACE4A /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		84A4B8C530934A36009ACE4A /* ProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
 		84A4B8C730939F29009ACE4A /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRequest.swift.swift; sourceTree = "<group>"; };
+		84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRequest.swift; sourceTree = "<group>"; };
 		84A4B8CB3093A27B009ACE4A /* MockNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkClient.swift; sourceTree = "<group>"; };
 		84A4B8CD3093A345009ACE4A /* mockProfile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mockProfile.json; sourceTree = "<group>"; };
 		84A4B8D03093B0A5009ACE4A /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -458,7 +458,7 @@
 		ABC5E1AC2C31FB6C002B4068 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift.swift */,
+				84A4B8C93093A0A3009ACE4A /* UpdateProfileRequest.swift */,
 				84A4B8C530934A36009ACE4A /* ProfileRequest.swift */,
 				ABC5E1B12C31FBD4002B4068 /* ExampleRequest.swift */,
 				ABC5E1AD2C31FB7F002B4068 /* NftByIdRequest.swift */,
@@ -688,7 +688,7 @@
 				ABC5E1A42C31F800002B4068 /* NetworkClient.swift in Sources */,
 				ABC5E1D32C320438002B4068 /* NftDetailAssembly.swift in Sources */,
 				ABC5E1A12C31F6D7002B4068 /* Nft.swift in Sources */,
-				84A4B8CA3093A0A4009ACE4A /* UpdateProfileRequest.swift.swift in Sources */,
+				84A4B8CA3093A0A4009ACE4A /* UpdateProfileRequest.swift in Sources */,
 				ABC5E1AE2C31FB7F002B4068 /* NftByIdRequest.swift in Sources */,
 				84A4B8D73097441C009ACE4A /* MyNFTView.swift in Sources */,
 				84A4B8B53090BB65009ACE4A /* EmptyView.swift in Sources */,
