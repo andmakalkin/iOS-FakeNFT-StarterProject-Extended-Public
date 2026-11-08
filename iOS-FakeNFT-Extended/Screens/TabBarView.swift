@@ -7,7 +7,7 @@ struct TabBarView: View {
             ProfileRootView()
                 .tabItem {
                     Label(
-                        "Tab.catalog",
+                        "Tab.profile",
                         image: .tabBarProfile30
                     )
                 }
