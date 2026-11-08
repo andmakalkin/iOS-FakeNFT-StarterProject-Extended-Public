@@ -61,6 +61,7 @@ struct FavoritesNFTView: View {
                 .opacity((viewModel.nfts.isEmpty && !viewModel.isLoading) ? 1 : 0)
         }
         .navigationBarBackButtonHidden()
+        .toolbar(.hidden, for: .tabBar)
         .task {
             await viewModel.loadNfts()
         }

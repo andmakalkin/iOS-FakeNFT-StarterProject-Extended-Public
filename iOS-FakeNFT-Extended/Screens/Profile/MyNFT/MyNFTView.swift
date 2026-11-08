@@ -66,6 +66,7 @@ struct MyNFTView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden()
+        .toolbar(.hidden, for: .tabBar)
         .confirmationDialog("Сортировка", isPresented: $isFiltersShow, titleVisibility: .visible) {
             Button("По цене") {
                 viewModel.currentFilter = .price
