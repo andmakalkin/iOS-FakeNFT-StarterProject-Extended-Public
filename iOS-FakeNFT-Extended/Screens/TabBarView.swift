@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @Environment(ServicesAssembly.self) private var services
 
     var body: some View {
         TabView {
@@ -20,6 +21,17 @@ struct TabBarView: View {
                     )
                 }
                 .backgroundStyle(.background)
+
+            CartView(cartService: services.cartService)
+                .tabItem {
+                    Label(
+                        "Корзина",
+                        image: .tabBarBasket30
+                    )
+                }
+                .backgroundStyle(.background)
         }
+        
     }
 }
+

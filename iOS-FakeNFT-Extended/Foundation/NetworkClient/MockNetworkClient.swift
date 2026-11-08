@@ -47,7 +47,7 @@ actor MockNetworkClient: NetworkClient {
                 let nfts = request.bodyParameters?
                     .filter { $0.name == "nfts" }
                     .compactMap(\.value)
-                    .filter { !$0.isEmpty } ?? []
+                    .filter { !$0.isEmpty && $0 != "null" } ?? []
 
                 order = Order(
                     id: order.id,

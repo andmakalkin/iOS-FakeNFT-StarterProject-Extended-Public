@@ -6,6 +6,7 @@ final class ServicesAssembly {
     let userDefaultsService: UserDefaultsServiceProtocol
     let collectionService: CollectionServiceProtocol
     let orderService: OrderServiceProtocol
+    let cartService: CartServiceProtocol
     let profileService: ProfileServiceProtocol
 
     private let networkClient: NetworkClient
@@ -24,8 +25,11 @@ final class ServicesAssembly {
         self.collectionService = collectionService
             ?? CollectionService(networkClient: networkClient)
 
-        self.orderService = OrderService(
-            networkClient: networkClient
+        let sharedOrderService = OrderService(networkClient: networkClient)
+        self.orderService = sharedOrderService
+        self.cartService = CartService(
+            networkClient: networkClient,
+            orderService: sharedOrderService
         )
 
         self.profileService = ProfileService(

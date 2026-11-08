@@ -8,6 +8,8 @@
 protocol OrderServiceProtocol: Sendable {
     func loadOrder() async throws -> Order
     func toggleCart(nftId: String) async throws -> Order
+    func removeNft(nftId: String) async throws -> Order
+    func clearOrder() async throws -> Order
 }
 
 actor OrderService: OrderServiceProtocol {
@@ -49,6 +51,23 @@ actor OrderService: OrderServiceProtocol {
             }
 
             return try await service.updateOrder(updatedNfts)
+        }
+    }
+
+    // MARK: - Shared Cart Actions
+
+    func removeNft(nftId: String) async throws -> Order {
+        try await performInQueue { service in
+            let order = try await service.currentOrder()
+            let updatedNfts = order.nfts.filter { $0 != nftId }
+            guard updatedNfts != order.nfts else { return order }
+            return try await service.updateOrder(updatedNfts)
+        }
+    }
+
+    func clearOrder() async throws -> Order {
+        try await performInQueue { service in
+            try await service.updateOrder([])
         }
     }
 
