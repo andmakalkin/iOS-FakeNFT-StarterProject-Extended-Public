@@ -3,28 +3,40 @@ import Foundation
 @Observable
 @MainActor
 final class ServicesAssembly {
+    let userDefaultsService: UserDefaultsServiceProtocol
+    let collectionService: CollectionServiceProtocol
+    let orderService: OrderServiceProtocol
+    let profileService: ProfileServiceProtocol
 
     private let networkClient: NetworkClient
     private let nftStorage: NftStorage
 
     init(
         networkClient: NetworkClient,
-        nftStorage: NftStorage
+        nftStorage: NftStorage,
+        userDefaultsService: UserDefaultsServiceProtocol = UserDefaultsService(),
+        collectionService: CollectionServiceProtocol? = nil
     ) {
         self.networkClient = networkClient
         self.nftStorage = nftStorage
+        self.userDefaultsService = userDefaultsService
+
+        self.collectionService = collectionService
+            ?? CollectionService(networkClient: networkClient)
+
+        self.orderService = OrderService(
+            networkClient: networkClient
+        )
+
+        self.profileService = ProfileService(
+            networkClient: networkClient
+        )
     }
 
     var nftService: NftService {
         NftServiceImpl(
             networkClient: networkClient,
             storage: nftStorage
-        )
-    }
-    
-    var profileService: ProfileService {
-        ProfileServiceImpl(
-            networkClient: networkClient
         )
     }
 }

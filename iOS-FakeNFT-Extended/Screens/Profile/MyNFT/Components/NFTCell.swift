@@ -71,7 +71,8 @@ struct NFTCell: View {
 }
 
 #Preview {
-    let nft = Nft(createdAt: "", name: "Kitty", images: [URL(string: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg")!], rating: 5, description: "", price: 100, author: "pin", website: "", id: "1")
+    let nft = Nft(id: "", images: [URL(string: "https://i.pinimg.com/1200x/d3/49/1b/d3491b2125cd256caeb793aa8b9fa748.jpg")!], name: "Kitty", rating: 5, price: 10, createdAt: nil, description: "pin", author: nil, website: nil)
+    
     let model = MyNFTModel(nft: nft)
     NFTCell(nft: model) {
         

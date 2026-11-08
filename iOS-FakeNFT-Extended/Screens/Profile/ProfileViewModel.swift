@@ -27,7 +27,7 @@ final class ProfileViewModel {
     
     func loadProfile() async {
         do {
-            profileModel = try await assembly.profileService.loadProfile(id: "1")
+            profileModel = try await assembly.profileService.loadProfile()
         } catch {
             print(error.localizedDescription)
         }
@@ -35,7 +35,8 @@ final class ProfileViewModel {
     
     func loadProfileImage() {
         guard let profileModel else { return }
-        loadImage(urlString: profileModel.avatar)
+        guard let avatar = profileModel.avatar else { return }
+        loadImage(urlString: avatar)
     }
     
     var getName: String {
@@ -51,7 +52,8 @@ final class ProfileViewModel {
     }
     
     var getProfile: Profile {
-        profileModel ?? Profile(name: "", avatar: "", description: "", website: "", nfts: [], likes: [], rating: "", id: "")
+        profileModel ?? Profile(id: "", name: "", nfts: [], likes: [], avatar: nil, description: nil, website: nil)
+        
     }
     
     var getNFTNumber: String {
@@ -101,21 +103,23 @@ extension ProfileViewModel {
     }
     
     func loadImage(urlString: String) {
-        
         guard let url = URL(string: urlString) else { return }
-        
+
+        ProgressHUD.animate()
+
         KingfisherManager.shared.retrieveImage(with: url) { [weak self] result in
-            guard let self else { return }
-            
-            ProgressHUD.animate()
-            
-            switch result {
-            case .success(let value):
-                self.image = value.image
-                ProgressHUD.dismiss()
-            case .failure(let error):
-                print(error.localizedDescription)
-                ProgressHUD.dismiss()
+            Task { @MainActor in
+                guard let self else { return }
+
+                switch result {
+                case .success(let value):
+                    self.image = value.image
+                    ProgressHUD.dismiss()
+
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    ProgressHUD.dismiss()
+                }
             }
         }
     }

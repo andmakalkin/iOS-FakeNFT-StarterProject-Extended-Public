@@ -2,15 +2,14 @@
 //  ProfileRequest.swift
 //  iOS-FakeNFT-Extended
 //
-//  Created by ivan on 2026-10-29.
+//  Created by Андрей Макалкин on 01.11.2026.
 //
 
 import Foundation
 
 struct ProfileRequest: NetworkRequest {
-    let userId: String
     
     var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/api/v1/profile/\(userId)")
+        URL(string: "\(RequestConstants.baseURL)/api/v1/profile/1")
     }
 }

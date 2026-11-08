@@ -25,7 +25,7 @@ struct MyNFTModel: Identifiable {
         self.imageURL = nft.images.first
         self.name = nft.name
         self.rating = nft.rating
-        self.author = nft.author
+        self.author = nft.author ?? ""
         self.price = nft.price
         self.isLiked = isLiked
     }

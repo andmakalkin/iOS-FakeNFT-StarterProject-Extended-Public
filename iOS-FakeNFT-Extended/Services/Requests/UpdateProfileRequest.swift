@@ -2,7 +2,7 @@
 //  UpdateProfileRequest.swift
 //  iOS-FakeNFT-Extended
 //
-//  Created by ivan on 2026-10-29.
+//  Created by Андрей Макалкин on 01.11.2026.
 //
 
 import Foundation
@@ -40,27 +40,41 @@ struct UpdateProfileRequest: NetworkRequest {
         var parameters: [URLQueryItem] = []
 
         if let name {
-            parameters.append(URLQueryItem(name: "name", value: name))
+            parameters.append(
+                URLQueryItem(name: "name", value: name)
+            )
         }
 
         if let description {
-            parameters.append(URLQueryItem(name: "description", value: description))
+            parameters.append(
+                URLQueryItem(name: "description", value: description)
+            )
         }
 
         if let avatar {
-            parameters.append(URLQueryItem(name: "avatar", value: avatar))
+            parameters.append(
+                URLQueryItem(name: "avatar", value: avatar)
+            )
         }
 
         if let website {
-            parameters.append(URLQueryItem(name: "website", value: website))
+            parameters.append(
+                URLQueryItem(name: "website", value: website)
+            )
         }
 
         if let likes {
-            parameters.append(
-                contentsOf: likes.map {
-                    URLQueryItem(name: "likes", value: $0)
-                }
-            )
+            if likes.isEmpty {
+                parameters.append(
+                    URLQueryItem(name: "likes", value: "null")
+                )
+            } else {
+                parameters.append(
+                    contentsOf: likes.map {
+                        URLQueryItem(name: "likes", value: $0)
+                    }
+                )
+            }
         }
 
         return parameters
