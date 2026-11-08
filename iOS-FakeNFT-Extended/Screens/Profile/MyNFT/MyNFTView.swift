@@ -58,11 +58,10 @@ struct MyNFTView: View {
                 Spacer()
             }
             
-            if viewModel.filtredNFTs.isEmpty && !viewModel.isLoading {
-                Text("У Вас ещё нет NFT")
-                    .font(AppFont.bold17)
-                    .foregroundStyle(.ypBlack)
-            }
+            Text("У Вас ещё нет NFT")
+                .font(AppFont.bold17)
+                .foregroundStyle(.ypBlack)
+                .opacity((viewModel.filtredNFTs.isEmpty && !viewModel.isLoading) ? 1 : 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden()
