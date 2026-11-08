@@ -14,7 +14,6 @@ protocol NetworkRequest {
     var bodyParameters: [URLQueryItem]? { get }
 }
 
-// default values
 extension NetworkRequest {
     var httpMethod: HttpMethod { .get }
     var dto: Encodable? { nil }

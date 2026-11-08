@@ -5,8 +5,19 @@
 //  Created by Андрей Макалкин on 01.11.2026.
 //
 
+import Foundation
+
 protocol ProfileServiceProtocol: Sendable {
     func loadProfile() async throws -> Profile
+
+    func updateProfile(
+        name: String?,
+        avatar: String?,
+        description: String?,
+        website: String?,
+        likes: [String]?
+    ) async throws -> Profile
+
     func toggleLike(nftId: String) async throws -> Profile
 }
 
@@ -32,7 +43,32 @@ actor ProfileService: ProfileServiceProtocol {
 
     func loadProfile() async throws -> Profile {
         try await performInQueue { service in
-            try await service.fetchProfile()
+            try await service.currentProfile()
+        }
+    }
+
+    func updateProfile(
+        name: String? = nil,
+        avatar: String? = nil,
+        description: String? = nil,
+        website: String? = nil,
+        likes: [String]? = nil
+    ) async throws -> Profile {
+        try await performInQueue { service in
+            let request = UpdateProfileRequest(
+                name: name,
+                description: description,
+                avatar: avatar,
+                website: website,
+                likes: likes
+            )
+
+            let updatedProfile: Profile = try await service.networkClient.send(
+                request: request
+            )
+
+            service.cachedProfile = updatedProfile
+            return updatedProfile
         }
     }
 
@@ -66,17 +102,23 @@ actor ProfileService: ProfileServiceProtocol {
 
     private func fetchProfile() async throws -> Profile {
         let request = ProfileRequest()
-        let profile: Profile = try await networkClient.send(request: request)
-        cachedProfile = profile
 
+        let profile: Profile = try await networkClient.send(
+            request: request
+        )
+
+        cachedProfile = profile
         return profile
     }
 
     private func updateLikes(_ likes: [String]) async throws -> Profile {
         let request = UpdateProfileRequest(likes: likes)
-        let updatedProfile: Profile = try await networkClient.send(request: request)
-        cachedProfile = updatedProfile
 
+        let updatedProfile: Profile = try await networkClient.send(
+            request: request
+        )
+
+        cachedProfile = updatedProfile
         return updatedProfile
     }
 

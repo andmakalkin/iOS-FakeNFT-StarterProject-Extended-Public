@@ -56,14 +56,24 @@ actor DefaultNetworkClient: NetworkClient {
         urlRequest.httpMethod = request.httpMethod.rawValue
 
         if let bodyParameters = request.bodyParameters {
-            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue(
+                "application/x-www-form-urlencoded",
+                forHTTPHeaderField: "Content-Type"
+            )
             urlRequest.httpBody = encode(bodyParameters: bodyParameters)
-        } else if let dto = request.dto,
-                  let dtoEncoded = try? encoder.encode(dto) {
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = dtoEncoded
+
+        } else if let dto = request.dto {
+            urlRequest.setValue(
+                "application/json",
+                forHTTPHeaderField: "Content-Type"
+            )
+            urlRequest.httpBody = try encoder.encode(dto)
         }
-        urlRequest.addValue(RequestConstants.token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
+
+        urlRequest.addValue(
+            RequestConstants.token,
+            forHTTPHeaderField: "X-Practicum-Mobile-Token"
+        )
 
         return urlRequest
     }

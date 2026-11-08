@@ -4,6 +4,14 @@ struct TabBarView: View {
 
     var body: some View {
         TabView {
+            ProfileRootView()
+                .tabItem {
+                    Label(
+                        "Tab.profile",
+                        image: .tabBarProfile30
+                    )
+                }
+                .backgroundStyle(.background)
             CatalogRootView()
                 .tabItem {
                     Label(

@@ -10,11 +10,15 @@ import Foundation
 protocol UserDefaultsServiceProtocol {
     func saveCatalogSortOption(_ option: CatalogSortOption)
     func fetchCatalogSortOption() -> CatalogSortOption?
+    
+    func saveMyNFTFilter(_ filter: MyNFTFilters)
+    func fetchMyNFTFilter() -> MyNFTFilters?
 }
 
 final class UserDefaultsService: UserDefaultsServiceProtocol {
     private enum Keys: String {
         case catalogSortOption
+        case myNFTFilter
     }
 
     private let userDefaults: UserDefaults
@@ -38,5 +42,22 @@ final class UserDefaultsService: UserDefaultsServiceProtocol {
         }
 
         return CatalogSortOption(rawValue: rawValue)
+    }
+    
+    func saveMyNFTFilter(_ filter: MyNFTFilters) {
+        userDefaults.set(
+            filter.rawValue,
+            forKey: Keys.myNFTFilter.rawValue
+        )
+    }
+    
+    func fetchMyNFTFilter() -> MyNFTFilters? {
+        guard let rawValue = userDefaults.string(
+            forKey: Keys.myNFTFilter.rawValue
+        ) else {
+            return nil
+        }
+        
+        return MyNFTFilters(rawValue: rawValue)
     }
 }
