@@ -43,7 +43,6 @@
 		55DECB58308BE3330071FCA9 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55DECB57308BE3300071FCA9 /* UserDefaultsService.swift */; };
 		849ACECB30A0F0B10092B810 /* CatalogSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACECA30A0F0B10092B810 /* CatalogSortOption.swift */; };
 		849ACECD30A0F0C00092B810 /* CollectionsSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACECC30A0F0C00092B810 /* CollectionsSortOption.swift */; };
-		849ACED530A0F8E80092B810 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 849ACED430A0F8E70092B810 /* Secrets.xcconfig */; };
 		849ACED730A0FC820092B810 /* ProfileRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACED630A0FC820092B810 /* ProfileRootView.swift */; };
 		849ACEDA30A0FEFB0092B810 /* NftDetailCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E1CA2C3203FC002B4068 /* NftDetailCellModel.swift */; };
 		849ACEDB30A0FFBA0092B810 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E1DA2C3204CE002B4068 /* UIView+Constraints.swift */; };
@@ -773,7 +772,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A4B8CF3093AAAC009ACE4A /* mockProfile.json in Resources */,
-				849ACED530A0F8E80092B810 /* Secrets.xcconfig in Resources */,
 				556313F630854E49003B4A85 /* Config.xcconfig in Resources */,
 				55D4003130953BB10079F9F9 /* mockNfts.json in Resources */,
 				55A1EE4A308CDD76000BC2E5 /* mockCollections.json in Resources */,
