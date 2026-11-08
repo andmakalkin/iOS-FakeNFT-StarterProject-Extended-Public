@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 import ProgressHUD
 
+@MainActor
 @Observable
 final class ProfileViewModel {
     let assembly: ServicesAssembly
