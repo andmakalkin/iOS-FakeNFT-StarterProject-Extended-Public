@@ -15,7 +15,6 @@ protocol CartServiceProtocol: Sendable {
     func payOrder(currencyId: String, nfts: [String]) async throws
 }
 
-/// Cart and Catalog share one OrderService instance so that the order cache is never bypassed.
 final class CartService: CartServiceProtocol, @unchecked Sendable {
     private let networkClient: NetworkClient
     private let orderService: OrderServiceProtocol
@@ -45,8 +44,6 @@ final class CartService: CartServiceProtocol, @unchecked Sendable {
         _ = try await orderService.clearOrder()
     }
 
-    // Payment and finalization use the existing Cart API flow.
-    // Clearing the order must still go through the shared service.
     func payOrder(currencyId: String, nfts: [String]) async throws {
         let paymentRequest = OrderPaymentRequest(currencyId: currencyId)
         guard let urlPaymentRequest = paymentRequest.createURLRequest() else {
