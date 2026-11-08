@@ -44,6 +44,7 @@
 		849ACECB30A0F0B10092B810 /* CatalogSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACECA30A0F0B10092B810 /* CatalogSortOption.swift */; };
 		849ACECD30A0F0C00092B810 /* CollectionsSortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACECC30A0F0C00092B810 /* CollectionsSortOption.swift */; };
 		849ACED530A0F8E80092B810 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 849ACED430A0F8E70092B810 /* Secrets.xcconfig */; };
+		849ACED730A0FC820092B810 /* ProfileRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849ACED630A0FC820092B810 /* ProfileRootView.swift */; };
 		84A4B8B03090A9F2009ACE4A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8AF3090A9F2009ACE4A /* ProfileView.swift */; };
 		84A4B8B33090B895009ACE4A /* ProfileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8B23090B88E009ACE4A /* ProfileDestination.swift */; };
 		84A4B8B53090BB65009ACE4A /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A4B8B43090BB65009ACE4A /* EmptyView.swift */; };
@@ -156,6 +157,7 @@
 		849ACECA30A0F0B10092B810 /* CatalogSortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogSortOption.swift; sourceTree = "<group>"; };
 		849ACECC30A0F0C00092B810 /* CollectionsSortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsSortOption.swift; sourceTree = "<group>"; };
 		849ACED430A0F8E70092B810 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		849ACED630A0FC820092B810 /* ProfileRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRootView.swift; sourceTree = "<group>"; };
 		84A4B8AF3090A9F2009ACE4A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		84A4B8B23090B88E009ACE4A /* ProfileDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDestination.swift; sourceTree = "<group>"; };
 		84A4B8B43090BB65009ACE4A /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				84A4B8AF3090A9F2009ACE4A /* ProfileView.swift */,
 				84A4B8B43090BB65009ACE4A /* EmptyView.swift */,
 				84A4B8B63091DE9F009ACE4A /* EditProfileView.swift */,
+				849ACED630A0FC820092B810 /* ProfileRootView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -823,6 +826,7 @@
 				554E7B6E309B72F100A40E1E /* AppRouter.swift in Sources */,
 				557D6D6D308AAC510095BF3C /* CatalogView.swift in Sources */,
 				5522B00730975FC700249D13 /* OrderRequest.swift in Sources */,
+				849ACED730A0FC820092B810 /* ProfileRootView.swift in Sources */,
 				ABC5E1DD2C3204DC002B4068 /* CellsReusingUtils.swift in Sources */,
 				84A4B8D930978435009ACE4A /* NFTCell.swift in Sources */,
 				ABC5E1B52C31FC57002B4068 /* TabBarView.swift in Sources */,
