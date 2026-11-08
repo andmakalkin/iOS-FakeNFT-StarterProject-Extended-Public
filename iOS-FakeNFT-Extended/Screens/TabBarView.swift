@@ -1,19 +1,28 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @Environment(ServicesAssembly.self) private var services
+
     var body: some View {
         TabView {
-            TestCatalogView()
+            ProfileRootView()
                 .tabItem {
                     Label(
-                        NSLocalizedString("Tab.catalog", comment: ""),
-                        systemImage: "square.stack.3d.up.fill"
+                        "Tab.profile",
+                        image: .tabBarProfile30
                     )
                 }
                 .backgroundStyle(.background)
-            
-            
-            CartView()
+            CatalogRootView()
+                .tabItem {
+                    Label(
+                        "Tab.catalog",
+                        image: .tabBarCatalog30
+                    )
+                }
+                .backgroundStyle(.background)
+
+            CartView(cartService: services.cartService)
                 .tabItem {
                     Label(
                         "Корзина",

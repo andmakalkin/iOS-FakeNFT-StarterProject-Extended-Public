@@ -6,7 +6,7 @@ struct Nft: Codable, Identifiable, Sendable {
     let name: String
     let rating: Int
     let price: Double
-    
+
     let createdAt: String?
     let description: String?
     let author: String?

@@ -11,79 +11,71 @@ protocol CartServiceProtocol: Sendable {
     func fetchNftById(id: String) async throws -> Nft
     func fetchCurrencies() async throws -> [Currency]
     func deleteNftFromCart(id: String) async throws
+    func clearCart() async throws
     func payOrder(currencyId: String, nfts: [String]) async throws
 }
 
+/// Cart and Catalog share one OrderService instance so that the order cache is never bypassed.
 final class CartService: CartServiceProtocol, @unchecked Sendable {
     private let networkClient: NetworkClient
-    
-    init(networkClient: NetworkClient) {
+    private let orderService: OrderServiceProtocol
+
+    init(networkClient: NetworkClient, orderService: OrderServiceProtocol) {
         self.networkClient = networkClient
+        self.orderService = orderService
     }
-    
+
     func fetchCart() async throws -> Order {
-        try await networkClient.send(request: CartRequest())
+        try await orderService.loadOrder()
     }
-    
+
     func fetchNftById(id: String) async throws -> Nft {
         try await networkClient.send(request: NFTRequest(id: id))
     }
-    
+
     func fetchCurrencies() async throws -> [Currency] {
         try await networkClient.send(request: CurrenciesRequest())
     }
-    
+
     func deleteNftFromCart(id: String) async throws {
-        let currentCart = try await fetchCart()
-        let updatedNfts = currentCart.nfts.filter { $0 != id }
-        
-        let deleteRequest = CartDeleteRequest(nfts: updatedNfts)
-        guard let urlRequest = deleteRequest.createURLRequest() else {
-            throw NetworkClientError.incorrectRequest("Empty endpoint")
-        }
-        
-        let (_, response) = try await URLSession.shared.data(for: urlRequest)
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-            throw NetworkClientError.parsingError
-        }
+        _ = try await orderService.removeNft(nftId: id)
     }
-    
+
+    func clearCart() async throws {
+        _ = try await orderService.clearOrder()
+    }
+
+    // Payment and finalization use the existing Cart API flow.
+    // Clearing the order must still go through the shared service.
     func payOrder(currencyId: String, nfts: [String]) async throws {
         let paymentRequest = OrderPaymentRequest(currencyId: currencyId)
         guard let urlPaymentRequest = paymentRequest.createURLRequest() else {
             throw NetworkClientError.incorrectRequest("Empty endpoint")
         }
-        
+
         let (paymentData, paymentResponse) = try await URLSession.shared.data(for: urlPaymentRequest)
-        guard let httpResponse = paymentResponse as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+        guard let httpResponse = paymentResponse as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
             throw NetworkClientError.urlSessionError
         }
-        
+
         struct PaymentResult: Codable { let success: Bool; let id: String }
         let paymentResult = try JSONDecoder().decode(PaymentResult.self, from: paymentData)
         guard paymentResult.success else {
             throw NetworkClientError.urlSessionError
         }
-        
+
         let finalizeRequest = OrderFinalizeRequest(nfts: nfts)
         guard let urlFinalizeRequest = finalizeRequest.createURLRequest() else {
             throw NetworkClientError.incorrectRequest("Empty endpoint")
         }
-        
+
         let (_, orderResponse) = try await URLSession.shared.data(for: urlFinalizeRequest)
-        guard let httpOrderResponse = orderResponse as? HTTPURLResponse, (200...299).contains(httpOrderResponse.statusCode) else {
+        guard let httpOrderResponse = orderResponse as? HTTPURLResponse,
+              (200...299).contains(httpOrderResponse.statusCode) else {
             throw NetworkClientError.urlSessionError
         }
-        
-        // Корзина автоматически не очищается после оплаты, поэтому делаем это принудительно
-        let clearRequest = CartClearRequest()
-        guard let urlClearRequest = clearRequest.createURLRequest() else {
-            throw NetworkClientError.incorrectRequest("Empty endpoint")
-        }
-        
-        let (_, clearResponse) = try await URLSession.shared.data(for: urlClearRequest)
-        guard let httpClearResponse = clearResponse as? HTTPURLResponse, (200...299).contains(httpClearResponse.statusCode) else {
-            throw NetworkClientError.urlSessionError
-        }
+
+        try await clearCart()
     }
 }

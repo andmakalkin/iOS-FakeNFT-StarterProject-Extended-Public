@@ -12,12 +12,12 @@ enum AppFont {
     static let regular15 = Font.system(size: 15, weight: .regular)
     static let regular17 = Font.system(size: 17, weight: .regular)
     static let regular20 = Font.system(size: 20, weight: .regular)
-    
+
     static let medium10 = Font.system(size: 10, weight: .medium)
-    
+
     static let semiBold17 = Font.system(size: 17, weight: .semibold)
     static let semiBold20 = Font.system(size: 20, weight: .semibold)
-    
+
     static let bold17 = Font.system(size: 17, weight: .bold)
     static let bold20 = Font.system(size: 20, weight: .bold)
     static let bold22 = Font.system(size: 22, weight: .bold)

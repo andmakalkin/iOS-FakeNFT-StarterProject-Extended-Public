@@ -2,12 +2,10 @@
 //  Order.swift
 //  iOS-FakeNFT-Extended
 //
-//  Created by Albina Musugalieva.
+//  Created by Андрей Макалкин on 01.11.2026.
 //
 
-import Foundation
-
 struct Order: Codable, Identifiable, Sendable {
-    let nfts: [String]
     let id: String
+    let nfts: [String]
 }

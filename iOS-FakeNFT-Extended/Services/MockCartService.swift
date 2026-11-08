@@ -13,7 +13,7 @@ final class MockCartService: CartServiceProtocol, @unchecked Sendable {
     
     func fetchCart() async throws -> Order {
         try await Task.sleep(nanoseconds: 600_000_000)
-        return Order(nfts: currentOrderNfts, id: "cart_order_practicum")
+        return Order(id: "cart_order_practicum", nfts: currentOrderNfts)
     }
     
     func fetchNftById(id: String) async throws -> Nft {
@@ -61,6 +61,11 @@ final class MockCartService: CartServiceProtocol, @unchecked Sendable {
         currentOrderNfts.removeAll { $0 == id }
     }
     
+    func clearCart() async throws {
+        try await Task.sleep(nanoseconds: 300_000_000)
+        currentOrderNfts = []
+    }
+
     func payOrder(currencyId: String, nfts: [String]) async throws {
         try await Task.sleep(nanoseconds: 300_000_000)
     }

@@ -100,13 +100,7 @@ final class PaymentViewModel {
                 }
                 
                 if currentStep == .orderFinalized {
-                    let clearRequest = CartClearRequest()
-                    guard let urlClearRequest = clearRequest.createURLRequest() else { return }
-                    
-                    let (_, clearResponse) = try await URLSession.shared.data(for: urlClearRequest)
-                    guard let httpClearResponse = clearResponse as? HTTPURLResponse, (200...299).contains(httpClearResponse.statusCode) else {
-                        throw NSError(domain: "PaymentError", code: -5, userInfo: [NSLocalizedDescriptionKey: "Ошибка при принудительной очистке сервера"])
-                    }
+                    try await cartService.clearCart()
                 }
                 
                 currentStep = .initial

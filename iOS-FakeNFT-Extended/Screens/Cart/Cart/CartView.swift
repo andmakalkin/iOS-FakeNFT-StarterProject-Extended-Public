@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CartView: View {
-    @State private var viewModel = CartViewModel(cartService: CartService(networkClient: DefaultNetworkClient()))
+    @State private var viewModel: CartViewModel
     
     @State private var isSortSheetPresented = false
     @State private var isDeleteOverlayPresented = false
@@ -19,7 +19,11 @@ struct CartView: View {
     
     @State private var isPaymentActive = false
     @State private var isSuccessActive = false
-    
+
+    init(cartService: CartServiceProtocol) {
+        _viewModel = State(wrappedValue: CartViewModel(cartService: cartService))
+    }
+
     var body: some View {
         NavigationView {
             ZStack {
