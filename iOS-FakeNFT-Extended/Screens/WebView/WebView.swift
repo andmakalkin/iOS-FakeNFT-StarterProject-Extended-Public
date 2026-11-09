@@ -37,9 +37,9 @@ struct WebView: View {
         return false
     }
 
-    init(url: URL) {
+    init(url: URL, title: String? = nil) {
         _viewModel = State(
-            initialValue: WebViewModel(url: url)
+            initialValue: WebViewModel(url: url, title: title)
         )
     }
 
@@ -71,6 +71,7 @@ struct WebView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.visible, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -79,6 +80,16 @@ struct WebView: View {
                     Image(.backward24)
                         .renderingMode(.template)
                         .foregroundStyle(.ypBlack)
+                }
+            }
+
+            if let title = viewModel.title {
+                ToolbarItem(placement: .principal) {
+                    Text(title)
+                        .font(AppFont.bold17)
+                        .foregroundStyle(.ypBlack)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.85)
                 }
             }
         }
@@ -99,10 +110,10 @@ struct WebView: View {
 
 #Preview {
     if let url = URL(
-        string: RequestConstants.webViewStub
+        string: RequestConstants.webViewStub,
     ) {
         NavigationStack {
-            WebView(url: url)
+            WebView(url: url, title: "Пользовательское соглашение")
         }
     }
 }

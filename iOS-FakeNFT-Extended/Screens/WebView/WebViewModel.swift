@@ -22,12 +22,15 @@ final class WebViewModel {
     }
 
     let url: URL
+    let title: String?
+
     private(set) var state: State = .loading
 
     // MARK: - Init
 
-    init(url: URL) {
+    init(url: URL, title: String? = nil) {
         self.url = url
+        self.title = title
     }
 
     // MARK: - Public Methods

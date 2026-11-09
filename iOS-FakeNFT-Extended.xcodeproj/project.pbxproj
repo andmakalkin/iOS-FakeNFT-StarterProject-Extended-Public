@@ -90,7 +90,6 @@
 		ABC5E1EB2C32084F002B4068 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABC5E1E92C32084F002B4068 /* Localizable.strings */; };
 		B103456F309931B7005C47DD /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103456E309931B7005C47DD /* Currency.swift */; };
 		B103457730993490005C47DD /* CurrenciesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103457630993490005C47DD /* CurrenciesRequest.swift */; };
-		B103462A309B6159005C47DD /* TermsWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1034629309B6159005C47DD /* TermsWebView.swift */; };
 		B1034634309B6159005C47DD /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103462F309B6159005C47DD /* CartView.swift */; };
 		B1034635309B6159005C47DD /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1034630309B6159005C47DD /* CartViewModel.swift */; };
 		B103463B309B6159005C47DD /* CryptoCurrencyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1034636309B6159005C47DD /* CryptoCurrencyCell.swift */; };
@@ -212,7 +211,6 @@
 		ABC5E1EA2C32084F002B4068 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B103456E309931B7005C47DD /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		B103457630993490005C47DD /* CurrenciesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesRequest.swift; sourceTree = "<group>"; };
-		B1034629309B6159005C47DD /* TermsWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsWebView.swift; sourceTree = "<group>"; };
 		B103462F309B6159005C47DD /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		B1034630309B6159005C47DD /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 		B1034636309B6159005C47DD /* CryptoCurrencyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCurrencyCell.swift; sourceTree = "<group>"; };
@@ -689,7 +687,6 @@
 		B103464A309B675C005C47DD /* PaymentComponents */ = {
 			isa = PBXGroup;
 			children = (
-				B1034629309B6159005C47DD /* TermsWebView.swift */,
 				B1034636309B6159005C47DD /* CryptoCurrencyCell.swift */,
 			);
 			path = PaymentComponents;
@@ -926,7 +923,6 @@
 				84A4B8E030989265009ACE4A /* MyNFTModel.swift in Sources */,
 				5522B07E3097854600249D13 /* UpdateProfileRequest.swift in Sources */,
 				ABC5E1CD2C32040C002B4068 /* NftImageCollectionViewCell.swift in Sources */,
-				B103462A309B6159005C47DD /* TermsWebView.swift in Sources */,
 				B103456F309931B7005C47DD /* Currency.swift in Sources */,
 				ABC5E1D12C32042C002B4068 /* NftDetailPresenter.swift in Sources */,
 				B1D3DAE4308E8BBC00D5CE07 /* CartService.swift in Sources */,

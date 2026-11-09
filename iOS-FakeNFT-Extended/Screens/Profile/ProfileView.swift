@@ -111,7 +111,10 @@ struct ProfileView: View {
                 case .likedNFT:
                     FavoritesNFTView(viewModel: FavoritesNFTViewModel(assembly: viewModel.assembly, profileModel: viewModel.getProfile))
                 case .website:
-                    WebView(url: URL(string: viewModel.website)!)
+                    if let url = URL(string: viewModel.website) {
+                        WebView(url: url)
+                            .toolbar(.hidden, for: .tabBar)
+                    }
                 }
             }
             .task {

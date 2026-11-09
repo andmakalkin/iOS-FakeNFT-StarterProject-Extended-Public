@@ -105,7 +105,7 @@ struct PaymentMethodView: View {
                         
                         if let termsUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse") {
                             NavigationLink {
-                                TermsWebView(url: termsUrl, title: "Пользовательское соглашение")
+                                WebView(url: termsUrl, title: "Пользовательское соглашение")
                             } label: {
                                 Text("Пользовательского соглашения")
                                     .font(AppFont.regular13)
