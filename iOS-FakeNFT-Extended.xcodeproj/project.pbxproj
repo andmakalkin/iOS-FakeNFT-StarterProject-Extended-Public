@@ -225,7 +225,7 @@
 		B18635A1309E4F32004981E6 /* OrderFinalizeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFinalizeRequest.swift; sourceTree = "<group>"; };
 		B1D3DADD308E7EDF00D5CE07 /* MockCartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCartService.swift; sourceTree = "<group>"; };
 		B1D3DAE3308E8BB700D5CE07 /* CartService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartService.swift; sourceTree = "<group>"; };
-		B1D3DB523091313000D5CE07 /* DoubleFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DoubleFormatter.swift; path = "iOS-FakeNFT-Extended/DoubleFormatter.swift"; sourceTree = SOURCE_ROOT; };
+		B1D3DB523091313000D5CE07 /* DoubleFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DoubleFormatter.swift; path = "iOS-FakeNFT-Extended/Extensions/DoubleFormatter.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -347,7 +347,6 @@
 		55875CE730837A2A00A4381E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				55875CE830837A5E00A4381E /* AppFont.swift */,
 				ABC5E16F2C31F5AF002B4068 /* Assets.xcassets */,
 				ABC5E1952C31F64A002B4068 /* DesignSystem */,
 				ABC5E1E92C32084F002B4068 /* Localizable.strings */,
@@ -370,6 +369,7 @@
 		55D6C69730865FEC00C92809 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B1D3DB523091313000D5CE07 /* DoubleFormatter.swift */,
 				551ABF6A309248DF00BBE052 /* NumberFormatter+Presets.swift */,
 				55A8352B308E284700D44D75 /* Logger+Categories.swift */,
 			);
@@ -436,7 +436,6 @@
 		84A64366309F1CBE00E8760B /* FavoritesNFT */ = {
 			isa = PBXGroup;
 			children = (
-				B1D3DB523091313000D5CE07 /* DoubleFormatter.swift */,
 				84A64370309F212C00E8760B /* FavoritesNFTViewModel.swift */,
 				84A64367309F1D0300E8760B /* Components */,
 				84A6436E309F201300E8760B /* FavoritesNFTView.swift */,
@@ -517,6 +516,7 @@
 		ABC5E1952C31F64A002B4068 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				55875CE830837A5E00A4381E /* AppFont.swift */,
 				ABC5E1962C31F656002B4068 /* Colors.swift */,
 			);
 			path = DesignSystem;
@@ -610,7 +610,6 @@
 		ABC5E1B32C31FC03002B4068 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				B10345CA309A4A9D005C47DD /* Common */,
 				B1D3DAD3308E7BC400D5CE07 /* Cart */,
 				84A4B8AE30909C9D009ACE4A /* Profile */,
 				554E7B63309B70D500A40E1E /* WebView */,
@@ -657,22 +656,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		B10345CA309A4A9D005C47DD /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				B103463F309B66DC005C47DD /* WebView */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		B103463F309B66DC005C47DD /* WebView */ = {
-			isa = PBXGroup;
-			children = (
-				B1034629309B6159005C47DD /* TermsWebView.swift */,
-			);
-			path = WebView;
-			sourceTree = "<group>";
-		};
 		B1034640309B6704005C47DD /* Cart */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,6 +689,7 @@
 		B103464A309B675C005C47DD /* PaymentComponents */ = {
 			isa = PBXGroup;
 			children = (
+				B1034629309B6159005C47DD /* TermsWebView.swift */,
 				B1034636309B6159005C47DD /* CryptoCurrencyCell.swift */,
 			);
 			path = PaymentComponents;
