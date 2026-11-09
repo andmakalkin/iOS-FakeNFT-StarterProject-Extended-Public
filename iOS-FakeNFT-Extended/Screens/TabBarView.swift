@@ -8,7 +8,7 @@ struct TabBarView: View {
             ProfileRootView()
                 .tabItem {
                     Label(
-                        "Tab.profile",
+                        String(localized: .tabProfile),
                         image: .tabBarProfile30
                     )
                 }
@@ -16,7 +16,7 @@ struct TabBarView: View {
             CatalogRootView()
                 .tabItem {
                     Label(
-                        "Tab.catalog",
+                        String(localized: .tabCatalog),
                         image: .tabBarCatalog30
                     )
                 }
@@ -24,7 +24,7 @@ struct TabBarView: View {
             CartView(cartService: services.cartService)
                 .tabItem {
                     Label(
-                        "Корзина",
+                        String(localized: .tabCart),
                         image: .tabBarBasket30
                     )
                 }

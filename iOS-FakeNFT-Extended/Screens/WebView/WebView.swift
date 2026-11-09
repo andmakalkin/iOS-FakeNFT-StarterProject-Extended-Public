@@ -94,14 +94,14 @@ struct WebView: View {
             }
         }
         .alert(
-            "Error.loadingData",
+            String(localized: .errorLoadingData),
             isPresented: isErrorAlertPresented
         ) {
-            Button("Error.cancel", role: .cancel) {
+            Button(String(localized: .commonCancel), role: .cancel) {
                 dismiss()
             }
 
-            Button("Error.repeat") {
+            Button(String(localized: .commonRetry)) {
                 viewModel.retry()
             }
         }

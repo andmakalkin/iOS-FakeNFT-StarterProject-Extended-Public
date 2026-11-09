@@ -19,7 +19,7 @@ struct PaymentSuccessView: View {
                 .font(.system(size: 150))
                 .foregroundColor(.ypBlack)
             
-            Text("Успех! Оплата прошла,\nпоздравляем с покупкой!")
+            Text(.paymentSuccess)
                 .font(AppFont.bold22)
                 .foregroundColor(Color.ypBlack)
                 .multilineTextAlignment(.center)
@@ -32,7 +32,7 @@ struct PaymentSuccessView: View {
                 cartViewModel.state = .empty
                 onReturnToCart()
             } label: {
-                Text("Вернуться в корзину")
+                Text(.paymentReturnToCart)
                     .font(AppFont.bold17)
                     .foregroundColor(Color.ypWhite)
                     .frame(maxWidth: .infinity)

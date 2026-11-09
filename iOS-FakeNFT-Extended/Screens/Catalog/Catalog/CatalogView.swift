@@ -72,33 +72,33 @@ struct CatalogView: View {
             }
         }
         .confirmationDialog(
-            "Catalog.sort.title",
+            String(localized: .sortTitle),
             isPresented: $isSortDialogPresented,
             titleVisibility: .visible,
         ) {
-            Button("Catalog.sort.byName") {
+            Button(String(localized: .sortByName)) {
                 Task {
                     await viewModel.handleSortByName()
                 }
             }
 
-            Button("Catalog.sort.byNftCount") {
+            Button(String(localized: .sortByNFTCount)) {
                 Task {
                     await viewModel.handleSortByNftCount()
                 }
             }
 
-            Button("Catalog.sort.close", role: .cancel) {}
+            Button(String(localized: .commonClose), role: .cancel) {}
         }
         .alert(
-            "Error.loadingData",
+            String(localized: .errorLoadingData),
             isPresented: isErrorAlertPresented
         ) {
-            Button("Error.cancel", role: .cancel) {
+            Button(String(localized: .commonCancel), role: .cancel) {
                 viewModel.dismissError()
             }
 
-            Button("Error.repeat") {
+            Button(String(localized: .commonRetry)) {
                 Task {
                     await viewModel.retryLoading()
                 }
@@ -142,7 +142,7 @@ struct CatalogView: View {
 
     private var firstPageErrorView: some View {
         VStack(spacing: 8) {
-            Text("Error.loadingData")
+            Text(.errorLoadingData)
                 .font(AppFont.regular17)
                 .foregroundStyle(.ypBlack)
 
@@ -151,7 +151,7 @@ struct CatalogView: View {
                     await viewModel.retryLoading()
                 }
             } label: {
-                Text("Error.repeat")
+                Text(.commonRetry)
                     .font(AppFont.regular20)
                     .foregroundStyle(.ypUniversalBlue)
             }

@@ -40,7 +40,7 @@ struct MyNFTView: View {
                         }
 
                     }
-                    Text("Мои NFT")
+                    Text(.profileMyNFT)
                         .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
                 }
@@ -63,7 +63,7 @@ struct MyNFTView: View {
                 Spacer()
             }
             
-            Text("У Вас ещё нет NFT")
+            Text(.profileNoNFT)
                 .font(AppFont.bold17)
                 .foregroundStyle(.ypBlack)
                 .opacity((viewModel.filtredNFTs.isEmpty && !viewModel.isLoading) ? 1 : 0)
@@ -72,14 +72,14 @@ struct MyNFTView: View {
         .background(Color.ypWhite.ignoresSafeArea())
         .navigationBarBackButtonHidden()
         .toolbar(.hidden, for: .tabBar)
-        .confirmationDialog("Сортировка", isPresented: $isFiltersShow, titleVisibility: .visible) {
-            Button("По цене") {
+        .confirmationDialog(String(localized: .sortTitle), isPresented: $isFiltersShow, titleVisibility: .visible) {
+            Button(String(localized: .sortByPrice)) {
                 viewModel.currentFilter = .price
             }
-            Button("По рейтингу") {
+            Button(String(localized: .sortByRating)) {
                 viewModel.currentFilter = .rating
             }
-            Button("По названию") {
+            Button(String(localized: .sortByName)) {
                 viewModel.currentFilter = .name
             }
         }

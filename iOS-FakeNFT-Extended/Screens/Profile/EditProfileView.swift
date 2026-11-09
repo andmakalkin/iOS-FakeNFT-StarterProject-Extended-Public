@@ -34,32 +34,32 @@ struct EditProfileView: View {
                         Image(.addProfilePhoto22)
                     }
                 })
-                .confirmationDialog("Фото профиля", isPresented: $showMenu, titleVisibility: .visible, actions: {
+                .confirmationDialog(String(localized: .profilePhotoTitle), isPresented: $showMenu, titleVisibility: .visible, actions: {
                     Button {
                         showAlert = true
                     } label: {
-                        Text("Изменить фото")
+                        Text(.profileChangePhoto)
                     }
-                    Button("Удалить фото", role: .destructive) {
+                    Button(String(localized: .profileDeletePhoto), role: .destructive) {
                         viewModel.image = .profilePhotoDefault70
                     }
-                    Button("Отмена", role: .cancel) {
+                    Button(String(localized: .commonCancel), role: .cancel) {
                         
                     }
                 })
                 .padding(EdgeInsets(top: 1, leading: 0, bottom: 0, trailing: 0))
-                .alert("Ссылка на фото", isPresented: $showAlert) {
+                .alert(String(localized: .profilePhotoURL), isPresented: $showAlert) {
                     TextField("", text: $imageURL)
-                    Button("Сохранить") {
+                    Button(String(localized: .commonSave)) {
                         viewModel.loadImage(urlString: imageURL)
                     }
-                    Button("Отмена", role: .cancel) {
+                    Button(String(localized: .commonCancel), role: .cancel) {
                         
                     }
                 }
                 
                 HStack {
-                    Text("Имя")
+                    Text(.profileName)
                         .font(AppFont.bold22)
                         .foregroundStyle(.ypBlack)
                     Spacer()
@@ -76,7 +76,7 @@ struct EditProfileView: View {
                     }
                 
                 HStack {
-                    Text("Описание")
+                    Text(.profileDescription)
                         .font(AppFont.bold22)
                         .foregroundStyle(.ypBlack)
                     Spacer()
@@ -95,7 +95,7 @@ struct EditProfileView: View {
                     }
                 
                 HStack {
-                    Text("Сайт")
+                    Text(.profileWebsite)
                         .font(AppFont.bold22)
                         .foregroundStyle(.ypBlack)
                     Spacer()
@@ -128,7 +128,7 @@ struct EditProfileView: View {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(.ypBlack)
                             .frame(height: 60)
-                        Text("Сохранить")
+                        Text(.commonSave)
                             .font(AppFont.bold17)
                             .foregroundStyle(.ypWhite)
                     }
@@ -155,12 +155,12 @@ struct EditProfileView: View {
 
             }
         })
-        .alert("Уверены, что хотите выйти?", isPresented: $showExitAlert) {
-            Button("Остаться", role: .cancel) {
+        .alert(String(localized: .profileExitConfirmation), isPresented: $showExitAlert) {
+            Button(String(localized: .profileStay), role: .cancel) {
                 
             }
             
-            Button("Выйти", role: .destructive) {
+            Button(String(localized: .profileExit), role: .destructive) {
                 dismiss()
             }
         }

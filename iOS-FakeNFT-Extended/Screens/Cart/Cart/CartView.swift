@@ -87,7 +87,7 @@ struct CartView: View {
                     if !viewModel.cartNfts.isEmpty && !viewModel.state.isEmpty && !viewModel.state.isLoading {
                         HStack(spacing: 12) {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("\(viewModel.totalCount) NFT")
+                                Text(.cartNFTCount(count: viewModel.totalCount))
                                     .font(AppFont.regular15)
                                     .foregroundStyle(.ypBlack)
                                 
@@ -101,7 +101,7 @@ struct CartView: View {
                             Button {
                                 isPaymentActive = true
                             } label: {
-                                Text("К оплате")
+                                Text(.cartCheckout)
                                     .font(AppFont.bold17)
                                     .foregroundStyle(.ypWhite)
                                     .frame(maxWidth: .infinity)
@@ -128,8 +128,8 @@ struct CartView: View {
             }
             .background(.ypWhite)
             .navigationBarTitle("")
-            .alert("Ошибка загрузки", isPresented: $viewModel.showErrorAlert) {
-                Button("Ок", role: .cancel) { }
+            .alert(String(localized: .cartLoadingError), isPresented: $viewModel.showErrorAlert) {
+                Button(String(localized: .commonOK), role: .cancel) { }
             } message: {
                 Text(viewModel.errorMessage)
             }
@@ -171,18 +171,18 @@ struct CartView: View {
             )
             .presentationBackground(.clear)
         }
-        .confirmationDialog("Сортировка", isPresented: $isSortSheetPresented, titleVisibility: .visible) {
-            Button("По цене") { viewModel.currentSortOption = .price }
-            Button("По рейтингу") { viewModel.currentSortOption = .rating }
-            Button("По названию") { viewModel.currentSortOption = .name }
-            Button("Закрыть", role: .cancel) { }
+        .confirmationDialog(String(localized: .sortTitle), isPresented: $isSortSheetPresented, titleVisibility: .visible) {
+            Button(String(localized: .sortByPrice)) { viewModel.currentSortOption = .price }
+            Button(String(localized: .sortByRating)) { viewModel.currentSortOption = .rating }
+            Button(String(localized: .sortByName)) { viewModel.currentSortOption = .name }
+            Button(String(localized: .commonClose), role: .cancel) { }
         }
     }
 }
 
 struct EmptyCartView: View {
     var body: some View {
-        Text("Корзина пуста")
+        Text(.cartEmpty)
             .font(AppFont.bold17)
             .foregroundStyle(.primary)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

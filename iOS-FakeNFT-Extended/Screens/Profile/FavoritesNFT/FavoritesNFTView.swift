@@ -27,7 +27,7 @@ struct FavoritesNFTView: View {
                         }
                         Spacer()
                     }
-                    Text("Избранные NFT")
+                    Text(.profileFavoriteNFT)
                         .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
                 }
@@ -57,7 +57,7 @@ struct FavoritesNFTView: View {
             }
             .padding(EdgeInsets(top: 2, leading: 0, bottom: 20, trailing: 0))
             
-            Text("У Вас ещё нет избранных NFT")
+            Text(.profileNoFavorites)
                 .font(AppFont.bold17)
                 .foregroundStyle(.ypBlack)
                 .opacity((viewModel.nfts.isEmpty && !viewModel.isLoading) ? 1 : 0)

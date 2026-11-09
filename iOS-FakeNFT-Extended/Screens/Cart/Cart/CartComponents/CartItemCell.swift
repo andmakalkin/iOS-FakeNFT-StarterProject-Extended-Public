@@ -53,7 +53,7 @@ struct CartItemCell: View {
                 .padding(.top, 4)
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Цена")
+                    Text(.commonPrice)
                         .font(AppFont.regular13)
                         .foregroundColor(Color.ypBlack)
                     

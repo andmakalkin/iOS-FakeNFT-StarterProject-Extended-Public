@@ -75,14 +75,14 @@ struct CollectionView: View {
             }
         }
         .alert(
-            "Error.loadingData",
+            String(localized: .errorLoadingData),
             isPresented: isErrorAlertPresented
         ) {
-            Button("Error.cancel", role: .cancel) {
+            Button(String(localized: .commonCancel), role: .cancel) {
                 router.popCatalog()
             }
 
-            Button("Error.repeat") {
+            Button(String(localized: .commonRetry)) {
                 Task {
                     await viewModel.loadCollection()
                 }
@@ -172,7 +172,7 @@ struct CollectionView: View {
 
     private func authorView(_ author: String?, url: URL?) -> some View {
         HStack(spacing: 4) {
-            Text("Collection.author")
+            Text(.collectionAuthor)
                 .font(AppFont.regular13)
                 .tracking(-0.08)
                 .foregroundStyle(.ypBlack)
@@ -284,16 +284,16 @@ struct CollectionView: View {
     private func actionErrorView(
         for error: CollectionViewModel.ActionError
     ) -> some View {
-        let message: LocalizedStringKey
+        let message: LocalizedStringResource
         let image: Image
 
         switch error {
         case .like:
-            message = "Collection.error.like"
+            message = .collectionLikeError
             image = Image(.favoritesActive40)
 
         case .cart:
-            message = "Collection.error.cart"
+            message = .collectionCartError
             image = Image(.cartAdd40)
         }
 

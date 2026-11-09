@@ -47,7 +47,7 @@ struct NFTCell: View {
                         Spacer()
                     }
                     HStack {
-                        Text("от \(nft.author)")
+                        Text(.profileNFTAuthor(author: nft.author))
                             .font(AppFont.regular13)
                             .foregroundStyle(.ypBlack)
                         Spacer()
@@ -55,7 +55,7 @@ struct NFTCell: View {
                 }
                 VStack(spacing: 2) {
                     HStack {
-                        Text("Цена")
+                        Text(.commonPrice)
                             .font(AppFont.regular13)
                             .foregroundStyle(.ypBlack)
                         Spacer()

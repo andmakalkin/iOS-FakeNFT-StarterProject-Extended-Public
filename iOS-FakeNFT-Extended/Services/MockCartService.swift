@@ -21,7 +21,7 @@ final class MockCartService: CartServiceProtocol, @unchecked Sendable {
         
         guard let url1 = URL(string: "nft1"),
               let url2 = URL(string: "nft2") else {
-            throw NSError(domain: "MockError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Не удалось создать URL для моков"])
+            throw NSError(domain: "MockError", code: -1, userInfo: [NSLocalizedDescriptionKey: String(localized: .mockInvalidURLError)])
         }
         
         let mockNfts = [
@@ -32,7 +32,7 @@ final class MockCartService: CartServiceProtocol, @unchecked Sendable {
         if let nft = mockNfts[id] {
             return nft
         } else {
-            throw NSError(domain: "HTTPError", code: 404, userInfo: [NSLocalizedDescriptionKey: "NFT не найден"])
+            throw NSError(domain: "HTTPError", code: 404, userInfo: [NSLocalizedDescriptionKey: String(localized: .mockNFTNotFound)])
         }
     }
     

@@ -65,7 +65,7 @@ final class PaymentViewModel {
                 if currentStep == .initial {
                     let currentOrder = try await cartService.fetchCart()
                     guard !currentOrder.nfts.isEmpty else {
-                        throw NSError(domain: "PaymentError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Корзина пуста"])
+                        throw NSError(domain: "PaymentError", code: -1, userInfo: [NSLocalizedDescriptionKey: String(localized: .paymentCartEmptyError)])
                     }
                     
                     let paymentRequest = OrderPaymentRequest(currencyId: currencyId)
@@ -73,13 +73,13 @@ final class PaymentViewModel {
                     
                     let (paymentData, paymentResponse) = try await URLSession.shared.data(for: urlPaymentRequest)
                     guard let httpResponse = paymentResponse as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                        throw NSError(domain: "PaymentError", code: -2, userInfo: [NSLocalizedDescriptionKey: "Ошибка при отправке платежа"])
+                        throw NSError(domain: "PaymentError", code: -2, userInfo: [NSLocalizedDescriptionKey: String(localized: .paymentSendError)])
                     }
                     
                     struct PaymentResult: Codable { let success: Bool; let id: String }
                     let paymentResult = try JSONDecoder().decode(PaymentResult.self, from: paymentData)
                     guard paymentResult.success else {
-                        throw NSError(domain: "PaymentError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Платеж отклонен сервером"])
+                        throw NSError(domain: "PaymentError", code: -3, userInfo: [NSLocalizedDescriptionKey: String(localized: .paymentRejectedError)])
                     }
                     
                     currentStep = .paymentSent
@@ -93,7 +93,7 @@ final class PaymentViewModel {
                     
                     let (_, orderResponse) = try await URLSession.shared.data(for: urlFinalizeRequest)
                     guard let httpOrderResponse = orderResponse as? HTTPURLResponse, (200...299).contains(httpOrderResponse.statusCode) else {
-                        throw NSError(domain: "PaymentError", code: -4, userInfo: [NSLocalizedDescriptionKey: "Ошибка при завершении заказа"])
+                        throw NSError(domain: "PaymentError", code: -4, userInfo: [NSLocalizedDescriptionKey: String(localized: .paymentFinalizeError)])
                     }
                     
                     currentStep = .orderFinalized

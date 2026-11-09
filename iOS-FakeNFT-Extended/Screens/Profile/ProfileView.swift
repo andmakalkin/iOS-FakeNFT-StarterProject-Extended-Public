@@ -60,7 +60,7 @@ struct ProfileView: View {
                     NavigationLink(value: ProfileDestination.myNFT) {
                         HStack {
                             HStack(spacing: 8) {
-                                Text("Мои NFT")
+                                Text(.profileMyNFT)
                                 Text(viewModel.getNFTNumber)
                             }
                             .font(AppFont.bold17)
@@ -80,7 +80,7 @@ struct ProfileView: View {
                     NavigationLink(value: ProfileDestination.likedNFT) {
                         HStack {
                             HStack(spacing: 8) {
-                                Text("Избранные NFT")
+                                Text(.profileFavoriteNFT)
                                 Text(viewModel.getFavNFTNumber)
                             }
                             .font(AppFont.bold17)

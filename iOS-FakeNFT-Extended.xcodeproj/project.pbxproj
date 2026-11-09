@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55080D5B30A218DB00CC7191 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 55080D5A30A218DB00CC7191 /* Localizable.xcstrings */; };
 		551ABF6B309248E200BBE052 /* NumberFormatter+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551ABF6A309248DF00BBE052 /* NumberFormatter+Presets.swift */; };
 		551ABF6D30924C1700BBE052 /* CollectionNftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551ABF6C30924C1600BBE052 /* CollectionNftCell.swift */; };
 		5522B00530975E5200249D13 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5522B00430975E5100249D13 /* Order.swift */; };
@@ -87,7 +88,6 @@
 		ABC5E1E42C32055B002B4068 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E1E32C32055B002B4068 /* ErrorView.swift */; };
 		ABC5E1E62C320585002B4068 /* LinePageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E1E52C320585002B4068 /* LinePageControl.swift */; };
 		ABC5E1E82C320610002B4068 /* NftDetailBridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E1E72C320610002B4068 /* NftDetailBridgeView.swift */; };
-		ABC5E1EB2C32084F002B4068 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABC5E1E92C32084F002B4068 /* Localizable.strings */; };
 		B103456F309931B7005C47DD /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103456E309931B7005C47DD /* Currency.swift */; };
 		B103457730993490005C47DD /* CurrenciesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103457630993490005C47DD /* CurrenciesRequest.swift */; };
 		B1034634309B6159005C47DD /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103462F309B6159005C47DD /* CartView.swift */; };
@@ -123,6 +123,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		55080D5A30A218DB00CC7191 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		551ABF6A309248DF00BBE052 /* NumberFormatter+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Presets.swift"; sourceTree = "<group>"; };
 		551ABF6C30924C1600BBE052 /* CollectionNftCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionNftCell.swift; sourceTree = "<group>"; };
 		5522B00430975E5100249D13 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -208,7 +209,6 @@
 		ABC5E1E32C32055B002B4068 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		ABC5E1E52C320585002B4068 /* LinePageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinePageControl.swift; sourceTree = "<group>"; };
 		ABC5E1E72C320610002B4068 /* NftDetailBridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftDetailBridgeView.swift; sourceTree = "<group>"; };
-		ABC5E1EA2C32084F002B4068 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B103456E309931B7005C47DD /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		B103457630993490005C47DD /* CurrenciesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesRequest.swift; sourceTree = "<group>"; };
 		B103462F309B6159005C47DD /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
@@ -347,9 +347,9 @@
 			children = (
 				ABC5E16F2C31F5AF002B4068 /* Assets.xcassets */,
 				ABC5E1952C31F64A002B4068 /* DesignSystem */,
-				ABC5E1E92C32084F002B4068 /* Localizable.strings */,
 				55A1EE49308CDD76000BC2E5 /* mockCollections.json */,
 				55D4003030953BB10079F9F9 /* mockNfts.json */,
+				55080D5A30A218DB00CC7191 /* Localizable.xcstrings */,
 				559C229030A1524C0053D714 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
@@ -791,6 +791,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = ABC5E15F2C31F5AF002B4068;
 			packageReferences = (
@@ -815,11 +816,11 @@
 			files = (
 				556313F630854E49003B4A85 /* Config.xcconfig in Resources */,
 				559C229130A1524C0053D714 /* LaunchScreen.storyboard in Resources */,
+				55080D5B30A218DB00CC7191 /* Localizable.xcstrings in Resources */,
 				55D4003130953BB10079F9F9 /* mockNfts.json in Resources */,
 				55A1EE4A308CDD76000BC2E5 /* mockCollections.json in Resources */,
 				556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */,
 				ABC5E1732C31F5AF002B4068 /* Preview Assets.xcassets in Resources */,
-				ABC5E1EB2C32084F002B4068 /* Localizable.strings in Resources */,
 				ABC5E1702C31F5AF002B4068 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -963,17 +964,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		ABC5E1E92C32084F002B4068 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ABC5E1EA2C32084F002B4068 /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		ABC5E18A2C31F5B0002B4068 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1034,6 +1024,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1090,6 +1081,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1122,6 +1114,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Yandex-Practicum.iOS-FakeNFT-Extended";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1156,6 +1149,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Yandex-Practicum.iOS-FakeNFT-Extended";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

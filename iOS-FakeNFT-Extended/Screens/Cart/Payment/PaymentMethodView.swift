@@ -36,7 +36,7 @@ struct PaymentMethodView: View {
                             .font(.system(size: 17, weight: .regular))
                     }
                     Spacer()
-                    Text("Выберите способ оплаты")
+                    Text(.paymentSelectMethod)
                         .font(AppFont.bold17)
                         .foregroundStyle(.ypBlack)
                     Spacer()
@@ -81,7 +81,7 @@ struct PaymentMethodView: View {
                         }
                         
                     case .empty:
-                        Text("Нет доступных валют")
+                        Text(.paymentNoCurrencies)
                             .font(AppFont.bold17)
                             .foregroundStyle(.ypBlack)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -99,15 +99,15 @@ struct PaymentMethodView: View {
             .safeAreaInset(edge: .bottom) {
                 VStack(spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Совершая покупку, вы соглашаетесь с условиями")
+                        Text(.paymentTermsIntro)
                             .font(AppFont.regular13)
                             .foregroundStyle(.ypBlack)
                         
                         if let termsUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse") {
                             NavigationLink {
-                                WebView(url: termsUrl, title: "Пользовательское соглашение")
+                                WebView(url: termsUrl, title: String(localized: .paymentTermsTitle))
                             } label: {
-                                Text("Пользовательского соглашения")
+                                Text(.paymentTermsLink)
                                     .font(AppFont.regular13)
                                     .foregroundStyle(.ypUniversalBlue)
                             }
@@ -128,7 +128,7 @@ struct PaymentMethodView: View {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .ypWhite))
                             } else {
-                                Text("Оплатить")
+                                Text(.paymentPay)
                                     .font(AppFont.bold17)
                                     .foregroundStyle(.ypWhite)
                             }
@@ -154,9 +154,9 @@ struct PaymentMethodView: View {
                     .ignoresSafeArea(edges: .bottom)
                 }
             }
-            .alert("Не удалось произвести оплату", isPresented: $viewModel.showErrorAlert) {
-                Button("Отмена", role: .cancel) { }
-                Button("Повторить") {
+            .alert(String(localized: .paymentFailed), isPresented: $viewModel.showErrorAlert) {
+                Button(String(localized: .commonCancel), role: .cancel) { }
+                Button(String(localized: .commonRetry)) {
                     if case .error = viewModel.state {
                         viewModel.loadCurrencies()
                     } else {

@@ -41,7 +41,7 @@ struct CartDeleteConfirmationView: View {
                         .clipped()
                 }
                 
-                Text("Вы уверены, что хотите\nудалить объект из корзины?")
+                Text(.cartDeleteConfirmation)
                     .font(AppFont.regular13)
                     .foregroundColor(Color.ypBlack)
                     .multilineTextAlignment(.center)
@@ -54,7 +54,7 @@ struct CartDeleteConfirmationView: View {
                             isPresented = false
                         }
                     } label: {
-                        Text("Удалить")
+                        Text(.cartDelete)
                             .font(AppFont.regular17)
                             .foregroundColor(Color.ypUniversalRed)
                             .frame(maxWidth: .infinity)
@@ -68,7 +68,7 @@ struct CartDeleteConfirmationView: View {
                             isPresented = false
                         }
                     } label: {
-                        Text("Вернуться")
+                        Text(.commonReturn)
                             .font(AppFont.regular17)
                             .foregroundColor(Color.ypWhite)
                             .frame(maxWidth: .infinity)
