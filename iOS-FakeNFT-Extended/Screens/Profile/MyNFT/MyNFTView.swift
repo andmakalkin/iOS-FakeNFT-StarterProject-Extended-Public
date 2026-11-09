@@ -25,6 +25,8 @@ struct MyNFTView: View {
                             dismiss()
                         } label: {
                             Image(.backward24)
+                                .renderingMode(.template)
+                                .foregroundStyle(.ypBlack)
                                 .frame(width: 24, height: 24)
                         }
                         Spacer()
@@ -32,6 +34,8 @@ struct MyNFTView: View {
                             isFiltersShow = true
                         } label: {
                             Image(.sort42)
+                                .renderingMode(.template)
+                                .foregroundStyle(.ypBlack)
                                 .frame(width: 42, height: 42)
                         }
 
@@ -65,6 +69,7 @@ struct MyNFTView: View {
                 .opacity((viewModel.filtredNFTs.isEmpty && !viewModel.isLoading) ? 1 : 0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.ypWhite.ignoresSafeArea())
         .navigationBarBackButtonHidden()
         .toolbar(.hidden, for: .tabBar)
         .confirmationDialog("Сортировка", isPresented: $isFiltersShow, titleVisibility: .visible) {

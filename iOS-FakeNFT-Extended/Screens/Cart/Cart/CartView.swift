@@ -37,7 +37,9 @@ struct CartView: View {
                                 isSortSheetPresented = true
                             }) {
                                 Image(.sort42)
+                                    .renderingMode(.template)
                                     .resizable()
+                                    .foregroundStyle(.ypBlack)
                                     .frame(width: 42, height: 42)
                             }
                             .buttonStyle(.plain)

@@ -46,6 +46,8 @@ struct CartItemCell: View {
                 HStack(spacing: 2) {
                     ForEach(1...5, id: \.self) { star in
                         Image(star <= nft.rating ? .starActive12 : .starNoActive12)
+                            .renderingMode(star <= nft.rating ? .original : .template)
+                            .foregroundStyle(.ypLightGrey)
                     }
                 }
                 .padding(.top, 4)
@@ -68,7 +70,9 @@ struct CartItemCell: View {
             
             Button(action: onDeleteAction) {
                 Image(.cartDelete40)
+                    .renderingMode(.template)
                     .resizable()
+                    .foregroundStyle(.ypBlack)
                     .frame(width: 40, height: 40)
             }
             .buttonStyle(.plain)

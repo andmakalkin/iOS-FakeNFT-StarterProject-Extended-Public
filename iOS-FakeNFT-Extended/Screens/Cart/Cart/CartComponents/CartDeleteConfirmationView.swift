@@ -15,7 +15,6 @@ struct CartDeleteConfirmationView: View {
         ZStack {
             Color.clear
                 .background(.ultraThinMaterial)
-                .environment(\.colorScheme, .light)
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {

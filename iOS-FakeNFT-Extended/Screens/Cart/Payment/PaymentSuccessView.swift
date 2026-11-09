@@ -43,7 +43,7 @@ struct PaymentSuccessView: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
         }
-        .background(Color.ypWhite)
+        .background(Color.ypWhite.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
     }
 }

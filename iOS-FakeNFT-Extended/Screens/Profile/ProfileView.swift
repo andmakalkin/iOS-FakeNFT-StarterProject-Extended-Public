@@ -16,6 +16,8 @@ struct ProfileView: View {
                     Spacer()
                     NavigationLink(value: ProfileDestination.editProfile) {
                         Image(.edit42)
+                            .renderingMode(.template)
+                            .foregroundStyle(.ypBlack)
                             .frame(width: 42, height: 42)
                     }
                 }
@@ -30,7 +32,7 @@ struct ProfileView: View {
                             .clipShape(Circle())
                         Text(viewModel.getName)
                             .font(AppFont.bold22)
-                            .tint(.ypBlack)
+                            .foregroundStyle(.ypBlack)
                         Spacer()
                         
                     }
@@ -38,6 +40,7 @@ struct ProfileView: View {
                     HStack {
                         Text(viewModel.getDescription)
                             .font(AppFont.regular13)
+                            .foregroundStyle(.ypBlack)
                         Spacer()
                     }
                 }
@@ -47,6 +50,7 @@ struct ProfileView: View {
                     NavigationLink(value: ProfileDestination.website) {
                         Text(viewModel.getWebsite)
                             .font(AppFont.regular15)
+                            .foregroundStyle(.ypUniversalBlue)
                     }
                     Spacer()
                 }
@@ -64,6 +68,8 @@ struct ProfileView: View {
                             Spacer()
                             
                             Image(.backward24)
+                                .renderingMode(.template)
+                                .foregroundStyle(.ypBlack)
                                 .rotationEffect(.degrees(180))
                         }
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
@@ -82,6 +88,8 @@ struct ProfileView: View {
                             Spacer()
                             
                             Image(.backward24)
+                                .renderingMode(.template)
+                                .foregroundStyle(.ypBlack)
                                 .rotationEffect(.degrees(180))
                         }
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
@@ -93,6 +101,7 @@ struct ProfileView: View {
                 
                 Spacer()
             }
+            .background(Color.ypWhite.ignoresSafeArea())
             .navigationDestination(for: ProfileDestination.self) { destination in
                 switch destination {
                 case .editProfile:

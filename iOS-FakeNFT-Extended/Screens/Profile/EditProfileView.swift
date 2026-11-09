@@ -61,12 +61,13 @@ struct EditProfileView: View {
                 HStack {
                     Text("Имя")
                         .font(AppFont.bold22)
-                        .tint(.ypBlack)
+                        .foregroundStyle(.ypBlack)
                     Spacer()
                 }
                 .padding(EdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0))
                 
                 TextField("", text: $name)
+                    .foregroundStyle(.ypBlack)
                     .frame(height: 44)
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
                     .background {
@@ -77,12 +78,13 @@ struct EditProfileView: View {
                 HStack {
                     Text("Описание")
                         .font(AppFont.bold22)
-                        .tint(.ypBlack)
+                        .foregroundStyle(.ypBlack)
                     Spacer()
                 }
                 .padding(EdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0))
                 
                 TextEditor(text: $description)
+                    .foregroundStyle(.ypBlack)
                     .frame(height: 132)
                     .scrollContentBackground(.hidden)
                     .background(.clear)
@@ -95,12 +97,13 @@ struct EditProfileView: View {
                 HStack {
                     Text("Сайт")
                         .font(AppFont.bold22)
-                        .tint(.ypBlack)
+                        .foregroundStyle(.ypBlack)
                     Spacer()
                 }
                 .padding(EdgeInsets(top: 24, leading: 0, bottom: 0, trailing: 0))
                 
                 TextField("", text: $website)
+                    .foregroundStyle(.ypBlack)
                     .frame(height: 44)
                     .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
                     .background {
@@ -127,7 +130,7 @@ struct EditProfileView: View {
                             .frame(height: 60)
                         Text("Сохранить")
                             .font(AppFont.bold17)
-                            .tint(.ypWhite)
+                            .foregroundStyle(.ypWhite)
                     }
                     
                 }
@@ -135,6 +138,7 @@ struct EditProfileView: View {
             }
         }
         .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+        .background(Color.ypWhite.ignoresSafeArea())
         .navigationBarBackButtonHidden()
         .toolbar(.hidden, for: .tabBar)
         .toolbar(content: {
@@ -143,7 +147,9 @@ struct EditProfileView: View {
                     showExitAlert = true
                 } label: {
                     Image(.backward24)
+                        .renderingMode(.template)
                         .resizable()
+                        .foregroundStyle(.ypBlack)
                         .frame(width: 24, height: 24)
                 }
 

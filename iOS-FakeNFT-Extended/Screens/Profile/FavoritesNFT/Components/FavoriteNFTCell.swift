@@ -40,7 +40,9 @@ struct FavoriteNFTCell: View {
                 HStack(spacing: 2) {
                     ForEach(1...5, id: \.self) { star in
                         Image(star <= nft.rating ? .starActive12 : .starNoActive12)
+                            .renderingMode(star <= nft.rating ? .original : .template)
                             .resizable()
+                            .foregroundStyle(.ypLightGrey)
                             .frame(width: 12, height: 12)
                     }
                     Spacer()

@@ -21,6 +21,8 @@ struct FavoritesNFTView: View {
                             dismiss()
                         } label: {
                             Image(.backward24)
+                                .renderingMode(.template)
+                                .foregroundStyle(.ypBlack)
                                 .frame(width: 24, height: 24)
                         }
                         Spacer()
@@ -60,6 +62,7 @@ struct FavoritesNFTView: View {
                 .foregroundStyle(.ypBlack)
                 .opacity((viewModel.nfts.isEmpty && !viewModel.isLoading) ? 1 : 0)
         }
+        .background(Color.ypWhite.ignoresSafeArea())
         .navigationBarBackButtonHidden()
         .toolbar(.hidden, for: .tabBar)
         .task {

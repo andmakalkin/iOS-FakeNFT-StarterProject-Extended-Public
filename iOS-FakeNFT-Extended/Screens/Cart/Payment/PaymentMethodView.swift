@@ -143,15 +143,16 @@ struct PaymentMethodView: View {
                     .disabled(viewModel.selectedCurrencyId == nil || viewModel.isPaymentProcessing)
                     .opacity((viewModel.selectedCurrencyId == nil || viewModel.isPaymentProcessing) ? 0.5 : 1.0)
                 }
-                .background(Color.ypLightGrey)
-                .clipShape(
+                .background {
                     UnevenRoundedRectangle(
                         topLeadingRadius: 12,
                         bottomLeadingRadius: 0,
                         bottomTrailingRadius: 0,
                         topTrailingRadius: 12
                     )
-                )
+                    .fill(Color.ypLightGrey)
+                    .ignoresSafeArea(edges: .bottom)
+                }
             }
             .alert("Не удалось произвести оплату", isPresented: $viewModel.showErrorAlert) {
                 Button("Отмена", role: .cancel) { }

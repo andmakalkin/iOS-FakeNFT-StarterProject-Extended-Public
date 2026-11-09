@@ -27,7 +27,7 @@ struct CryptoCurrencyCell: View {
                             }
                         }
                         .frame(width: 36, height: 36)
-                        .background(Color.ypBlack)
+                        .background(Color.ypUniversalBlack)
                         .cornerRadius(6)
                         .padding(.leading, 12)
             
