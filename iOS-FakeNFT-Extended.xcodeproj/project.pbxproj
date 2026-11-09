@@ -30,6 +30,7 @@
 		557D6D6D308AAC510095BF3C /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6D6C308AAC490095BF3C /* CatalogView.swift */; };
 		557D6D6F308AAC5C0095BF3C /* CatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557D6D6E308AAC540095BF3C /* CatalogViewModel.swift */; };
 		55875CE930837A6600A4381E /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55875CE830837A5E00A4381E /* AppFont.swift */; };
+		559C229130A1524C0053D714 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 559C229030A1524C0053D714 /* LaunchScreen.storyboard */; };
 		55A1EE42308CC3A0000BC2E5 /* CollectionsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A1EE41308CC39E000BC2E5 /* CollectionsRequest.swift */; };
 		55A1EE44308CCE61000BC2E5 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A1EE43308CCE60000BC2E5 /* CollectionService.swift */; };
 		55A1EE48308CD48D000BC2E5 /* MockNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A1EE47308CD48B000BC2E5 /* MockNetworkClient.swift */; };
@@ -147,6 +148,7 @@
 		557D6D6C308AAC490095BF3C /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
 		557D6D6E308AAC540095BF3C /* CatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewModel.swift; sourceTree = "<group>"; };
 		55875CE830837A5E00A4381E /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		559C229030A1524C0053D714 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		55A1EE41308CC39E000BC2E5 /* CollectionsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsRequest.swift; sourceTree = "<group>"; };
 		55A1EE43308CCE60000BC2E5 /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
 		55A1EE47308CD48B000BC2E5 /* MockNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkClient.swift; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 				ABC5E1E92C32084F002B4068 /* Localizable.strings */,
 				55A1EE49308CDD76000BC2E5 /* mockCollections.json */,
 				55D4003030953BB10079F9F9 /* mockNfts.json */,
+				559C229030A1524C0053D714 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				556313F630854E49003B4A85 /* Config.xcconfig in Resources */,
+				559C229130A1524C0053D714 /* LaunchScreen.storyboard in Resources */,
 				55D4003130953BB10079F9F9 /* mockNfts.json in Resources */,
 				55A1EE4A308CDD76000BC2E5 /* mockCollections.json in Resources */,
 				556313F830854EED003B4A85 /* Secrets.example.xcconfig in Resources */,
@@ -1126,7 +1130,8 @@
 				INFOPLIST_FILE = "iOS-FakeNFT-Extended/Configuration/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1159,7 +1164,8 @@
 				INFOPLIST_FILE = "iOS-FakeNFT-Extended/Configuration/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
