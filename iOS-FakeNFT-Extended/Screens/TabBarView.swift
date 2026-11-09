@@ -12,7 +12,7 @@ struct TabBarView: View {
                         image: .tabBarProfile30
                     )
                 }
-                .backgroundStyle(.background)
+
             CatalogRootView()
                 .tabItem {
                     Label(
@@ -20,7 +20,6 @@ struct TabBarView: View {
                         image: .tabBarCatalog30
                     )
                 }
-                .backgroundStyle(.background)
 
             CartView(cartService: services.cartService)
                 .tabItem {
@@ -29,9 +28,7 @@ struct TabBarView: View {
                         image: .tabBarBasket30
                     )
                 }
-                .backgroundStyle(.background)
         }
-        
     }
 }
 
