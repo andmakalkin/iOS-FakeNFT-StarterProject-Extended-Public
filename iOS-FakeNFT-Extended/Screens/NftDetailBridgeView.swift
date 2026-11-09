@@ -13,11 +13,5 @@ struct NftDetailBridgeView: UIViewControllerRepresentable {
         return assembly.build(with: nftInput)
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // Обновляет состояние указанного контроллера представления новой информацией из SwiftUI.
-    }
-}
-
-private enum Constants {
-    static let testNftId = "7773e33c-ec15-4230-a102-92426a3a6d5a"
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }

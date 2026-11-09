@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PaymentMethodView: View {
     @State private var viewModel: PaymentViewModel
-    @State private var isTermsActive = false
     
     var onBackAction: () -> Void
     var onPaySuccess: () -> Void
@@ -105,10 +104,9 @@ struct PaymentMethodView: View {
                             .foregroundStyle(.ypBlack)
                         
                         if let termsUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse") {
-                            NavigationLink(
-                                destination: TermsWebView(url: termsUrl, title: "Пользовательское соглашение"),
-                                isActive: $isTermsActive
-                            ) {
+                            NavigationLink {
+                                TermsWebView(url: termsUrl, title: "Пользовательское соглашение")
+                            } label: {
                                 Text("Пользовательского соглашения")
                                     .font(AppFont.regular13)
                                     .foregroundStyle(.ypUniversalBlue)

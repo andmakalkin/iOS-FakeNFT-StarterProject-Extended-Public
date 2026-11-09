@@ -171,8 +171,12 @@ struct EditProfileView: View {
 }
 
 #Preview {
-    let client = DefaultNetworkClient()
-    let assembly = ServicesAssembly(networkClient: client, nftStorage: NftStorageImpl())
-    @State var model = ProfileViewModel(assembly: assembly)
+    @Previewable @State var model = ProfileViewModel(
+        assembly: ServicesAssembly(
+            networkClient: DefaultNetworkClient(),
+            nftStorage: NftStorageImpl()
+        )
+    )
+
     EditProfileView(viewModel: $model)
 }
