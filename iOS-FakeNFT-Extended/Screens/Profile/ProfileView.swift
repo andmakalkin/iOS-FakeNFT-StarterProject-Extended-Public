@@ -51,6 +51,7 @@ struct ProfileView: View {
                         Text(viewModel.getWebsite)
                             .font(AppFont.regular15)
                             .foregroundStyle(.ypUniversalBlue)
+                            .multilineTextAlignment(.leading)
                     }
                     Spacer()
                 }
