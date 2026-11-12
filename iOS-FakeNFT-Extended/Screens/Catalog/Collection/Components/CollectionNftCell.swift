@@ -1,0 +1,136 @@
+//
+//  CollectionNftCell.swift
+//  iOS-FakeNFT-Extended
+//
+//  Created by Андрей Макалкин on 28.10.2026.
+//
+
+import SwiftUI
+import Kingfisher
+
+struct CollectionNftCell: View {
+    let onTapLike: () -> Void
+    let onTapCart: () -> Void
+    let onTapNft: () -> Void
+
+    let isLiked: Bool
+    let isInCart: Bool
+
+    let isLikeUpdating: Bool
+    let isCartUpdating: Bool
+
+    let title: String
+    let rating: Int
+    let price: Double
+    let imageURL: URL?
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ZStack(alignment: .topTrailing) {
+                Rectangle()
+                    .fill(.clear)
+                    .aspectRatio(1, contentMode: .fit)
+                    .overlay {
+                        KFImage(imageURL)
+                            .placeholder {
+                                ShimmerPlaceholderView()
+                            }
+                            .onFailureView {
+                                ZStack {
+                                    Color.imagePlaceholderBackground
+
+                                    Image(.imageStub)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .scaleEffect(0.4)
+                                }
+                            }
+                            .cancelOnDisappear(true)
+                            .fade(duration: 0.3)
+                            .resizable()
+                            .scaledToFill()
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                Button {
+                    guard !isLikeUpdating else { return }
+                    onTapLike()
+                } label: {
+                    Image(isLiked ? .favoritesActive40 : .favoritesNoActive40)
+                }
+                .buttonStyle(.plain)
+                .opacity(isLikeUpdating ? 0.5 : 1)
+                .animation(.easeInOut(duration: 0.2), value: isLikeUpdating)
+            }
+            .padding(.bottom, 8)
+
+            HStack(spacing: 2) {
+                ForEach(1...5, id: \.self) { value in
+                    let isActive = value <= rating
+
+                    Image(isActive ? .starActive12 : .starNoActive12)
+                        .renderingMode(isActive ? .original : .template)
+                        .foregroundStyle(.ypLightGrey)
+                }
+
+                Spacer()
+            }
+            .frame(height: 12)
+            .padding(.bottom, 4)
+
+            HStack(spacing: 0) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(AppFont.bold17)
+                        .lineLimit(1)
+                        .frame(minHeight: 22)
+
+                    Text(
+                        NumberFormatter.ethCompactFormatter
+                            .string(from: NSNumber(value: price)) ?? "\(price) ETH"
+                    )
+                    .font(AppFont.medium10)
+                    .tracking(-0.24)
+                    .frame(minHeight: 12)
+                }
+                .foregroundStyle(.ypBlack)
+
+                Spacer()
+
+                Button {
+                    guard !isCartUpdating else { return }
+                    onTapCart()
+                } label: {
+                    Image(isInCart ? .cartDelete40 : .cartAdd40)
+                        .renderingMode(.template)
+                        .foregroundStyle(.ypBlack)
+                }
+                .buttonStyle(.plain)
+                .opacity(isCartUpdating ? 0.5 : 1)
+                .animation(.easeInOut(duration: 0.2), value: isCartUpdating)
+            }
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTapNft()
+        }
+    }
+}
+
+#Preview {
+    CollectionNftCell(
+        onTapLike: {},
+        onTapCart: {},
+        onTapNft: {},
+        isLiked: true,
+        isInCart: true,
+        isLikeUpdating: false,
+        isCartUpdating: false,
+        title: "Archie",
+        rating: 3,
+        price: 1.78,
+        imageURL: URL(string: "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Archie/1.png")
+    )
+    .background(.ypWhite)
+    .frame(width: 108)
+}

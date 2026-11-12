@@ -1,0 +1,152 @@
+[
+  {
+    "id": "1",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Archie/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Archie/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Archie/3.png"
+    ],
+    "name": "Archie",
+    "rating": 4,
+    "price": 3.75,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "2",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Biscuit/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Biscuit/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Biscuit/3.png"
+    ],
+    "name": "Biscuit",
+    "rating": 2,
+    "price": 6.2,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "3",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Daisy/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Daisy/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Daisy/3.png"
+    ],
+    "name": "Daisy",
+    "rating": 5,
+    "price": 9.99,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "4",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Nacho/3.png"
+    ],
+    "name": "Nacho",
+    "rating": 3,
+    "price": 1.5,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "5",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Oreo/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Oreo/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Oreo/3.png"
+    ],
+    "name": "Oreo",
+    "rating": 1,
+    "price": 4.8,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "6",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Pixi/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Pixi/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Pixi/3.png"
+    ],
+    "name": "Pixi",
+    "rating": 0,
+    "price": 7.25,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "7",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Ruby/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Ruby/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Ruby/3.png"
+    ],
+    "name": "Ruby",
+    "rating": 4,
+    "price": 2.4,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "8",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Susan/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Susan/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Susan/3.png"
+    ],
+    "name": "Susan",
+    "rating": 5,
+    "price": 8.6,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "9",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Tater/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Tater/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Tater/3.png"
+    ],
+    "name": "Tater",
+    "rating": 2,
+    "price": 5.05,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  },
+  {
+    "id": "10",
+    "images": [
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Zoe/1.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Zoe/2.png",
+      "https://code.s3.yandex.net/Mobile/iOS/NFT/Peach/Zoe/3.png"
+    ],
+    "name": "Zoe",
+    "rating": 3,
+    "price": 9.1,
+    "createdAt": "2023-04-20T02:22:27Z",
+    "description": null,
+    "author": "1",
+    "website": "https://yandex.ru/legal/practicum_termsofuse"
+  }
+]

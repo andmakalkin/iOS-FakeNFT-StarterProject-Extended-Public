@@ -5,7 +5,6 @@ protocol NftStorage: AnyObject {
     func getNft(with id: String) async -> Nft?
 }
 
-// Пример простого актора, который сохраняет данные из сети
 actor NftStorageImpl: NftStorage {
     private var storage: [String: Nft] = [:]
 
